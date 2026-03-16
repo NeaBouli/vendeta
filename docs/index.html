@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendeta — Project Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #21262d;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #f97316;
+      --accent2: #3b82f6;
+      --green: #238636;
+      --green-text: #3fb950;
+      --yellow: #9e6a03;
+      --yellow-text: #d29922;
+      --red: #da3633;
+      --red-text: #f85149;
+      --gray: #30363d;
+      --gray-text: #8b949e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--accent);
+    }
+    header p { color: var(--text-muted); font-size: 13px; }
+    .date-badge {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    main { max-width: 1200px; margin: 0 auto; padding: 30px 40px; }
+    section { margin-bottom: 40px; }
+    h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .vision-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 20px;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+    .phase-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .mermaid {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media(max-width: 768px) { .grid2 { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+    }
+    .card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent2);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .todo-item:last-child { border-bottom: none; }
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      min-width: 80px;
+      text-align: center;
+    }
+    .badge-done { background: var(--green); color: var(--green-text); }
+    .badge-progress { background: var(--yellow); color: var(--yellow-text); }
+    .badge-planned { background: var(--gray); color: var(--gray-text); }
+    .badge-blocked { background: var(--red); color: var(--red-text); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    th {
+      background: var(--bg3);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg3); }
+    .status-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .dot-done { background: var(--green-text); }
+    .dot-progress { background: var(--yellow-text); box-shadow: 0 0 6px var(--yellow-text); }
+    .dot-planned { background: var(--gray-text); }
+    .dot-blocked { background: var(--red-text); }
+    .log-entry {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+    }
+    .log-entry .log-date {
+      font-size: 11px;
+      color: var(--accent2);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .log-entry .log-title {
+      font-weight: 600;
+      margin: 4px 0;
+    }
+    .log-entry .log-items {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+    }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>⚡ VENDETA</h1>
+    <p>Dezentrales Preis-Transparenz-Netzwerk</p>
+  </div>
+  <div class="date-badge" id="currentDate"></div>
+</header>
+
+<main>
+
+  <!-- VISION -->
+  <section>
+    <h2>🎯 Vision</h2>
+    <div class="vision-box">
+      <div class="phase-badge">PHASE 0 — SETUP AKTIV</div><br/>
+      Eine <strong>offene, community-getriebene Plattform</strong> wo Konsumenten
+      Preise für Waren und Dienstleistungen in ihrer Umgebung transparent machen
+      — und dafür <strong>IFR-Token-Credits</strong> erhalten.<br/><br/>
+      📱 Scan EAN-Code oder Preisschild →
+      📍 GPS + Timestamp + SHA-256 Hash →
+      ⛓️ Verankert auf Base L2 →
+      🔍 Suchbar im Radius →
+      🎁 Belohnt mit IFR Credits
+    </div>
+  </section>
+
+  <!-- ARCHITEKTUR -->
+  <section>
+    <h2>🏗️ Architektur</h2>
+    <div class="mermaid">
+graph TD
+    USER["📱 Mobile User"] --> APP["Flutter App\nAndroid + iOS"]
+    APP --> MAP["MapLibre\nOpenStreetMap"]
+    APP --> API["Rust Axum API\nBackend"]
+    API --> DB[("PostgreSQL\nPostGIS")]
+    API --> CACHE[("Redis\nCache")]
+    API --> AI["AI Service\nEAN + Plausibility"]
+    API --> CHAIN["VendSubmit.sol\nBase L2"]
+    API --> IFR_CHECK["IFR Lock Check\nisLocked()"]
+    CHAIN --> BASE["Base L2\nEVM"]
+    IFR_CHECK --> IFR["IFR Lock Contract\nETH Mainnet"]
+    DB --> SEARCH["Radius Search\nPostGIS"]
+    API --> LEDGER["Credit Ledger\nOff-chain"]
+    LEDGER --> CLAIM["VendClaim.sol\nBase L2"]
+    style USER fill:#f97316,color:#000
+    style APP fill:#3b82f6,color:#fff
+    style API fill:#238636,color:#fff
+    style IFR fill:#f97316,color:#000
+    </div>
+  </section>
+
+  <!-- TO-DO -->
+  <section>
+    <h2>📋 To-Do Liste</h2>
+    <div class="grid2">
+
+      <div class="card">
+        <h3>✅ Erledigt</h3>
+        <div class="todo-item">
+          <span class="badge badge-done">DONE</span>
+          <span>Projekt-Konzept & Vision definiert</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-done">DONE</span>
+          <span>Tech-Stack entschieden (Rust + Flutter)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-done">DONE</span>
+          <span>Blockchain-Strategie: Base L2 + IFR</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-done">DONE</span>
+          <span>Architektur designed (7-Schichten)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-done">DONE</span>
+          <span>Anti-Gaming Strategie definiert</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-done">DONE</span>
+          <span>IFR Integration geplant (Builder API)</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔄 In Arbeit</h3>
+        <div class="todo-item">
+          <span class="badge badge-progress">PROGRESS</span>
+          <span>Repository Setup (Task #1)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-progress">PROGRESS</span>
+          <span>Living Documentation Dashboard</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📌 Geplant — Phase 1</h3>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>Rust Core Library (hash, ean, location)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>Docker Compose (PostgreSQL+PostGIS, Redis)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>Axum Backend API (POST /submit, GET /search)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>Unit Tests (alle Core-Funktionen)</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📌 Geplant — Phase 2+</h3>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>Flutter App + MapLibre</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>Kamera + EAN-Scanner</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>VendSubmit.sol (Base L2)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>VendClaim.sol (IFR Credits)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>IFR Lock Check (isLocked() API)</span>
+        </div>
+        <div class="todo-item">
+          <span class="badge badge-planned">PLANNED</span>
+          <span>AI Produkt-Erkennung</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MODUL STATUS -->
+  <section>
+    <h2>📦 Modul-Status</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Modul</th>
+          <th>Status</th>
+          <th>Technologie</th>
+          <th>Beschreibung</th>
+          <th>Phase</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>docs/</strong></td>
+          <td><span class="status-dot dot-progress"></span>In Arbeit</td>
+          <td>HTML / Markdown</td>
+          <td>Living Dashboard + Masterplan</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td><strong>core/</strong></td>
+          <td><span class="status-dot dot-planned"></span>Geplant</td>
+          <td>Rust</td>
+          <td>Hash, EAN, GPS, Crypto Utilities</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td><strong>backend/</strong></td>
+          <td><span class="status-dot dot-planned"></span>Geplant</td>
+          <td>Rust + Axum</td>
+          <td>REST API + DB + Blockchain Bridge</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td><strong>infra/</strong></td>
+          <td><span class="status-dot dot-planned"></span>Geplant</td>
+          <td>Docker Compose</td>
+          <td>PostgreSQL+PostGIS, Redis</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td><strong>mobile/</strong></td>
+          <td><span class="status-dot dot-planned"></span>Geplant</td>
+          <td>Flutter / Dart</td>
+          <td>Android + iOS App, MapLibre, Scanner</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td><strong>contracts/</strong></td>
+          <td><span class="status-dot dot-planned"></span>Geplant</td>
+          <td>Solidity (Base L2)</td>
+          <td>VendSubmit.sol + VendClaim.sol</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td><strong>ai/</strong></td>
+          <td><span class="status-dot dot-planned"></span>Geplant</td>
+          <td>Python / Rust</td>
+          <td>Produkt-Erkennung + Plausibility Check</td>
+          <td>4</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- TECH STACK -->
+  <section>
+    <h2>⚙️ Tech Stack</h2>
+    <table>
+      <thead>
+        <tr><th>Schicht</th><th>Technologie</th><th>Begründung</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Core Library</td><td>Rust</td><td>Performance, Memory Safety, FFI zu Flutter</td></tr>
+        <tr><td>Backend API</td><td>Rust + Axum</td><td>Async, schnell, typsicher</td></tr>
+        <tr><td>Datenbank</td><td>PostgreSQL + PostGIS</td><td>Geo-Radius-Suche nativ</td></tr>
+        <tr><td>Cache</td><td>Redis</td><td>Rate Limiting, Session, Geo-Cache</td></tr>
+        <tr><td>Mobile</td><td>Flutter</td><td>Single Codebase Android+iOS, Rust FFI</td></tr>
+        <tr><td>Maps</td><td>MapLibre + OSM</td><td>Open Source, kostenlos, offline-fähig</td></tr>
+        <tr><td>Smart Contracts</td><td>Solidity (Base L2)</td><td>EVM, ~$0.001/Tx, Coinbase Wallet</td></tr>
+        <tr><td>Token</td><td>IFR (ifrunit.tech)</td><td>Bestehende Infrastruktur, kein neuer Token</td></tr>
+        <tr><td>AI Phase 2</td><td>Cloud Vision API</td><td>Produkt-Erkennung aus Foto</td></tr>
+        <tr><td>AI Phase 3</td><td>On-Device (TFLite)</td><td>Privacy-first, offline</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SESSION LOG -->
+  <section>
+    <h2>📅 Session Log</h2>
+
+    <div class="log-entry">
+      <div class="log-date">2026-03-17 — SESSION #1</div>
+      <div class="log-title">Repository Setup & Dokumentation</div>
+      <div class="log-items">
+        Git init → Remote origin → Branch main → Ordnerstruktur →
+        .gitignore → README.md → masterplan.md → docs/index.html →
+        Commit → Push
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    VENDETA — Dezentrales Preis-Transparenz-Netzwerk |
+    <a href="https://github.com/NeaBouli/vendeta" target="_blank">GitHub</a> |
+    <a href="https://ifrunit.tech" target="_blank">IFR Token</a> |
+    <a href="masterplan.md">Masterplan</a>
+  </p>
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#f97316',
+      primaryTextColor: '#c9d1d9',
+      primaryBorderColor: '#30363d',
+      lineColor: '#8b949e',
+      secondaryColor: '#161b22',
+      tertiaryColor: '#21262d'
+    }
+  });
+  document.getElementById('currentDate').textContent =
+    'Stand: ' + new Date().toLocaleDateString('de-DE',
+    { year: 'numeric', month: 'long', day: 'numeric' });
+</script>
+
+</body>
+</html>
