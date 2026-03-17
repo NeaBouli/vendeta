@@ -372,7 +372,7 @@ graph TD
         </tr>
         <tr>
           <td><strong>core/</strong></td>
-          <td><span class="status-dot dot-planned"></span>Geplant</td>
+          <td><span class="status-dot dot-progress"></span>In Arbeit</td>
           <td>Rust</td>
           <td>Hash, EAN, GPS, Crypto Utilities</td>
           <td>1</td>
@@ -441,6 +441,21 @@ graph TD
   <!-- SESSION LOG -->
   <section>
     <h2>📅 Session Log</h2>
+
+    <div class="log-entry">
+      <div class="log-date">2026-03-17 — SESSION #5</div>
+      <div class="log-title">Rust Core + VendRegistry.sol</div>
+      <div class="log-items">
+        geohash.rs (4 Tests), currency.rs (5 Tests),
+        hash.rs (3 Tests), ean.rs (6 Tests), location.rs (8 Tests),
+        VendRegistry.sol UUPS+Pausable+ReentrancyGuard,
+        VendRegistry.t.sol (12 Tests alle grün),
+        Proxy-Pattern implementiert,
+        Silent Consensus 72h implementiert,
+        forge build OK, forge test 12/12,
+        cargo test 26/26
+      </div>
+    </div>
 
     <div class="log-entry">
       <div class="log-date">2026-03-17 — SESSION #4</div>

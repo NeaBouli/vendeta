@@ -27,6 +27,10 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Foundry / Solidity
+contracts/out/
+contracts/cache/
+
 # IDE
 .idea/
 .vscode/
