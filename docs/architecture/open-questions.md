@@ -1,29 +1,40 @@
-# Vendeta — Offene Fragen (Stand 2026-03-17)
+# Vendeta — Offene Fragen (Aktuell)
 
-## Noch zu entscheiden (Core Dev Input nötig)
-
-- [ ] Store-Name Phase 1: manuell eingeben ODER
-      automatisch via Google Places aus GPS?
-- [ ] Dienstleistungen (Friseur, Handwerker) in Phase 1
-      oder erst Phase 2?
-- [ ] Wallet-Pflicht oder optional?
-      (kein Wallet = keine Credits, aber Suche möglich?)
-- [ ] IFR Builder-Registrierung: wann anstoßen?
-      (GitHub Issue auf NeaBouli/inferno)
-- [ ] Minimum Claim-Betrag für IFR: 1000 Credits ok?
-- [ ] OTP via Railway: Twilio oder anderer SMS-Provider?
-- [ ] The Graph: hosted service (einfach) oder
-      dezentrales Netzwerk (günstiger, komplexer)?
-- [ ] Offline-Mode: Phase 1 ohne (einfacher) oder
-      mit lokaler Queue (Phase 3)?
-
-## Bestätigte Entscheidungen
+## Entschieden ✅
 - [x] Kein eigener Token → IFR
-- [x] Kein eigener Server → The Graph + Railway (OTP only)
+- [x] Kein eigener Server → The Graph + Railway OTP
 - [x] Base L2 für Contracts
-- [x] Flutter + Rust FFI
-- [x] Geohash Precision 5
-- [x] Koordinaten als int32 (×1e6), kein Float on-chain
-- [x] Hash generiert client-side (Rust FFI)
-- [x] Phone-Hash: HMAC-SHA256(phone, device_id), Nummer nie gespeichert
-- [x] Google Places read-only, Store-Daten NICHT on-chain
+- [x] Flutter + Rust FFI (flutter_rust_bridge)
+- [x] Geohash Precision 5 + Multi-Cell Query
+- [x] Koordinaten als int32 (×1e6) mit .round()
+- [x] Hash: Nullifier-Pattern (nicht HMAC-phone)
+- [x] 12-Wort Seed Phrase für Recovery
+- [x] Google Places read-only, Store NICHT on-chain
+- [x] Silent Consensus 72h (Cold-Start-Lösung)
+- [x] Trust-gewichtete Votes + Locality Lock
+- [x] Proxy-Pattern (EIP-1967) für alle Contracts
+- [x] ISO 4217 Währungs-Code on-chain (bytes3)
+- [x] Rollout: Europa Phase 1
+- [x] Unternehmensstruktur: Griechenland vorhanden
+- [x] First-Mover Reward: delayed nach 1. Bestätigung
+- [x] GPS Limit: 150m (mit Trust-Penalty >50m)
+
+## Noch offen (Core Dev Entscheidung nötig)
+- [ ] Store-Name Phase 1: manuell eingeben ODER
+      automatisch via GPS+OSM Nominatim?
+- [ ] Wallet Phase 1: Pflicht oder optional?
+      (optional = Suchen möglich, keine Rewards)
+- [ ] Dienstleistungen (Friseur, Handwerker):
+      Phase 1 oder Phase 2?
+- [ ] OTP-Provider: Twilio, WhatsApp oder Telegram?
+- [ ] Seed-Submissions vor Launch: Wer macht das?
+      Wie viele Städte? Welche Kategorien?
+- [ ] Minimum Trust für Votes: aktuell 0 (jeder darf
+      voten) — oder Minimum 200 Trust?
+
+## Technische Todos (vor Code)
+- [ ] Rechtsgutachten EU: DSGVO + MiCA beauftragen
+- [ ] IFR Builder-Registrierung anstoßen
+      (GitHub Issue: NeaBouli/inferno builder-registry.yml)
+- [ ] The Graph: dezentrales Netzwerk Account anlegen
+- [ ] Base L2 Testnet (Sepolia): Wallet einrichten
