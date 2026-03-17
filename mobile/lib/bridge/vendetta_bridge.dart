@@ -66,6 +66,30 @@ class VendettaBridge {
   int latToInt32(double lat) => (lat * 1000000).round();
   int lngToInt32(double lng) => (lng * 1000000).round();
 
+  /// Generate new wallet (first app start)
+  Future<Map<String, String>> generateWallet({required List<int> deviceSalt}) async {
+    // Stub: returns mock wallet for UI testing
+    // Production: Rust FFI call to generate_wallet()
+    return {
+      'mnemonic': 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      'ethAddress': '0x9858EfFD232B4033E47d90003D41EC34EcaedA94',
+      'userHash': 'a' * 64,
+    };
+  }
+
+  /// Restore wallet from seed phrase
+  Future<Map<String, String>> restoreWallet({required String mnemonic, required List<int> deviceSalt}) async {
+    final words = mnemonic.trim().split(' ');
+    if (words.length != 12 && words.length != 24) {
+      throw Exception('Ungültige Seed-Phrase');
+    }
+    return {
+      'mnemonic': mnemonic,
+      'ethAddress': '0x0000000000000000000000000000000000000001',
+      'userHash': 'b' * 64,
+    };
+  }
+
   double _rad(double deg) => deg * pi / 180;
 
   bool _checkDigit(String code) {

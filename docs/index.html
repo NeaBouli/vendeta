@@ -375,7 +375,7 @@ graph TD
         </tr>
         <tr>
           <td><strong>core/</strong></td>
-          <td><span class="status-dot dot-progress"></span>In Arbeit</td>
+          <td><span class="status-dot dot-done"></span>Done</td>
           <td>Rust</td>
           <td>Hash, EAN, GPS, Crypto Utilities</td>
           <td>1</td>
@@ -444,6 +444,20 @@ graph TD
   <!-- SESSION LOG -->
   <section>
     <h2>📅 Session Log</h2>
+
+    <div class="log-entry">
+      <div class="log-date">2026-03-18 — SESSION W1</div>
+      <div class="log-title">HD Wallet — BIP39/BIP44 in Rust Core</div>
+      <div class="log-items">
+        wallet.rs: generate_wallet(), restore_wallet(),
+        eth_address_from_key() (keccak256),
+        user_hash = SHA256(entropy || device_salt),
+        validate_mnemonic(), 10 wallet tests,
+        Dart bridge: generateWallet() + restoreWallet() stubs,
+        cargo test: 36/36 (26 old + 10 wallet),
+        forge test: 60/60 (unchanged)
+      </div>
+    </div>
 
     <div class="log-entry">
       <div class="log-date">2026-03-18 — SESSION #16</div>

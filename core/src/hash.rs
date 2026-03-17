@@ -41,6 +41,16 @@ impl SubmissionHash {
     }
 }
 
+/// SHA-256 of raw bytes (used by wallet.rs)
+pub fn sha256_bytes(input: &[u8]) -> [u8; 32] {
+    let mut hasher = Sha256::new();
+    hasher.update(input);
+    let result = hasher.finalize();
+    let mut bytes = [0u8; 32];
+    bytes.copy_from_slice(&result);
+    bytes
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
