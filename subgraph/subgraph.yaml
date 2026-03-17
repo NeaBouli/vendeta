@@ -1,0 +1,115 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+
+  - kind: ethereum
+    name: VendRegistry
+    network: base
+    source:
+      address: "0x0000000000000000000000000000000000000001"
+      abi: VendRegistry
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Submission
+        - User
+        - GeohashRegion
+        - GlobalStats
+      abis:
+        - name: VendRegistry
+          file: ./abis/VendRegistry.json
+      eventHandlers:
+        - event: SubmissionCreated(indexed bytes32,indexed bytes32,uint64,bytes3,int32,int32,string,indexed bytes32,bool,uint32)
+          handler: handleSubmissionCreated
+        - event: DuplicateDetected(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleDuplicateDetected
+        - event: SubmissionAutoVerified(indexed bytes32,indexed bytes32)
+          handler: handleSubmissionAutoVerified
+      file: ./src/registry.ts
+
+  - kind: ethereum
+    name: VendTrust
+    network: base
+    source:
+      address: "0x0000000000000000000000000000000000000002"
+      abi: VendTrust
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Vote
+        - ConsensusEvent
+        - User
+        - Submission
+      abis:
+        - name: VendTrust
+          file: ./abis/VendTrust.json
+      eventHandlers:
+        - event: VoteCast(indexed bytes32,indexed bytes32,bool,uint16,uint32,uint32)
+          handler: handleVoteCast
+        - event: ConsensusReached(indexed bytes32,bool,uint32,uint32)
+          handler: handleConsensusReached
+        - event: TrustUpdated(indexed bytes32,uint16,uint16,string)
+          handler: handleTrustUpdated
+      file: ./src/trust.ts
+
+  - kind: ethereum
+    name: VendRewards
+    network: base
+    source:
+      address: "0x0000000000000000000000000000000000000003"
+      abi: VendRewards
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - RewardEvent
+        - User
+        - Submission
+        - GlobalStats
+      abis:
+        - name: VendRewards
+          file: ./abis/VendRewards.json
+      eventHandlers:
+        - event: RewardEarned(indexed bytes32,indexed bytes32,uint64,uint64,string)
+          handler: handleRewardEarned
+        - event: CreditsUpdated(indexed bytes32,uint256,uint256)
+          handler: handleCreditsUpdated
+        - event: TierUpdated(indexed bytes32,uint8)
+          handler: handleTierUpdated
+      file: ./src/rewards.ts
+
+  - kind: ethereum
+    name: VendClaim
+    network: base
+    source:
+      address: "0x0000000000000000000000000000000000000004"
+      abi: VendClaim
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - ClaimEvent
+        - User
+        - GlobalStats
+      abis:
+        - name: VendClaim
+          file: ./abis/VendClaim.json
+      eventHandlers:
+        - event: ClaimInitiated(indexed bytes32,indexed address,uint256,uint256,uint256,uint32)
+          handler: handleClaimInitiated
+        - event: RateUpdated(uint256,uint256,uint32)
+          handler: handleRateUpdated
+      file: ./src/claim.ts

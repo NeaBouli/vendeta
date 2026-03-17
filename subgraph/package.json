@@ -1,0 +1,15 @@
+{
+  "name": "vendetta-subgraph",
+  "version": "1.0.0",
+  "description": "The Graph subgraph for Vendetta",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy vendetta/base-l2",
+    "create": "graph create --node http://localhost:8020/ vendetta/base-l2"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.71.0",
+    "@graphprotocol/graph-ts": "0.35.1"
+  }
+}

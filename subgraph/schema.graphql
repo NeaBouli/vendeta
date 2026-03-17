@@ -1,0 +1,118 @@
+"""
+Vendetta Subgraph Schema
+Indexes all 4 VendContracts on Base L2
+Geohash5 indexed for fast regional queries
+"""
+
+# ─── SUBMISSION ───────────────────────────
+
+type Submission @entity {
+  id:              Bytes!
+  ean_hash:        Bytes!
+  price_cents:     BigInt!
+  currency:        String!
+  lat6:            Int!
+  lng6:            Int!
+  geohash5:        String!
+  user_hash:       Bytes!
+  is_first_mover:  Boolean!
+  status:          Int!
+  votes_up:        BigInt!
+  votes_down:      BigInt!
+  auto_verify_at:  BigInt!
+  timestamp:       BigInt!
+  block_number:    BigInt!
+  tx_hash:         Bytes!
+
+  votes:           [Vote!]! @derivedFrom(field: "submission")
+  rewards:         [RewardEvent!]! @derivedFrom(field: "submission")
+}
+
+# ─── USER ─────────────────────────────────
+
+type User @entity {
+  id:                Bytes!
+  trust_score:       Int!
+  tier_level:        Int!
+  total_submissions: BigInt!
+  total_credits:     BigInt!
+  current_credits:   BigInt!
+  total_claimed:     BigInt!
+  last_claim_at:     BigInt!
+  first_seen_at:     BigInt!
+  last_active_at:    BigInt!
+}
+
+# ─── VOTE ─────────────────────────────────
+
+type Vote @entity {
+  id:            Bytes!
+  submission:    Submission!
+  voter_hash:    Bytes!
+  upvote:        Boolean!
+  voter_trust:   Int!
+  weighted_up:   BigInt!
+  weighted_down: BigInt!
+  timestamp:     BigInt!
+  tx_hash:       Bytes!
+}
+
+# ─── CONSENSUS ────────────────────────────
+
+type ConsensusEvent @entity {
+  id:            Bytes!
+  submission:    Submission!
+  verified:      Boolean!
+  weighted_up:   BigInt!
+  weighted_down: BigInt!
+  timestamp:     BigInt!
+  tx_hash:       Bytes!
+}
+
+# ─── REWARD ───────────────────────────────
+
+type RewardEvent @entity {
+  id:           Bytes!
+  user_hash:    Bytes!
+  submission:   Submission!
+  base_reward:  BigInt!
+  final_reward: BigInt!
+  reward_type:  String!
+  timestamp:    BigInt!
+  tx_hash:      Bytes!
+}
+
+# ─── CLAIM ────────────────────────────────
+
+type ClaimEvent @entity {
+  id:             Bytes!
+  user_hash:      Bytes!
+  mainnet_wallet: Bytes!
+  credits_burned: BigInt!
+  ifr_amount:     BigInt!
+  nonce:          BigInt!
+  timestamp:      BigInt!
+  tx_hash:        Bytes!
+}
+
+# ─── GLOBAL STATS ─────────────────────────
+
+type GlobalStats @entity {
+  id:                    String!
+  total_submissions:     BigInt!
+  total_users:           BigInt!
+  total_credits_earned:  BigInt!
+  total_credits_claimed: BigInt!
+  total_ifr_claimed:     BigInt!
+  total_votes:           BigInt!
+  last_updated:          BigInt!
+}
+
+# ─── GEOHASH REGION ──────────────────────
+
+type GeohashRegion @entity {
+  id:               String!
+  submission_count: BigInt!
+  avg_price_cents:  BigInt!
+  last_submission:  BigInt!
+}

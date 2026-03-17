@@ -34,6 +34,11 @@ contracts/cache/
 # Local-only dashboard (nicht auf GitHub)
 docs/todo.html
 
+# Subgraph
+subgraph/node_modules/
+subgraph/build/
+subgraph/generated/
+
 # IDE
 .idea/
 .vscode/
