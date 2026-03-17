@@ -1,0 +1,39 @@
+name: vendetta
+description: Community Price Transparency Network
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Navigation
+  go_router: ^14.0.0
+
+  # State Management
+  flutter_riverpod: ^2.6.0
+
+  # Secure Storage (Wallet Keys)
+  flutter_secure_storage: ^9.0.0
+
+  # HTTP
+  http: ^1.2.0
+
+  # Permissions
+  permission_handler: ^11.3.0
+
+  # UI
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
