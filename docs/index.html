@@ -446,6 +446,21 @@ graph TD
     <h2>📅 Session Log</h2>
 
     <div class="log-entry">
+      <div class="log-date">2026-03-17 — SESSION #8</div>
+      <div class="log-title">VendRewards.sol — Credit System</div>
+      <div class="log-items">
+        IVendTrust.sol Interface,
+        VendRewards.sol (UUPS, CEI Pattern):
+        BASE_REWARD=100, First-Mover 2x (delayed),
+        Silent Consensus 0.7x, IFR Premium +20%,
+        Dup-Decay (÷dup_count), Min Claim 1000,
+        previewReward() View, deductCredits() für Claim,
+        VendRewards.t.sol: 14 Tests alle grün,
+        forge test: 40/40 (12 Registry + 14 Trust + 14 Rewards)
+      </div>
+    </div>
+
+    <div class="log-entry">
       <div class="log-date">2026-03-17 — SESSION #7</div>
       <div class="log-title">VendTrust.sol + Wallet Architektur + TODO Regeln</div>
       <div class="log-items">
