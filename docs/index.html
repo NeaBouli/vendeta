@@ -403,7 +403,7 @@ graph TD
         </tr>
         <tr>
           <td><strong>contracts/</strong></td>
-          <td><span class="status-dot dot-progress"></span>In Arbeit</td>
+          <td><span class="status-dot dot-done"></span>Done</td>
           <td>Solidity (Base L2)</td>
           <td>VendSubmit.sol + VendClaim.sol</td>
           <td>3</td>
@@ -444,6 +444,23 @@ graph TD
   <!-- SESSION LOG -->
   <section>
     <h2>📅 Session Log</h2>
+
+    <div class="log-entry">
+      <div class="log-date">2026-03-17 — SESSION #11</div>
+      <div class="log-title">VendClaim.sol — ALL 4 CONTRACTS COMPLETE</div>
+      <div class="log-items">
+        IVendRewards.sol Interface,
+        VendClaim.sol (UUPS, CEI, 7d Cooldown, Nonce,
+        previewClaim, getClaimStatus, ClaimInitiated Event),
+        VendRewards.sol: 5-Tier System
+        (FREE 0.5x / BRONZE 1.0x / SILVER 1.25x /
+         GOLD 1.5x / PLATINUM 2.0x),
+        forge test: 60/60 grün
+        (12 Registry + 14 Trust + 17 Rewards + 17 Claim),
+        cargo test: 26/26 (unverändert),
+        4/4 Contracts abgeschlossen
+      </div>
+    </div>
 
     <div class="log-entry">
       <div class="log-date">2026-03-17 — SESSION #10</div>

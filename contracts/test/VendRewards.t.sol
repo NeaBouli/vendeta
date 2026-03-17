@@ -23,7 +23,6 @@ contract VendRewardsTest is Test {
     string  constant GEO    = "u281z";
 
     function setUp() public {
-        // Deploy Registry
         VendRegistry ri = new VendRegistry();
         ERC1967Proxy rp = new ERC1967Proxy(
             address(ri),
@@ -31,7 +30,6 @@ contract VendRewardsTest is Test {
         );
         registry = VendRegistry(address(rp));
 
-        // Deploy Trust
         VendTrust ti = new VendTrust();
         ERC1967Proxy tp = new ERC1967Proxy(
             address(ti),
@@ -40,7 +38,6 @@ contract VendRewardsTest is Test {
         );
         trust = VendTrust(address(tp));
 
-        // Deploy Rewards
         VendRewards rwi = new VendRewards();
         ERC1967Proxy rwp = new ERC1967Proxy(
             address(rwi),
@@ -49,37 +46,70 @@ contract VendRewardsTest is Test {
         );
         rewards = VendRewards(address(rwp));
 
-        // Submit a test price (USER_A is first mover)
         registry.submit(HASH1, EAN, 79, EUR,
             LAT, LNG, GEO, USER_A);
     }
 
-    function test_base_reward_first_submission() public {
+    // ── BASE REWARD (FREE tier = 0.5x) ──────
+
+    function test_base_reward_free_tier() public {
         rewards.rewardSubmission(HASH1, 1);
         uint256 bal = rewards.getCredits(USER_A);
-        // trust=500, dup=1: 100 * 500/1000 / 1 = 50
-        assertEq(bal, 50);
+        // trust=500, tier=FREE(0.5x), dup=1:
+        // 100 * 500/1000 * 500/1000 / 1 = 25
+        assertEq(bal, 25);
     }
 
     function test_base_reward_duplicate_decay() public {
         rewards.rewardSubmission(HASH1, 3);
         uint256 bal = rewards.getCredits(USER_A);
-        // trust=500, dup=3: 100 * 500/1000 / 3 = 16
-        assertEq(bal, 16);
+        // 100 * 500/1000 * 500/1000 / 3 = 8
+        assertEq(bal, 8);
     }
 
+    // ── TIER SYSTEM ─────────────────────────
+
+    function test_bronze_tier_reward() public {
+        rewards.setTier(USER_A, 1); // BRONZE = 1.0x
+        rewards.rewardSubmission(HASH1, 1);
+        uint256 bal = rewards.getCredits(USER_A);
+        // 100 * 500/1000 * 1000/1000 / 1 = 50
+        assertEq(bal, 50);
+    }
+
+    function test_gold_tier_reward() public {
+        rewards.setTier(USER_A, 3); // GOLD = 1.5x
+        rewards.rewardSubmission(HASH1, 1);
+        uint256 bal = rewards.getCredits(USER_A);
+        // 100 * 500/1000 * 1500/1000 / 1 = 75
+        assertEq(bal, 75);
+    }
+
+    function test_platinum_tier_reward() public {
+        rewards.setTier(USER_A, 4); // PLATINUM = 2.0x
+        rewards.rewardSubmission(HASH1, 1);
+        uint256 bal = rewards.getCredits(USER_A);
+        // 100 * 500/1000 * 2000/1000 / 1 = 100
+        assertEq(bal, 100);
+    }
+
+    function test_set_tier_invalid_reverts() public {
+        vm.expectRevert("Invalid tier");
+        rewards.setTier(USER_A, 5);
+    }
+
+    // ── FIRST MOVER ─────────────────────────
+
     function test_first_mover_bonus_paid_separately() public {
-        // Base reward first
         rewards.rewardSubmission(HASH1, 1);
         uint256 afterBase = rewards.getCredits(USER_A);
 
-        // First mover bonus
         rewards.payFirstMoverBonus(HASH1);
         uint256 afterBonus = rewards.getCredits(USER_A);
 
-        // Bonus = 100 * 500/1000 * 2000/1000 = 100
+        // FREE tier: bonus = 100*500/1000*2000/1000*500/1000 = 50
         assertGt(afterBonus, afterBase);
-        assertEq(afterBonus - afterBase, 100);
+        assertEq(afterBonus - afterBase, 50);
     }
 
     function test_first_mover_bonus_only_once() public {
@@ -93,24 +123,23 @@ contract VendRewardsTest is Test {
     }
 
     function test_non_first_mover_gets_no_bonus() public {
-        // Submit a duplicate (USER_B, same location)
         registry.submit(HASH2, EAN, 89, EUR,
             LAT, LNG, GEO, USER_B);
         uint256 before = rewards.getCredits(USER_B);
         rewards.payFirstMoverBonus(HASH2);
-        // No bonus — not first mover
         assertEq(rewards.getCredits(USER_B), before);
     }
 
+    // ── SILENT CONSENSUS ────────────────────
+
     function test_silent_consensus_reward() public {
-        // Auto-verify the submission
         vm.warp(block.timestamp + 73 hours);
         registry.triggerSilentConsensus(HASH1);
 
         rewards.paySilentConsensusReward(HASH1);
         uint256 bal = rewards.getCredits(USER_A);
-        // trust=500, dup=1, silent=0.7x: 100*500/1000*700/1000/1 = 35
-        assertEq(bal, 35);
+        // FREE: 100*500/1000*700/1000*500/1000/1 = 17
+        assertEq(bal, 17);
     }
 
     function test_silent_consensus_only_once() public {
@@ -125,16 +154,27 @@ contract VendRewardsTest is Test {
         rewards.paySilentConsensusReward(HASH1);
     }
 
-    function test_ifr_premium_adds_20_percent() public {
-        rewards.setIfrPremium(USER_A, true);
-        rewards.rewardSubmission(HASH1, 1);
-        uint256 bal = rewards.getCredits(USER_A);
-        // base=50, +20%=10, total=60
-        assertEq(bal, 60);
+    // ── PREVIEW ─────────────────────────────
+
+    function test_preview_reward_free_tier() public view {
+        uint64 preview = rewards.previewReward(
+            USER_A, false, 1, false
+        );
+        // FREE: 100*500/1000*1000/1000*500/1000 = 25
+        assertEq(preview, 25);
     }
 
+    function test_preview_first_mover_free_tier() public view {
+        uint64 preview = rewards.previewReward(
+            USER_A, true, 1, false
+        );
+        // base=25 + bonus=50 = 75
+        assertEq(preview, 75);
+    }
+
+    // ── MISC ────────────────────────────────
+
     function test_can_claim_threshold() public {
-        // Single reward = 50 credits, not enough
         rewards.rewardSubmission(HASH1, 1);
         assertFalse(rewards.canClaim(USER_A));
     }
@@ -146,28 +186,12 @@ contract VendRewardsTest is Test {
                 VendRewards.InsufficientCredits.selector,
                 USER_A, rewards.getCredits(USER_A), 1000)
         );
-        rewards.deductCredits(USER_A, 50);
-    }
-
-    function test_preview_reward_base() public view {
-        uint64 preview = rewards.previewReward(
-            USER_A, false, 1, false
-        );
-        // trust=500: 100 * 500/1000 * 1000/1000 / 1 = 50
-        assertEq(preview, 50);
-    }
-
-    function test_preview_first_mover_reward() public view {
-        uint64 preview = rewards.previewReward(
-            USER_A, true, 1, false
-        );
-        // base=50 + bonus=100 = 150
-        assertEq(preview, 150);
+        rewards.deductCredits(USER_A, 25);
     }
 
     function test_total_credits_earned_tracked() public {
         rewards.rewardSubmission(HASH1, 1);
-        assertEq(rewards.totalCreditsEarned(), 50);
+        assertEq(rewards.totalCreditsEarned(), 25);
     }
 
     function test_pause_blocks_rewards() public {

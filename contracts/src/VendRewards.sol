@@ -59,8 +59,18 @@ contract VendRewards is
     /// Duplicate count per EAN+location (for decay calculation)
     mapping(bytes32 => uint32) public dupCount;
 
-    /// IFR Premium flag per user (Phase 3: replaced by on-chain check)
+    /// IFR Premium flag per user (legacy, use tierLevel instead)
     mapping(bytes32 => bool) public ifrPremium;
+
+    /// IFR Tier per user (0=free, 1=bronze, 2=silver, 3=gold, 4=platinum)
+    mapping(bytes32 => uint8) public tierLevel;
+
+    /// Tier multipliers in basis points (1000 = 1.0x)
+    uint16 public constant TIER_FREE_BPS     =  500; // 0.5x
+    uint16 public constant TIER_BRONZE_BPS   = 1000; // 1.0x
+    uint16 public constant TIER_SILVER_BPS   = 1250; // 1.25x
+    uint16 public constant TIER_GOLD_BPS     = 1500; // 1.5x
+    uint16 public constant TIER_PLATINUM_BPS = 2000; // 2.0x
 
     /// Contract references
     IVendRegistry public registry;
@@ -97,6 +107,11 @@ contract VendRewards is
         bytes32 indexed submission_hash,
         bytes32 indexed user_hash,
         uint64  credits_paid
+    );
+
+    event TierUpdated(
+        bytes32 indexed user_hash,
+        uint8   tier
     );
 
     // ─────────────────────────────────────────
@@ -198,14 +213,11 @@ contract VendRewards is
 
         (uint256 trustNum, uint256 trustDen) =
             trustContract.getRewardMultiplier(user);
+        uint16 tierBps = _getTierBps(user);
         uint64 bonus = uint64(
-            (BASE_REWARD * trustNum * FIRST_MOVER_BPS)
-            / (trustDen * BPS_DENOM)
+            (BASE_REWARD * trustNum * FIRST_MOVER_BPS * tierBps)
+            / (trustDen * BPS_DENOM * BPS_DENOM)
         );
-        if (ifrPremium[user]) {
-            bonus = bonus + uint64(
-                uint256(bonus) * IFR_PREMIUM_BPS / BPS_DENOM);
-        }
 
         _addCredits(user, bonus);
 
@@ -246,15 +258,11 @@ contract VendRewards is
         ];
         if (dupC == 0) dupC = 1;
 
+        uint16 tierBps = _getTierBps(user);
         uint64 reward = uint64(
-            (BASE_REWARD * trustNum * SILENT_CONSENSUS_BPS)
-            / (trustDen * BPS_DENOM * dupC)
+            (BASE_REWARD * trustNum * SILENT_CONSENSUS_BPS * tierBps)
+            / (trustDen * BPS_DENOM * BPS_DENOM * dupC)
         );
-
-        if (ifrPremium[user]) {
-            reward = reward + uint64(
-                uint256(reward) * IFR_PREMIUM_BPS / BPS_DENOM);
-        }
 
         if (reward == 0) return;
 
@@ -305,6 +313,15 @@ contract VendRewards is
         ifrPremium[user_hash] = premium;
     }
 
+    /// @notice Set tier for a user (Phase 1: owner; Phase 3: auto)
+    function setTier(bytes32 user_hash, uint8 tier)
+        external onlyOwner
+    {
+        require(tier <= 4, "Invalid tier");
+        tierLevel[user_hash] = tier;
+        emit TierUpdated(user_hash, tier);
+    }
+
     // ─────────────────────────────────────────
     // VIEW FUNCTIONS
     // ─────────────────────────────────────────
@@ -330,20 +347,19 @@ contract VendRewards is
         (uint256 n, uint256 d) =
             trustContract.getRewardMultiplier(user_hash);
         uint32 dc = dup_count_val == 0 ? 1 : dup_count_val;
+        uint16 tierBps = _getTierBps(user_hash);
         uint32 bps = is_silent
             ? SILENT_CONSENSUS_BPS
             : BPS_DENOM;
         uint64 r = uint64(
-            (BASE_REWARD * n * bps) / (d * BPS_DENOM * dc)
+            (BASE_REWARD * n * bps * tierBps)
+            / (d * BPS_DENOM * BPS_DENOM * dc)
         );
         if (is_first_mover && !is_silent) {
             r += uint64(
-                (BASE_REWARD * n * FIRST_MOVER_BPS)
-                / (d * BPS_DENOM)
+                (BASE_REWARD * n * FIRST_MOVER_BPS * tierBps)
+                / (d * BPS_DENOM * BPS_DENOM)
             );
-        }
-        if (ifrPremium[user_hash]) {
-            r += uint64(uint256(r) * IFR_PREMIUM_BPS / BPS_DENOM);
         }
         return r;
     }
@@ -399,13 +415,23 @@ contract VendRewards is
         (uint256 n, uint256 d) =
             trustContract.getRewardMultiplier(user);
         uint32 dc = dup_count_val == 0 ? 1 : dup_count_val;
+        uint16 tierBps = _getTierBps(user);
         uint64 r = uint64(
-            (BASE_REWARD * n) / (d * dc)
+            (BASE_REWARD * n * tierBps) / (d * BPS_DENOM * dc)
         );
-        if (ifrPremium[user]) {
-            r = r + uint64(uint256(r) * IFR_PREMIUM_BPS / BPS_DENOM);
-        }
         return r;
+    }
+
+    /// @dev Get tier multiplier in basis points
+    function _getTierBps(bytes32 user_hash)
+        internal view returns (uint16)
+    {
+        uint8 tier = tierLevel[user_hash];
+        if (tier == 4) return TIER_PLATINUM_BPS;
+        if (tier == 3) return TIER_GOLD_BPS;
+        if (tier == 2) return TIER_SILVER_BPS;
+        if (tier == 1) return TIER_BRONZE_BPS;
+        return TIER_FREE_BPS; // default: 0.5x
     }
 
     /// Same location snap as VendRegistry (~150m grid)
