@@ -203,9 +203,12 @@
 <body>
 
 <header>
-  <div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <img src="logo/V_logo.jpg" alt="Vendetta" style="width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0">
+    <div>
     <h1>⚡ VENDETTA</h1>
     <p>Dezentrales Preis-Transparenz-Netzwerk</p>
+    </div>
   </div>
   <div class="date-badge" id="currentDate"></div>
 </header>
@@ -441,6 +444,22 @@ graph TD
   <!-- SESSION LOG -->
   <section>
     <h2>📅 Session Log</h2>
+
+    <div class="log-entry">
+      <div class="log-date">2026-03-17 — SESSION #7</div>
+      <div class="log-title">VendTrust.sol + Wallet Architektur + TODO Regeln</div>
+      <div class="log-items">
+        Logo V_logo.jpg in index.html + todo.html,
+        IVendRegistry.sol Interface,
+        VendTrust.sol (UUPS, Locality Lock 7d,
+        Weighted Votes trust/1000, Rate Limit 3/30d,
+        Consensus 80%/75%, Trust Recovery +1/Tag),
+        VendTrust.t.sol: 14 Tests alle grün,
+        wallet.md Architektur dokumentiert (BIP39/BIP44),
+        todo.html Arbeitsregeln + Wallet-Tasks,
+        forge test: 26/26 grün (12 Registry + 14 Trust)
+      </div>
+    </div>
 
     <div class="log-entry">
       <div class="log-date">2026-03-17 — SESSION #6</div>
