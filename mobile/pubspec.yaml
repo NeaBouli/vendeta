@@ -16,7 +16,10 @@ dependencies:
   # State Management
   flutter_riverpod: ^2.6.0
 
-  # Secure Storage (Wallet Keys)
+  # Barcode Scanner
+  mobile_scanner: ^6.0.0
+
+  # Secure Storage
   flutter_secure_storage: ^9.0.0
 
   # HTTP
