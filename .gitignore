@@ -31,6 +31,9 @@ Thumbs.db
 contracts/out/
 contracts/cache/
 
+# Local-only dashboard (nicht auf GitHub)
+docs/todo.html
+
 # IDE
 .idea/
 .vscode/

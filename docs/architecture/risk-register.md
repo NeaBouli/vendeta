@@ -1,4 +1,4 @@
-# Vendeta — Risk Register (Stand 2026-03-17)
+# Vendetta — Risk Register (Stand 2026-03-17)
 
 ## Kritische Risiken (gelöst)
 | # | Risiko | Lösung | Status |

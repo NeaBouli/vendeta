@@ -2,7 +2,7 @@
 name = "vendeta-core"
 version = "0.1.0"
 edition = "2021"
-description = "Vendeta Core Library"
+description = "Vendetta Core Library"
 
 [lib]
 name = "vendeta_core"

@@ -1,4 +1,4 @@
-# Vendeta — Finale Architektur-Entscheidungen
+# Vendetta — Finale Architektur-Entscheidungen
 > Stand: 2026-03-17 | Status: FINAL — Implementierung bereit
 > Entwicklungs-Standort: Griechenland (EU)
 > Rollout: Europa Phase 1 → Global Phase 2+
@@ -23,7 +23,7 @@
 - ETH Mainnet: nur IFR Lock Check (isLocked() Builder API)
 - KEIN eigener Token — IFR (ifrunit.tech) = Reward-Token
 - IFR PartnerVault (40M IFR) = Reward-Quelle
-- Vendeta registriert als offizieller IFR Builder
+- Vendetta registriert als offizieller IFR Builder
 
 ### Contract-Architektur (FINAL)
 - Alle 4 Contracts: Transparent Proxy Pattern (EIP-1967)

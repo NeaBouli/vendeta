@@ -1,4 +1,4 @@
-# Vendeta — Smart Contracts Draft (Base L2)
+# Vendetta — Smart Contracts Draft (Base L2)
 > Status: DRAFT — noch nicht implementiert
 
 ## 4 Contracts, je eine Verantwortlichkeit

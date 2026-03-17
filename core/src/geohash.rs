@@ -8,7 +8,7 @@ pub enum GeohashPrecision {
 }
 
 /// Encode GPS coordinates as geohash string
-/// Precision 5 = ~1.2km² (Vendeta standard)
+/// Precision 5 = ~1.2km² (Vendetta standard)
 pub fn encode_geohash(
     lat: f64,
     lng: f64,

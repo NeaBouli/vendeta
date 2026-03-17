@@ -1,7 +1,7 @@
-# Vendeta — Masterplan
+# Vendetta — Masterplan
 
 ## Kern-Vision
-Vendeta ist ein dezentrales Consumer-Intelligence-Netzwerk.
+Vendetta ist ein dezentrales Consumer-Intelligence-Netzwerk.
 Nutzer fotografieren oder scannen Preise im Alltag (Supermarkt,
 Tankstelle, Restaurant, Handwerker etc.). Die Daten werden mit
 GPS-Koordinate, Zeitstempel und SHA-256-Hash auf der Blockchain
@@ -25,7 +25,7 @@ Preisen. Teilnahme wird mit IFR-Token-Credits belohnt.
 - Off-chain Credit-Ledger für Mikro-Rewards (kein Gas pro Submission)
 - Wöchentlicher On-chain Claim via VendClaim.sol (Base L2)
 - Premium-Features: IFR Lock Check via isLocked() Builder API
-- Vendeta ist offizieller IFR Builder (PartnerVault Allocation)
+- Vendetta ist offizieller IFR Builder (PartnerVault Allocation)
 
 ## Blockchain-Strategie
 - Hash-Anchoring: Base L2 (EVM, günstig, Coinbase-backed)

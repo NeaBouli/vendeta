@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /// @title VendRegistry
-/// @notice Core submission registry for Vendeta
+/// @notice Core submission registry for Vendetta
 ///         Stores price submissions with GPS, EAN, currency
 ///         Handles duplicate detection and first-mover logic
 /// @dev UUPS Upgradeable, Pausable, ReentrancyGuard

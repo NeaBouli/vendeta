@@ -1,10 +1,10 @@
-# Vendeta — Geohash & The Graph Strategie (Draft)
+# Vendetta — Geohash & The Graph Strategie (Draft)
 
 ## Was ist Geohash?
 GPS-Koordinaten → kurzer String. Gleicher Prefix = gleiche Region.
 ```
 48.137154, 11.576124  →  "u284j"
-Precision 5 = ~1.2km² (Stadtviertel) ← Vendeta Standard
+Precision 5 = ~1.2km² (Stadtviertel) ← Vendetta Standard
 ```
 
 ## Query-Performance

@@ -1,4 +1,4 @@
-# Vendeta 🗺️
+# Vendetta 🗺️
 
 > Dezentrales Preis-Transparenz-Netzwerk für den Alltag.
 > Menschen melden Schnäppchen und Wucherpreise in Echtzeit —

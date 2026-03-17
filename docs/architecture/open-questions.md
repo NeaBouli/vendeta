@@ -1,4 +1,4 @@
-# Vendeta — Offene Fragen (Aktuell)
+# Vendetta — Offene Fragen (Aktuell)
 
 ## Entschieden ✅
 - [x] Kein eigener Token → IFR

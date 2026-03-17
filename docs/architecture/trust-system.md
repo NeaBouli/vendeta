@@ -1,4 +1,4 @@
-# Vendeta — Trust & Reward System (Draft)
+# Vendetta — Trust & Reward System (Draft)
 
 ## Trust Score (0–1000, on-chain)
 | Ereignis | Änderung |

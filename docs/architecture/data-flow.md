@@ -1,4 +1,4 @@
-# Vendeta — Datenfluss (Draft)
+# Vendetta — Datenfluss (Draft)
 
 ## Submission Flow (Preis melden)
 
