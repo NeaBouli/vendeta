@@ -1,0 +1,30 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "deployedAt": "2026-03-18",
+  "deployer": "0x6b36687b0cd4386fb14cf565B67D7862110Fed67",
+  "contracts": {
+    "VendRegistry": {
+      "proxy": "0x77e99917Eca8539c62F509ED1193ac36580A6e7B",
+      "implementation": "0xB825221830204919b5F7432473844D1147A4c74E"
+    },
+    "VendTrust": {
+      "proxy": "0x769928aBDfc949D0718d8766a1C2d7dBb63954Eb",
+      "implementation": "0xc43d48E7FDA576C5022d0670B652A622E8caD041"
+    },
+    "VendRewards": {
+      "proxy": "0x670D293e3D65f96171c10DdC8d88B96b0570F812",
+      "implementation": "0xaA1496133B6c274190A2113410B501C5802b6fCF"
+    },
+    "VendClaim": {
+      "proxy": "0x4807B77B2E25cD055DA42B09BA4d0aF9e580C60a",
+      "implementation": "0xc6eb7714bCb035ebc2D4d9ba7B3762ef7B9d4F7D"
+    }
+  },
+  "smokeTests": {
+    "totalSubmissions": 0,
+    "DEFAULT_TRUST": 500,
+    "BASE_REWARD": 100,
+    "MIN_CLAIM_CREDITS": 1000
+  }
+}

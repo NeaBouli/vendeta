@@ -9,9 +9,9 @@ dataSources:
     name: VendRegistry
     network: base
     source:
-      address: "0x0000000000000000000000000000000000000001"
+      address: "0x77e99917Eca8539c62F509ED1193ac36580A6e7B"
       abi: VendRegistry
-      startBlock: 1
+      startBlock: 39009832
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9
@@ -37,9 +37,9 @@ dataSources:
     name: VendTrust
     network: base
     source:
-      address: "0x0000000000000000000000000000000000000002"
+      address: "0x769928aBDfc949D0718d8766a1C2d7dBb63954Eb"
       abi: VendTrust
-      startBlock: 1
+      startBlock: 39009832
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9
@@ -65,9 +65,9 @@ dataSources:
     name: VendRewards
     network: base
     source:
-      address: "0x0000000000000000000000000000000000000003"
+      address: "0x670D293e3D65f96171c10DdC8d88B96b0570F812"
       abi: VendRewards
-      startBlock: 1
+      startBlock: 39009832
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9
@@ -93,9 +93,9 @@ dataSources:
     name: VendClaim
     network: base
     source:
-      address: "0x0000000000000000000000000000000000000004"
+      address: "0x4807B77B2E25cD055DA42B09BA4d0aF9e580C60a"
       abi: VendClaim
-      startBlock: 1
+      startBlock: 39009832
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9

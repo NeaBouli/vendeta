@@ -36,6 +36,22 @@
 - [x] price_cents as uint64 (no float)
 - [x] Coordinates as int32 with .round() (no truncation)
 
+## Testnet Deployment (Base Sepolia)
+
+Datum: 2026-03-18
+Chain ID: 84532
+Deployer: 0x6b36687b0cd4386fb14cf565B67D7862110Fed67
+
+| Contract | Proxy | Basescan |
+|---|---|---|
+| VendRegistry | 0x77e99917Eca8539c62F509ED1193ac36580A6e7B | [View](https://sepolia.basescan.org/address/0x77e99917Eca8539c62F509ED1193ac36580A6e7B) |
+| VendTrust | 0x769928aBDfc949D0718d8766a1C2d7dBb63954Eb | [View](https://sepolia.basescan.org/address/0x769928aBDfc949D0718d8766a1C2d7dBb63954Eb) |
+| VendRewards | 0x670D293e3D65f96171c10DdC8d88B96b0570F812 | [View](https://sepolia.basescan.org/address/0x670D293e3D65f96171c10DdC8d88B96b0570F812) |
+| VendClaim | 0x4807B77B2E25cD055DA42B09BA4d0aF9e580C60a | [View](https://sepolia.basescan.org/address/0x4807B77B2E25cD055DA42B09BA4d0aF9e580C60a) |
+
+Smoke Tests: 4/4 passed
+Basescan Verification: submitted
+
 ## Next Steps
 - [ ] Mythril deep analysis (Phase 3)
 - [ ] Community audit (after mainnet)
