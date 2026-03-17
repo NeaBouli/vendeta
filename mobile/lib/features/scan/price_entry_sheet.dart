@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../theme/app_theme.dart';
 import '../../bridge/vendetta_bridge.dart';
+import '../../services/submit_service.dart';
 
 class PriceEntrySheet extends StatefulWidget {
   final String ean;
@@ -127,36 +128,32 @@ class _PriceEntrySheetState extends State<PriceEntrySheet> {
 
     try {
       final cents = _bridge.priceToCents(price);
-      final ts = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-      final hash = await _bridge.generateHash(
+      final result = await SubmitService.instance.submitPrice(
         ean: widget.ean,
         priceCents: cents,
-        latitude: 48.1372,
-        longitude: 11.5761,
-        timestamp: ts,
-        userId: 'user_hash_placeholder',
+        currency: _currency,
+        userHash: 'user_placeholder',
+        onStatus: (s) => debugPrint('Submit: $s'),
       );
 
-      debugPrint('Submission hash: $hash');
-      debugPrint('Price: $cents cents $_currency');
+      if (!mounted) return;
 
-      // TODO Session 12: send to blockchain
-      await Future.delayed(const Duration(seconds: 1));
-
-      if (mounted) {
+      if (result.success) {
         Navigator.pop(context);
+        final msg = result.isFirstMover == true
+            ? 'Erster! +${result.creditsEarned} Credits'
+            : 'Gespeichert! +${result.creditsEarned} Credits';
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Preis gespeichert! +50 Credits'),
-            backgroundColor: AppColors.green,
-          ),
+          SnackBar(content: Text(msg), backgroundColor: AppColors.green, duration: const Duration(seconds: 3)),
         );
+      } else {
+        setState(() => _error = result.error ?? 'Fehler beim Speichern');
       }
     } catch (e) {
       setState(() => _error = 'Fehler: $e');
     } finally {
-      setState(() => _submitting = false);
+      if (mounted) setState(() => _submitting = false);
     }
   }
 }

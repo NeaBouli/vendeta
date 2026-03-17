@@ -16,6 +16,10 @@ dependencies:
   # State Management
   flutter_riverpod: ^2.6.0
 
+  # Maps (OSM)
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+
   # Barcode Scanner
   mobile_scanner: ^6.0.0
 
