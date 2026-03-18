@@ -9,7 +9,7 @@ class GraphService {
   static GraphService get instance => _i ??= GraphService._();
   GraphService._();
 
-  static const _endpoint = 'https://api.thegraph.com/subgraphs/name/vendetta/base-l2';
+  static const _endpoint = 'https://api.studio.thegraph.com/query/1744627/vendetta-price-network/v0.1.0';
 
   Future<List<PricePin>> nearbyPrices({
     required String geohash,
