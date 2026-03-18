@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../../theme/app_theme.dart';
 import '../../models/price_pin.dart';
+import '../../bridge/vendetta_bridge.dart';
 import '../../services/location_service.dart';
 import '../../services/graph_service.dart';
 import '../../widgets/search_bar_widget.dart';
@@ -31,22 +31,32 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> _requestLocation() async {
-    final s = await Permission.location.request();
-    setState(() => _locationGranted = s.isGranted);
+    final granted = await LocationService.instance.requestPermission();
+    setState(() => _locationGranted = granted);
+    if (granted) {
+      final pos = await LocationService.instance.currentPosition();
+      if (pos != null && mounted) {
+        _mapCtrl.move(LatLng(pos.latitude, pos.longitude), 14);
+      }
+    }
     _loadPrices();
   }
 
   Future<void> _loadPrices() async {
     setState(() => _loading = true);
     try {
-      final geo = await LocationService.instance.currentGeohash();
-      if (geo == null) return;
+      var geo = await LocationService.instance.currentGeohash();
+      if (geo == null) {
+        // Fallback: use map center
+        final center = _mapCtrl.camera.center;
+        geo = await VendettaBridge.instance.encodeGeohash(center.latitude, center.longitude);
+      }
       final pins = await GraphService.instance.nearbyPrices(geohash: geo, currency: 'EUR');
-      setState(() => _pins = pins);
+      if (mounted) setState(() => _pins = pins);
     } catch (e) {
-      debugPrint('Load prices error: $e');
+      debugPrint('Load prices: $e');
     } finally {
-      setState(() => _loading = false);
+      if (mounted) setState(() => _loading = false);
     }
   }
 
@@ -91,6 +101,26 @@ class _MapScreenState extends State<MapScreen> {
             right: 16,
             child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.orange)),
           ),
+        if (LocationService.instance.lastKnownPosition != null)
+          Positioned(
+            top: 130,
+            right: 16,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: AppColors.bg2.withAlpha(230),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.border, width: .5),
+              ),
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Icon(Icons.gps_fixed, size: 10,
+                    color: _accuracyColor(LocationService.instance.lastKnownPosition!.accuracy)),
+                const SizedBox(width: 4),
+                Text('±${LocationService.instance.lastKnownPosition!.accuracy.round()}m',
+                    style: const TextStyle(color: AppColors.text, fontSize: 9)),
+              ]),
+            ),
+          ),
         Positioned(
           bottom: 100,
           right: 16,
@@ -110,15 +140,24 @@ class _MapScreenState extends State<MapScreen> {
     _loadPrices();
   }
 
-  void _locateMe() async {
+  Future<void> _locateMe() async {
     if (!_locationGranted) {
       await _requestLocation();
       return;
     }
     final pos = await LocationService.instance.currentPosition();
     if (pos != null && mounted) {
-      _mapCtrl.move(LatLng(pos.latitude, pos.longitude), 14);
+      _mapCtrl.move(LatLng(pos.latitude, pos.longitude), 15);
+      setState(() {}); // refresh accuracy badge
+      _loadPrices();
     }
+  }
+
+  Color _accuracyColor(double meters) {
+    if (meters <= 20) return AppColors.green;
+    if (meters <= 50) return AppColors.amber;
+    if (meters <= 150) return AppColors.orange;
+    return AppColors.red;
   }
 
   void _showPin(PricePin pin) {

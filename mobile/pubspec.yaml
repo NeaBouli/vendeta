@@ -29,6 +29,9 @@ dependencies:
   # HTTP
   http: ^1.2.0
 
+  # GPS
+  geolocator: ^13.0.0
+
   # Permissions
   permission_handler: ^11.3.0
 

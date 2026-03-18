@@ -66,5 +66,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Vendetta braucht deinen Standort um Preise in deiner Nähe zu finden und zu melden.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Vendetta braucht deinen Standort um Preise in deiner Nähe zu finden.</string>
 </dict>
 </plist>
