@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendetta — Living TODO Dashboard</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #21262d;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #f97316;
+      --accent2: #3b82f6;
+      --green: #238636;
+      --green-text: #3fb950;
+      --yellow: #9e6a03;
+      --yellow-text: #d29922;
+      --red: #da3633;
+      --red-text: #f85149;
+      --gray: #30363d;
+      --gray-text: #8b949e;
+      --blue: #1f6feb;
+      --blue-text: #58a6ff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+    }
+    header .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--accent);
+    }
+    header h1 span { color: var(--text-muted); font-size: 13px; letter-spacing: 0; font-weight: 400; }
+    .date-badge {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .status-line {
+      margin-top: 10px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .status-line strong { color: var(--accent); }
+
+    /* PROGRESS BAR */
+    .progress-wrap {
+      margin-top: 12px;
+      background: var(--bg3);
+      border-radius: 6px;
+      height: 22px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--green-text));
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+    .progress-label {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    /* MAIN */
+    main { max-width: 1100px; margin: 0 auto; padding: 24px 40px 60px; }
+    @media(max-width: 768px) { main { padding: 16px; } header { padding: 16px; } }
+
+    section { margin-bottom: 36px; }
+    h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* BADGES */
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-width: 90px;
+      text-align: center;
+    }
+    .badge-done        { background: var(--green); color: #fff; }
+    .badge-progress    { background: var(--blue); color: #fff; animation: pulse 2s infinite; }
+    .badge-planned     { background: var(--gray); color: var(--gray-text); }
+    .badge-blocked     { background: var(--red); color: #fff; }
+    .badge-todo        { background: #4c1d95; color: #c4b5fd; }
+    .badge-bug-open    { background: var(--red); color: #fff; }
+    .badge-bug-fix     { background: var(--yellow); color: #000; }
+    .badge-bug-solved  { background: var(--green); color: #fff; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* TASK ITEMS */
+    .task-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .task-item.done { opacity: 0.7; }
+    .task-item .task-text { flex: 1; }
+    .task-item .task-text .task-title { font-weight: 600; font-size: 13px; }
+    .task-item .task-text .task-detail { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
+    .task-date { color: var(--text-muted); font-size: 11px; white-space: nowrap; }
+
+    /* ACTIVE SESSION */
+    .active-box {
+      background: var(--bg2);
+      border: 1px solid var(--accent);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 16px 20px;
+    }
+    .active-box h3 {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .checklist { list-style: none; }
+    .checklist li {
+      padding: 4px 0;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist li .check {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .checklist li.done .check {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+    .checklist li.done { color: var(--text-muted); text-decoration: line-through; }
+
+    /* BUG TRACKER */
+    .bug-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .bug-item.bug-open { border-left: 3px solid var(--red); }
+    .bug-item.bug-fix  { border-left: 3px solid var(--yellow-text); }
+    .bug-item.bug-solved { border-left: 3px solid var(--green-text); }
+    .bug-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .bug-title { font-weight: 600; font-size: 13px; }
+    .bug-body { font-size: 12px; color: var(--text-muted); }
+    .bug-body strong { color: var(--text); }
+
+    /* WORK LOG */
+    .log-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 16px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 12px;
+    }
+    .log-date { color: var(--accent2); font-weight: 700; white-space: nowrap; min-width: 90px; }
+    .log-session { color: var(--accent); font-weight: 600; white-space: nowrap; min-width: 80px; }
+    .log-desc { color: var(--text-muted); flex: 1; }
+    .log-status { font-weight: 700; white-space: nowrap; }
+    .log-status.ok { color: var(--green-text); }
+    .log-status.warn { color: var(--yellow-text); }
+    .log-status.err { color: var(--red-text); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 16px;
+      color: var(--text-muted);
+      font-size: 11px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 1. PROJEKT-ÜBERBLICK                           -->
+<!-- ═══════════════════════════════════════════════ -->
+<header>
+  <div class="top-row">
+    <img src="logo/V_logo.jpg" alt="Vendetta" style="width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0">
+    <h1>VENDETTA <span>v0.1.0-dev &middot; Living TODO Dashboard</span></h1>
+    <div class="date-badge" id="currentDate"></div>
+  </div>
+  <div class="status-line">
+    Dezentrales Preis-Transparenz-Netzwerk &mdash;
+    <strong>Phase 0+1 abgeschlossen, Phase 2 aktiv</strong>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-fill" style="width: 67%;"></div>
+    <div class="progress-label">14 / 21 Sessions abgeschlossen (67%)</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 1b. ARBEITSREGELN                              -->
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2>Arbeitsregeln &mdash; Claude Code &amp; Architekt</h2>
+  <details style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px;">
+    <summary style="cursor:pointer;font-weight:700;color:var(--accent);font-size:13px;">
+      Aufklappen: Projekt-Identität, Stack, Protokoll, Wiederherstellung
+    </summary>
+    <div style="margin-top:14px;font-size:12px;color:var(--text-muted);line-height:1.8;">
+
+      <strong style="color:var(--accent);">PROJEKT-IDENTITÄT</strong><br>
+      Projektname: Vendetta (zwei t)<br>
+      GitHub URL: github.com/NeaBouli/vendeta (ein t)<br>
+      Lokaler Ordner: /Users/gio/Desktop/vendeta (ein t)<br>
+      Cargo Package: vendeta-core (ein t, technischer Name)<br>
+      Sprache: Griechisch (Konzept), Deutsch (Dev-Kommunikation)<br>
+      Standort Dev: Griechenland, EU<br>
+      Rollout Phase 1: Europa<br><br>
+
+      <strong style="color:var(--accent);">TECHNISCHER STACK (FINAL)</strong><br>
+      Mobile: Flutter (Android + iOS)<br>
+      Core Library: Rust + flutter_rust_bridge (FFI)<br>
+      Blockchain: Base L2 (Coinbase) &mdash; Smart Contracts<br>
+      Token: IFR (ETH Mainnet, ifrunit.tech)<br>
+      Suche: The Graph Protocol (GraphQL, dezentral)<br>
+      Maps: MapLibre + OpenStreetMap<br>
+      OTP Relay: Railway (stateless)<br>
+      Wallet: Integriert, HD-Wallet (BIP32/BIP39/BIP44)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;Seed = Vendetta Identität + ETH Wallet<br>
+      Identität: Nullifier Pattern (DSGVO-sicher)<br><br>
+
+      <strong style="color:var(--accent);">SMART CONTRACTS (Base L2)</strong><br>
+      VendRegistry.sol &rarr; Submissions, Duplikat, First-Mover &#10003;<br>
+      VendTrust.sol &rarr; Trust Score, Voting, Locality Lock &#10003;<br>
+      VendRewards.sol &rarr; Credits, First-Mover Bonus, Silent Consensus &#10003;<br>
+      VendClaim.sol &rarr; Credits &rarr; IFR Bridge &#10003;<br><br>
+
+      <strong style="color:var(--red-text);">CLAUDE CODE PFLICHT-PROTOKOLL</strong><br>
+      Nach JEDEM Prompt &mdash; diese Reihenfolge IMMER einhalten:<br>
+      1. Implementieren wie instruiert<br>
+      2. cargo check (0 errors)<br>
+      3. cargo test (alle grün)<br>
+      4. forge build (compiled)<br>
+      5. forge test -vv (alle grün)<br>
+      6. Cross-Check &mdash; passt zu bestehendem Code?<br>
+      7. docs/todo.html updaten<br>
+      8. docs/index.html Session Log updaten<br>
+      9. git add &rarr; git commit &rarr; git push<br>
+      10. Abschluss-Bericht mit Zahlen<br><br>
+
+      <strong style="color:var(--red-text);">ABBRUCH-KRITERIUM</strong><br>
+      Falls cargo test ODER forge test fehlschlägt:<br>
+      &rarr; SOFORT stoppen<br>
+      &rarr; Bug in todo.html unter BUGS eintragen (OPEN)<br>
+      &rarr; Core Dev informieren<br>
+      &rarr; KEIN Commit eines fehlerhaften Standes &mdash; NIEMALS<br><br>
+
+      <strong style="color:var(--accent);">TODO.HTML REGELN</strong><br>
+      - Erledigtes: [x] abhaken, NIEMALS löschen<br>
+      - Bugs: OPEN(rot) &rarr; IN FIX(gelb) &rarr; SOLVED(grün)<br>
+      - Gelöste Bugs: erklären wie sie gelöst wurden<br>
+      - Neue Tasks: immer hinzufügen, nie entfernen<br>
+      - Session-Log: nach jedem Prompt einen Eintrag<br>
+      - Diese Datei ist das Gedächtnis des Projekts<br><br>
+
+      <strong style="color:var(--accent);">WIEDERHERSTELLUNG NACH AUSFALL</strong><br>
+      1. GitHub repo öffnen: github.com/NeaBouli/vendeta<br>
+      2. docs/architecture/decisions.md lesen<br>
+      3. docs/architecture/risk-register.md lesen<br>
+      4. docs/todo.html lesen (aktueller Stand)<br>
+      5. Letzten Commit-Hash aus Session Log<br>
+      6. Weiter ab dem nächsten offenen Task<br><br>
+
+      <strong style="color:var(--accent);">COMMIT-FORMAT</strong><br>
+      feat(scope): was gebaut wurde<br>
+      fix(scope): was repariert wurde<br>
+      docs: nur Dokumentation<br>
+      Scopes: core | registry | trust | rewards | claim | wallet | mobile | subgraph | docs
+    </div>
+  </details>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 2. AKTIVE SESSION                              -->
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2>Aktive Session</h2>
+  <div class="active-box">
+    <h3>Session 14 &mdash; Landing Page + Wiki + README finalisieren</h3>
+    <ul class="checklist">
+      <li class="done"><span class="check">&#10003;</span> Landing Page: Roadmap + Status aktuell (4 Sprachen)</li>
+      <li class="done"><span class="check">&#10003;</span> Wiki: Home, Smart-Contracts, The-Graph, Wallet</li>
+      <li class="done"><span class="check">&#10003;</span> README: komplett neu mit echten Adressen</li>
+      <li class="done"><span class="check">&#10003;</span> GitHub Pages Workflow (.github/workflows/pages.yml)</li>
+      <li class="done"><span class="check">&#10003;</span> docs/todo.html updaten</li>
+      <li class="done"><span class="check">&#10003;</span> Commit + Push</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 3. BACKLOG — ALLE TASKS                        -->
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2>Backlog &mdash; Alle Tasks</h2>
+
+  <!-- DONE -->
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 1: Repo Setup + docs/index.html</div>
+      <div class="task-detail">Git init, Ordnerstruktur, .gitignore, README, Masterplan, Living Dashboard</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 2: Architektur-Diskussion + Emulation</div>
+      <div class="task-detail">6 Architecture Docs, Serverless Design, Trust System, Geohash Strategie</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 3: Architektur finalisiert + Risk Register</div>
+      <div class="task-detail">decisions.md FINAL, 22 Risiken, 17 Entscheidungen, Rollout Europa-First</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 3: Rust Core (hash, ean, location, geohash, currency)</div>
+      <div class="task-detail">vendeta-core Crate &mdash; 26 Unit Tests alle grün</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 3: VendRegistry.sol (UUPS, Pausable, CEI)</div>
+      <div class="task-detail">12 Forge Tests, Silent Consensus, First-Mover, Rate Limit, ISO 4217</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 3: Griechisches Konzept-PDF erstellt</div>
+      <div class="task-detail">Business-Konzept Dokument auf Griechisch</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 4: docs/todo.html erstellt (diese Datei)</div>
+      <div class="task-detail">Living TODO Dashboard, Bug Tracker, Arbeitsprotokoll</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 5: VendTrust.sol &mdash; Trust Score, Locality Lock, Weighted Votes</div>
+      <div class="task-detail">14 Forge Tests, Consensus 80%/75%, Recovery +1/day, Rate Limit 3/30d</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 5: VendTrust.t.sol &mdash; 14 Forge Tests</div>
+      <div class="task-detail">default trust, weighted votes, self-vote, locality, consensus, rate-limit, recovery, pause</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 5: IVendRegistry.sol Interface + wallet.md + todo.html Regeln</div>
+      <div class="task-detail">Interface für Cross-Contract, Wallet-Architektur (BIP39/44), Arbeitsregeln</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 6: VendRewards.sol &mdash; Credits, First-Mover, Silent Consensus</div>
+      <div class="task-detail">14 Forge Tests, BASE=100, First-Mover 2x, Silent 0.7x, IFR Premium +20%, Dup-Decay</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 6: IVendTrust.sol Interface + VendRewards.t.sol (14 Tests)</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 8: VendClaim.sol + VendRewards Tier System</div>
+      <div class="task-detail">17 Claim Tests + 17 Rewards Tests, IVendRewards Interface, 5-Tier System (FREE→PLATINUM), ALL 4 CONTRACTS COMPLETE</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <div class="task-item done">
+    <span class="badge badge-done">DONE</span>
+    <div class="task-text">
+      <div class="task-title">Session 9: The Graph Subgraph (8 Entities, 11 Handlers, graph build OK)</div>
+      <div class="task-detail">schema.graphql, subgraph.yaml, 4 mappings + helpers, wiki/The-Graph.md</div>
+    </div>
+    <div class="task-date">2026-03-17</div>
+  </div>
+
+  <!-- PLANNED -->
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 6: VendRewards.sol &mdash; Credits, First-Mover, Silent Consensus</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 6: VendRewards.t.sol &mdash; Forge Tests</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 7: VendClaim.sol &mdash; Credits &rarr; IFR Bridge</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 7: Cross-Contract Integration Tests (alle 4 Contracts)</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 8: The Graph Subgraph (schema.graphql, mappings.ts)</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 8: Subgraph Deployment + Query Tests</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 9: Slither + Mythril Security Audit</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 9: Base Sepolia Testnet Deployment</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 9: Basescan Verification aller 4 Contracts</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 10: Flutter App Setup + flutter_rust_bridge</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 10: Rust FFI Bindings generieren</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 10: MapLibre + OpenStreetMap Integration</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 11: Kamera + EAN-Scanner (Flutter)</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 11: GPS + Submission Flow + Optimistic UI</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 12: The Graph Queries in Flutter</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 12: Karte + Radius-Slider + Pins</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 12: Credits Dashboard + Claim Flow</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 13: Mainnet Deployment</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 13: IFR Builder Registration (NeaBouli/inferno)</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 13: Seed-Submissions EU-Hauptstädte</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session 13: Soft Launch Griechenland</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <!-- WALLET TASKS -->
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session W1: core/src/wallet.rs &mdash; BIP39/BIP44 + user_hash from seed</div>
+      <div class="task-detail">Mnemonic generieren, HD-Key ableiten, ETH Address, Unit Tests</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session W2: core/Cargo.toml &mdash; bip39, bip32, k256 Dependencies</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session W3: Flutter Wallet UI &mdash; Tab Übersicht (Balance, QR)</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session W4: Flutter Wallet UI &mdash; Senden + Empfangen (web3dart, Alchemy)</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session W5: Flutter Wallet UI &mdash; Swap ETH ↔ IFR (Uniswap V2)</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-planned">PLANNED</span>
+    <div class="task-text">
+      <div class="task-title">Session W6: Biometrie-Gate (Fingerprint/FaceID) vor TX-Signierung</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <!-- TODO — Core Dev Decision -->
+  <div class="task-item">
+    <span class="badge badge-todo">TODO</span>
+    <div class="task-text">
+      <div class="task-title">Store-Name Phase 1: manuell ODER GPS-auto?</div>
+      <div class="task-detail">Core Dev Entscheidung nötig</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-todo">TODO</span>
+    <div class="task-text">
+      <div class="task-title">Wallet: Pflicht ODER optional?</div>
+      <div class="task-detail">Optional = Suchen möglich, keine Rewards</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-todo">TODO</span>
+    <div class="task-text">
+      <div class="task-title">OTP-Provider: Twilio / WhatsApp / Telegram?</div>
+      <div class="task-detail">Core Dev Entscheidung nötig</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-todo">TODO</span>
+    <div class="task-text">
+      <div class="task-title">Rechtsgutachten EU beauftragen (wann?)</div>
+      <div class="task-detail">DSGVO + MiCA, vor Launch erforderlich</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+  <div class="task-item">
+    <span class="badge badge-todo">TODO</span>
+    <div class="task-text">
+      <div class="task-title">IFR Builder Registration anstoßen (jetzt?)</div>
+      <div class="task-detail">GitHub Issue auf NeaBouli/inferno builder-registry.yml</div>
+    </div>
+    <div class="task-date">&mdash;</div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 4. BUG TRACKER                                 -->
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2>Bug Tracker</h2>
+
+  <div class="bug-item bug-solved">
+    <div class="bug-header">
+      <span class="badge badge-bug-solved">SOLVED</span>
+      <span class="bug-title">Float-Truncation in Rust GPS-Koordinaten</span>
+    </div>
+    <div class="bug-body">
+      <strong>Problem:</strong> <code>(lat * 1e6) as i32</code> schneidet ab statt zu runden<br>
+      <strong>Lösung:</strong> <code>(lat * 1e6).round() as i32</code> &mdash; Unit-Test vorhanden in location.rs<br>
+      <strong>Datum gelöst:</strong> 2026-03-17
+    </div>
+  </div>
+
+  <div class="bug-item bug-solved">
+    <div class="bug-header">
+      <span class="badge badge-bug-solved">SOLVED</span>
+      <span class="bug-title">Geohash Grenzeffekt zwischen Zellen</span>
+    </div>
+    <div class="bug-body">
+      <strong>Problem:</strong> Produkte 30m auseinander in verschiedenen Zellen nicht gefunden<br>
+      <strong>Lösung:</strong> 9-Nachbar Multi-Cell Query via <code>geohash_neighbors()</code><br>
+      <strong>Datum gelöst:</strong> 2026-03-17 (Architektur-Ebene)
+    </div>
+  </div>
+
+  <div class="bug-item bug-open">
+    <div class="bug-header">
+      <span class="badge badge-bug-open">OPEN</span>
+      <span class="bug-title">The Graph Indexing Delay ~10s</span>
+    </div>
+    <div class="bug-body">
+      <strong>Problem:</strong> User sieht eigene Submission nicht sofort nach TX<br>
+      <strong>Fix-Plan:</strong> Optimistic UI &mdash; App zeigt Submission lokal bevor The Graph indiziert<br>
+      <strong>Status:</strong> Lösung bekannt, noch nicht implementiert
+    </div>
+  </div>
+
+  <div class="bug-item bug-open">
+    <div class="bug-header">
+      <span class="badge badge-bug-open">OPEN</span>
+      <span class="bug-title">flutter_rust_bridge Bindings fehlen</span>
+    </div>
+    <div class="bug-body">
+      <strong>Problem:</strong> Rust Core fertig aber Flutter kann es noch nicht nutzen<br>
+      <strong>Fix-Plan:</strong> Session 10 &mdash; bridge/ Setup + Codegen<br>
+      <strong>Status:</strong> Geplant
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 5. ARBEITSPROTOKOLL                            -->
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2>Arbeitsprotokoll</h2>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">Session 14</span>
+    <span class="log-desc">Landing Page (4 Sprachen) + Wiki (4 Seiten) + README neu + GitHub Pages Workflow</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">Subgraph</span>
+    <span class="log-desc">Subgraph LIVE on The Graph Studio + IFR Builder Issue #12</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">Builder</span>
+    <span class="log-desc">IFR Builder Registration Issue #12 auf NeaBouli/inferno erstellt</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">Multi</span>
+    <span class="log-desc">Alchemy + TierService + IFR Builder Registration prep &mdash; build OK</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">GPS Fix</span>
+    <span class="log-desc">Echte GPS via geolocator, accuracy badge, fallback map center &mdash; build OK</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">Session W2</span>
+    <span class="log-desc">Wallet UI: WalletService + balance + receive/send/swap/lock/backup/restore &mdash; build OK</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">Deploy</span>
+    <span class="log-desc">Base Sepolia LIVE: 4 contracts deployed + verified + smoke 4/4 + subgraph updated</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">Session W1</span>
+    <span class="log-desc">wallet.rs BIP39/BIP44 + keccak256 ETH addr + user_hash &mdash; cargo 36/36</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-18</span>
+    <span class="log-session">Session 13</span>
+    <span class="log-desc">Slither 0 High/Med + Deploy.s.sol + security-audit.md &mdash; Deployment BLOCKED (0 ETH)</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 12</span>
+    <span class="log-desc">flutter_map + GraphQL + SubmitService + Rewards with UserStats &mdash; build OK</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 11</span>
+    <span class="log-desc">Rust FFI Bridge + EAN Scanner + PriceEntry + Map placeholder &mdash; build OK</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 10</span>
+    <span class="log-desc">Flutter App: init, theme, routing, onboarding, 4 screens &mdash; flutter build apk OK</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 9</span>
+    <span class="log-desc">The Graph Subgraph: 8 entities, 11 handlers, graph build OK &mdash; cargo 26/26, forge 60/60</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 8</span>
+    <span class="log-desc">VendClaim.sol 17/17 + Tier System + IVendRewards &mdash; forge 60/60 &mdash; ALL 4 CONTRACTS DONE</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 7B</span>
+    <span class="log-desc">UX Design (no-crypto-jargon) + Economy Model (Tier System, Ads, Gas-Lösung)</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 7A</span>
+    <span class="log-desc">Landing Page EN/GR/DE/IT &mdash; 447 lines, 4 languages, auto-detect, no CDN</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 6</span>
+    <span class="log-desc">VendRewards.sol 14/14 + IVendTrust interface &mdash; forge 40/40 total</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 5</span>
+    <span class="log-desc">VendTrust.sol 14/14 + wallet.md + todo rules + IVendRegistry interface &mdash; forge 26/26</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 4</span>
+    <span class="log-desc">docs/todo.html + Namenskorrektur Vendeta &rarr; Vendetta</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 3</span>
+    <span class="log-desc">Rust Core 26/26 + VendRegistry 12/12 &mdash; commit 5357109</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 2</span>
+    <span class="log-desc">Architektur Draft + Risk Register &mdash; commit caa9f99</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+  <div class="log-item">
+    <span class="log-date">2026-03-17</span>
+    <span class="log-session">Session 1</span>
+    <span class="log-desc">Repo Setup &mdash; 11 Dateien &mdash; commit 5f8a5ec</span>
+    <span class="log-status ok">&#10003;</span>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  VENDETTA &mdash; Living TODO Dashboard &middot; Lokal &middot; Nicht auf GitHub gepusht
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent =
+    'Stand: ' + new Date().toLocaleDateString('de-DE',
+    { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+</script>
+
+</body>
+</html>

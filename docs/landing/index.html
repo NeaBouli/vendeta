@@ -82,6 +82,7 @@ section{padding:80px 24px}
 .tl-dot.done{background:var(--green)}
 .tl-dot.active{background:var(--accent);box-shadow:0 0 10px var(--accent)}
 .tl-dot.planned{background:var(--border)}
+.tl-dot.future{background:var(--border)}
 .tl-content{padding-left:14px}
 .tl-content h4{font-size:14px;font-weight:600}
 .tl-content p{font-size:12px;color:var(--muted)}
@@ -126,7 +127,7 @@ footer a{color:var(--blue)}
 <!-- HERO -->
 <section id="hero">
   <div class="hero-grid"></div>
-  <div class="hero-badge"><span data-i18n="hero_badge">Open Source &middot; Decentralized</span></div>
+  <div class="hero-badge"><span data-i18n="hero_badge">Open Source &middot; Base Sepolia Live &middot; IFR Builder</span></div>
   <h1><em>Vendetta</em><br><span data-i18n="hero_title">Community Price Network</span></h1>
   <p class="hero-sub" data-i18n="hero_sub">Scan prices around you. Anchor them on blockchain. Earn IFR token rewards. Transparent. Decentralized. For everyone.</p>
   <div class="hero-cta">
@@ -214,10 +215,11 @@ footer a{color:var(--blue)}
   <div class="container">
     <div class="stats-grid">
       <div><div class="stat-num">4</div><div class="stat-label" data-i18n="stat1">Smart Contracts</div></div>
-      <div><div class="stat-num">40+</div><div class="stat-label" data-i18n="stat2">Tests Passing</div></div>
-      <div><div class="stat-num">26</div><div class="stat-label" data-i18n="stat3">Rust Unit Tests</div></div>
+      <div><div class="stat-num">96</div><div class="stat-label" data-i18n="stat2">Tests Passing</div></div>
+      <div><div class="stat-num">36</div><div class="stat-label" data-i18n="stat3">Rust Unit Tests</div></div>
       <div><div class="stat-num">0</div><div class="stat-label" data-i18n="stat4">Personal Data Stored</div></div>
     </div>
+    <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px" data-i18n="stats_note">Live on Base Sepolia Testnet &middot; Mainnet coming soon</p>
   </div>
 </section>
 
@@ -228,10 +230,11 @@ footer a{color:var(--blue)}
     <p class="section-sub" data-i18n="road_sub">From architecture to mainnet.</p>
     <div class="timeline">
       <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><h4 data-i18n="r1_title">Phase 0 — Architecture</h4><p data-i18n="r1_text">Design, decisions, documentation. Complete.</p></div></div>
-      <div class="tl-item"><div class="tl-dot active"></div><div class="tl-content"><h4 data-i18n="r2_title">Phase 1 — Smart Contracts</h4><p data-i18n="r2_text">VendRegistry, VendTrust, VendRewards, VendClaim on Base L2.</p></div></div>
-      <div class="tl-item"><div class="tl-dot planned"></div><div class="tl-content"><h4 data-i18n="r3_title">Phase 2 — Mobile App</h4><p data-i18n="r3_text">Flutter + Rust FFI. Scanner, map, wallet, rewards dashboard.</p></div></div>
-      <div class="tl-item"><div class="tl-dot planned"></div><div class="tl-content"><h4 data-i18n="r4_title">Phase 3 — Testnet & Audit</h4><p data-i18n="r4_text">Base Sepolia deployment. Slither + Mythril security audit.</p></div></div>
-      <div class="tl-item"><div class="tl-dot planned"></div><div class="tl-content"><h4 data-i18n="r5_title">Phase 4 — Mainnet Launch</h4><p data-i18n="r5_text">Europe first. Seed submissions. App Store + Google Play.</p></div></div>
+      <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><h4 data-i18n="r2_title">Phase 1 — Smart Contracts</h4><p data-i18n="r2_text">VendRegistry, VendTrust, VendRewards, VendClaim on Base L2.</p></div></div>
+      <div class="tl-item"><div class="tl-dot active"></div><div class="tl-content"><h4 data-i18n="r3_title">Phase 2 — Mobile App</h4><p data-i18n="r3_text">Flutter + Rust FFI. Scanner, map, wallet, rewards dashboard.</p></div></div>
+      <div class="tl-item"><div class="tl-dot future"></div><div class="tl-content"><h4 data-i18n="r4_title">Phase 3 — Testnet & Audit</h4><p data-i18n="r4_text">Base Sepolia deployment. Slither + Mythril security audit.</p></div></div>
+      <div class="tl-item"><div class="tl-dot future"></div><div class="tl-content"><h4 data-i18n="r5_title">Phase 4 — Mainnet Launch</h4><p data-i18n="r5_text">Europe first. Seed submissions. App Store + Google Play.</p></div></div>
+      <div class="tl-item"><div class="tl-dot future"></div><div class="tl-content"><h4 data-i18n="r6_title">Phase 5 — DAO Governance</h4><p data-i18n="r6_text">Community governance. Global expansion. DAO treasury.</p></div></div>
     </div>
   </div>
 </section>
@@ -267,7 +270,8 @@ footer a{color:var(--blue)}
     <strong style="color:var(--accent)">VENDETTA</strong> &mdash;
     <span data-i18n="footer_tagline">Community Price Network</span> |
     <a href="https://github.com/NeaBouli/vendeta" target="_blank">GitHub</a> |
-    <a href="https://ifrunit.tech" target="_blank">IFR Token</a>
+    <a href="https://ifrunit.tech" target="_blank">IFR Token</a> |
+    <a href="https://sepolia.basescan.org/address/0x77e99917Eca8539c62F509ED1193ac36580A6e7B" target="_blank">Basescan</a>
   </p>
   <p style="margin-top:6px" data-i18n="footer_built">Built in Greece. For Europe. Open Source.</p>
 </footer>
@@ -275,7 +279,7 @@ footer a{color:var(--blue)}
 <script>
 const T = {
   en: {
-    hero_badge: "Open Source \u00B7 Decentralized",
+    hero_badge: "Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder",
     hero_title: "Community Price Network",
     hero_sub: "Scan prices around you. Anchor them on blockchain. Earn IFR token rewards. Transparent. Decentralized. For everyone.",
     hero_cta1: "View on GitHub",
@@ -294,12 +298,14 @@ const T = {
     f5_title:"IFR Rewards", f5_text:"No new token. Rewards paid in IFR from the PartnerVault. Lock IFR for +20% premium bonus.",
     f6_title:"Open Source", f6_text:"MIT licensed. Rust core, Solidity contracts, Flutter app. Fully auditable. Contribute on GitHub.",
     stat1:"Smart Contracts", stat2:"Tests Passing", stat3:"Rust Unit Tests", stat4:"Personal Data Stored",
+    stats_note:"Live on Base Sepolia Testnet \u00B7 Mainnet coming soon",
     road_title:"Roadmap", road_sub:"From architecture to mainnet.",
     r1_title:"Phase 0 \u2014 Architecture", r1_text:"Design, decisions, documentation. Complete.",
-    r2_title:"Phase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim on Base L2.",
+    r2_title:"Phase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim on Base L2. Complete.",
     r3_title:"Phase 2 \u2014 Mobile App", r3_text:"Flutter + Rust FFI. Scanner, map, wallet, rewards dashboard.",
     r4_title:"Phase 3 \u2014 Testnet & Audit", r4_text:"Base Sepolia deployment. Slither + Mythril security audit.",
     r5_title:"Phase 4 \u2014 Mainnet Launch", r5_text:"Europe first. Seed submissions. App Store + Google Play.",
+    r6_title:"Phase 5 \u2014 DAO Governance", r6_text:"Community governance. Global expansion. DAO treasury.",
     tok_title:"IFR Token Integration", tok_sub:"No new token. Vendetta uses IFR as the reward currency.",
     tok_h1:"How Rewards Work",
     tok_p1:"Every verified price submission earns IFR credits. First movers earn 2x. IFR lockers earn +20%.",
@@ -309,7 +315,7 @@ const T = {
     footer_tagline:"Community Price Network", footer_built:"Built in Greece. For Europe. Open Source."
   },
   gr: {
-    hero_badge: "\u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2 \u00B7 \u0391\u03C0\u03BF\u03BA\u03B5\u03BD\u03C4\u03C1\u03C9\u03BC\u03AD\u03BD\u03BF",
+    hero_badge: "\u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2 \u00B7 Base Sepolia Live \u00B7 IFR Builder",
     hero_title: "\u0394\u03AF\u03BA\u03C4\u03C5\u03BF \u03A4\u03B9\u03BC\u03CE\u03BD \u039A\u03BF\u03B9\u03BD\u03CC\u03C4\u03B7\u03C4\u03B1\u03C2",
     hero_sub: "\u03A3\u03BA\u03AC\u03BD\u03B1\u03C1\u03B5 \u03C4\u03B9\u03BC\u03AD\u03C2 \u03B3\u03CD\u03C1\u03C9 \u03C3\u03BF\u03C5. \u039A\u03B1\u03C4\u03B1\u03C7\u03CE\u03C1\u03B7\u03C3\u03AD \u03C4\u03B5\u03C2 \u03C3\u03C4\u03BF blockchain. \u039A\u03AD\u03C1\u03B4\u03B9\u03C3\u03B5 IFR tokens. \u0394\u03B9\u03B1\u03C6\u03B1\u03BD\u03AD\u03C2. \u0391\u03C0\u03BF\u03BA\u03B5\u03BD\u03C4\u03C1\u03C9\u03BC\u03AD\u03BD\u03BF. \u0393\u03B9\u03B1 \u03CC\u03BB\u03BF\u03C5\u03C2.",
     hero_cta1: "\u0394\u03B5\u03C2 \u03C3\u03C4\u03BF GitHub",
@@ -328,12 +334,14 @@ const T = {
     f5_title:"\u0391\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AD\u03C2 IFR", f5_text:"\u039A\u03B1\u03BD\u03AD\u03BD\u03B1 \u03BD\u03AD\u03BF token. \u0391\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AD\u03C2 \u03C3\u03B5 IFR \u03B1\u03C0\u03CC \u03C4\u03BF PartnerVault. \u039A\u03BB\u03B5\u03AF\u03B4\u03C9\u03C3\u03B5 IFR \u03B3\u03B9\u03B1 +20% \u03BC\u03C0\u03CC\u03BD\u03BF\u03C5\u03C2.",
     f6_title:"\u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2", f6_text:"\u0386\u03B4\u03B5\u03B9\u03B1 MIT. Rust core, Solidity contracts, Flutter app. \u03A0\u03BB\u03AE\u03C1\u03C9\u03C2 \u03B5\u03BB\u03AD\u03B3\u03BE\u03B9\u03BC\u03BF. \u03A3\u03C5\u03BD\u03B5\u03B9\u03C3\u03C6\u03AD\u03C1\u03B5\u03C4\u03B5 \u03C3\u03C4\u03BF GitHub.",
     stat1:"Smart Contracts", stat2:"\u0395\u03C0\u03B9\u03C4\u03C5\u03C7\u03AE Tests", stat3:"Rust Unit Tests", stat4:"\u03A0\u03C1\u03BF\u03C3\u03C9\u03C0\u03B9\u03BA\u03AC \u0394\u03B5\u03B4\u03BF\u03BC\u03AD\u03BD\u03B1",
+    stats_note:"Live \u03C3\u03C4\u03BF Base Sepolia Testnet \u00B7 Mainnet \u03C3\u03CD\u03BD\u03C4\u03BF\u03BC\u03B1",
     road_title:"\u03A7\u03AC\u03C1\u03C4\u03B7\u03C2 \u03A0\u03BF\u03C1\u03B5\u03AF\u03B1\u03C2", road_sub:"\u0391\u03C0\u03CC \u03C4\u03B7\u03BD \u03B1\u03C1\u03C7\u03B9\u03C4\u03B5\u03BA\u03C4\u03BF\u03BD\u03B9\u03BA\u03AE \u03C3\u03C4\u03BF mainnet.",
     r1_title:"\u03A6\u03AC\u03C3\u03B7 0 \u2014 \u0391\u03C1\u03C7\u03B9\u03C4\u03B5\u03BA\u03C4\u03BF\u03BD\u03B9\u03BA\u03AE", r1_text:"\u03A3\u03C7\u03B5\u03B4\u03B9\u03B1\u03C3\u03BC\u03CC\u03C2, \u03B1\u03C0\u03BF\u03C6\u03AC\u03C3\u03B5\u03B9\u03C2, \u03C4\u03B5\u03BA\u03BC\u03B7\u03C1\u03AF\u03C9\u03C3\u03B7. \u039F\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03B8\u03B7\u03BA\u03B5.",
-    r2_title:"\u03A6\u03AC\u03C3\u03B7 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim \u03C3\u03C4\u03BF Base L2.",
+    r2_title:"\u03A6\u03AC\u03C3\u03B7 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim \u03C3\u03C4\u03BF Base L2. \u039F\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03B8\u03B7\u03BA\u03B5.",
     r3_title:"\u03A6\u03AC\u03C3\u03B7 2 \u2014 \u0395\u03C6\u03B1\u03C1\u03BC\u03BF\u03B3\u03AE", r3_text:"Flutter + Rust FFI. Scanner, \u03C7\u03AC\u03C1\u03C4\u03B7\u03C2, \u03C0\u03BF\u03C1\u03C4\u03BF\u03C6\u03CC\u03BB\u03B9, dashboard.",
     r4_title:"\u03A6\u03AC\u03C3\u03B7 3 \u2014 Testnet & \u0388\u03BB\u03B5\u03B3\u03C7\u03BF\u03C2", r4_text:"Base Sepolia deployment. Slither + Mythril \u03AD\u03BB\u03B5\u03B3\u03C7\u03BF\u03C2 \u03B1\u03C3\u03C6\u03B1\u03BB\u03B5\u03AF\u03B1\u03C2.",
     r5_title:"\u03A6\u03AC\u03C3\u03B7 4 \u2014 Mainnet Launch", r5_text:"\u0395\u03C5\u03C1\u03CE\u03C0\u03B7 \u03C0\u03C1\u03CE\u03C4\u03B1. Seed submissions. App Store + Google Play.",
+    r6_title:"\u03A6\u03AC\u03C3\u03B7 5 \u2014 DAO Governance", r6_text:"\u0394\u03B9\u03B1\u03BA\u03C5\u03B2\u03AD\u03C1\u03BD\u03B7\u03C3\u03B7 \u03BA\u03BF\u03B9\u03BD\u03CC\u03C4\u03B7\u03C4\u03B1\u03C2. \u03A0\u03B1\u03B3\u03BA\u03CC\u03C3\u03BC\u03B9\u03B1 \u03B5\u03C0\u03AD\u03BA\u03C4\u03B1\u03C3\u03B7. DAO treasury.",
     tok_title:"\u0395\u03BD\u03C3\u03C9\u03BC\u03AC\u03C4\u03C9\u03C3\u03B7 IFR Token", tok_sub:"\u039A\u03B1\u03BD\u03AD\u03BD\u03B1 \u03BD\u03AD\u03BF token. \u03A4\u03BF Vendetta \u03C7\u03C1\u03B7\u03C3\u03B9\u03BC\u03BF\u03C0\u03BF\u03B9\u03B5\u03AF IFR \u03C9\u03C2 \u03BD\u03CC\u03BC\u03B9\u03C3\u03BC\u03B1 \u03B1\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AE\u03C2.",
     tok_h1:"\u03A0\u03CE\u03C2 \u039B\u03B5\u03B9\u03C4\u03BF\u03C5\u03C1\u03B3\u03BF\u03CD\u03BD \u03BF\u03B9 \u0391\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AD\u03C2",
     tok_p1:"\u039A\u03AC\u03B8\u03B5 \u03B5\u03C0\u03B1\u03BB\u03B7\u03B8\u03B5\u03C5\u03BC\u03AD\u03BD\u03B7 \u03BA\u03B1\u03C4\u03B1\u03C7\u03CE\u03C1\u03B7\u03C3\u03B7 \u03BA\u03B5\u03C1\u03B4\u03AF\u03B6\u03B5\u03B9 IFR credits. \u039F\u03B9 \u03C0\u03C1\u03CE\u03C4\u03BF\u03B9 \u03BA\u03B5\u03C1\u03B4\u03AF\u03B6\u03BF\u03C5\u03BD 2x. IFR lockers \u03BA\u03B5\u03C1\u03B4\u03AF\u03B6\u03BF\u03C5\u03BD +20%.",
@@ -343,7 +351,7 @@ const T = {
     footer_tagline:"\u0394\u03AF\u03BA\u03C4\u03C5\u03BF \u03A4\u03B9\u03BC\u03CE\u03BD \u039A\u03BF\u03B9\u03BD\u03CC\u03C4\u03B7\u03C4\u03B1\u03C2", footer_built:"\u03A6\u03C4\u03B9\u03B1\u03B3\u03BC\u03AD\u03BD\u03BF \u03C3\u03C4\u03B7\u03BD \u0395\u03BB\u03BB\u03AC\u03B4\u03B1. \u0393\u03B9\u03B1 \u03C4\u03B7\u03BD \u0395\u03C5\u03C1\u03CE\u03C0\u03B7. \u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2."
   },
   de: {
-    hero_badge: "Open Source \u00B7 Dezentral",
+    hero_badge: "Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder",
     hero_title: "Community Preis-Netzwerk",
     hero_sub: "Scanne Preise in deiner Umgebung. Verankere sie auf der Blockchain. Verdiene IFR-Token-Rewards. Transparent. Dezentral. F\u00FCr alle.",
     hero_cta1: "Auf GitHub ansehen",
@@ -362,12 +370,14 @@ const T = {
     f5_title:"IFR-Rewards", f5_text:"Kein neuer Token. Rewards in IFR aus dem PartnerVault. IFR locken f\u00FCr +20% Premium-Bonus.",
     f6_title:"Open Source", f6_text:"MIT-Lizenz. Rust Core, Solidity Contracts, Flutter App. Vollst\u00E4ndig pr\u00FCfbar. Auf GitHub beitragen.",
     stat1:"Smart Contracts", stat2:"Tests bestanden", stat3:"Rust Unit Tests", stat4:"Pers\u00F6nliche Daten",
+    stats_note:"Live auf Base Sepolia Testnet \u00B7 Mainnet demn\u00E4chst",
     road_title:"Roadmap", road_sub:"Von der Architektur zum Mainnet.",
     r1_title:"Phase 0 \u2014 Architektur", r1_text:"Design, Entscheidungen, Dokumentation. Abgeschlossen.",
-    r2_title:"Phase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim auf Base L2.",
+    r2_title:"Phase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim auf Base L2. Abgeschlossen.",
     r3_title:"Phase 2 \u2014 Mobile App", r3_text:"Flutter + Rust FFI. Scanner, Karte, Wallet, Rewards-Dashboard.",
     r4_title:"Phase 3 \u2014 Testnet & Audit", r4_text:"Base Sepolia Deployment. Slither + Mythril Sicherheitsaudit.",
     r5_title:"Phase 4 \u2014 Mainnet Launch", r5_text:"Europa zuerst. Seed-Submissions. App Store + Google Play.",
+    r6_title:"Phase 5 \u2014 DAO Governance", r6_text:"Community-Governance. Globale Expansion. DAO Treasury.",
     tok_title:"IFR Token Integration", tok_sub:"Kein neuer Token. Vendetta nutzt IFR als Reward-W\u00E4hrung.",
     tok_h1:"So funktionieren Rewards",
     tok_p1:"Jede verifizierte Preismeldung verdient IFR-Credits. Erste Melder erhalten 2x. IFR-Locker erhalten +20%.",
@@ -377,7 +387,7 @@ const T = {
     footer_tagline:"Community Preis-Netzwerk", footer_built:"Gebaut in Griechenland. F\u00FCr Europa. Open Source."
   },
   it: {
-    hero_badge: "Open Source \u00B7 Decentralizzato",
+    hero_badge: "Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder",
     hero_title: "Rete Prezzi della Comunit\u00E0",
     hero_sub: "Scansiona i prezzi intorno a te. Ancorarli sulla blockchain. Guadagna ricompense in token IFR. Trasparente. Decentralizzato. Per tutti.",
     hero_cta1: "Vedi su GitHub",
@@ -396,12 +406,14 @@ const T = {
     f5_title:"Ricompense IFR", f5_text:"Nessun nuovo token. Ricompense in IFR dal PartnerVault. Blocca IFR per un bonus premium del +20%.",
     f6_title:"Open Source", f6_text:"Licenza MIT. Core Rust, contratti Solidity, app Flutter. Completamente verificabile. Contribuisci su GitHub.",
     stat1:"Smart Contracts", stat2:"Test Superati", stat3:"Rust Unit Tests", stat4:"Dati Personali Salvati",
+    stats_note:"Live su Base Sepolia Testnet \u00B7 Mainnet prossimamente",
     road_title:"Roadmap", road_sub:"Dall'architettura al mainnet.",
     r1_title:"Fase 0 \u2014 Architettura", r1_text:"Design, decisioni, documentazione. Completata.",
-    r2_title:"Fase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim su Base L2.",
+    r2_title:"Fase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim su Base L2. Completata.",
     r3_title:"Fase 2 \u2014 App Mobile", r3_text:"Flutter + Rust FFI. Scanner, mappa, portafoglio, dashboard ricompense.",
     r4_title:"Fase 3 \u2014 Testnet & Audit", r4_text:"Deployment Base Sepolia. Audit di sicurezza Slither + Mythril.",
     r5_title:"Fase 4 \u2014 Lancio Mainnet", r5_text:"Europa prima. Seed submissions. App Store + Google Play.",
+    r6_title:"Fase 5 \u2014 DAO Governance", r6_text:"Governance comunitaria. Espansione globale. DAO treasury.",
     tok_title:"Integrazione Token IFR", tok_sub:"Nessun nuovo token. Vendetta usa IFR come valuta di ricompensa.",
     tok_h1:"Come Funzionano le Ricompense",
     tok_p1:"Ogni segnalazione verificata guadagna crediti IFR. I primi segnalatori guadagnano 2x. Chi blocca IFR guadagna +20%.",

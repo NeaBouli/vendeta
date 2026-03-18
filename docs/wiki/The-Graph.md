@@ -1,5 +1,11 @@
 # The Graph — Subgraph Documentation
 
+## Live Endpoint (Base Sepolia)
+
+`https://api.studio.thegraph.com/query/1744627/vendetta-price-network/v0.1.0`
+
+Status: ✅ Deployed — indexing Base Sepolia
+
 ## Overview
 
 The Vendetta subgraph indexes all 4 smart contracts on Base L2
