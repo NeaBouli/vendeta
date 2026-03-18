@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Vendetta Contributors
+// SPDX-License-Identifier: MIT
+
 pub mod hash;
 pub mod ean;
 pub mod location;
