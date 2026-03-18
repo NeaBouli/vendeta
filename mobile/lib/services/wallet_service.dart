@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../bridge/vendetta_bridge.dart';
+import 'alchemy_service.dart';
 
 enum WalletMode { notCreated, selfCustody, standard }
 
@@ -72,8 +73,13 @@ class WalletService {
 
   Future<WalletBalance> getBalance() async {
     if (_address == null) return WalletBalance.empty;
-    // TODO Phase 3: Alchemy API for real balances
-    return WalletBalance(ifr: 0.0, eth: 0.0, address: _address!);
+    try {
+      final balances = await AlchemyService.instance.getAllBalances(_address!);
+      return WalletBalance(ifr: balances.ifr, eth: balances.eth, address: _address!);
+    } catch (e) {
+      debugPrint('Balance error: $e');
+      return WalletBalance(ifr: 0, eth: 0, address: _address!);
+    }
   }
 
   Future<String?> getMnemonicForBackup() async => _storage.read(key: 'mnemonic_enc');
