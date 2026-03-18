@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vendetta — Wiki & Benutzerhandbuch</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=DM+Mono:wght@400;500&display=swap');
+
+:root{
+  --bg:#080b0f;--bg2:#0d1117;--bg3:#161b22;
+  --glass:rgba(255,255,255,.04);
+  --border:rgba(255,255,255,.08);
+  --text:#e8edf2;--muted:#64748b;
+  --accent:#f97316;--blue:#3b82f6;
+  --green:#22c55e;--red:#ef4444;
+  --amber:#eab308;
+  --sidebar:280px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.7;}
+
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
+.sidebar-header{padding:24px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;text-decoration:none;}
+.sidebar-logo{width:36px;height:36px;border-radius:8px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;}
+.sidebar-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--accent);}
+.sidebar-sub{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+.sidebar-nav{flex:1;padding:20px 0;}
+.nav-section{margin-bottom:8px;}
+.nav-section-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:8px 20px 4px;}
+.nav-link{display:flex;align-items:center;gap:10px;padding:8px 20px;color:var(--muted);text-decoration:none;font-size:13px;transition:all .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:var(--text);background:var(--glass);}
+.nav-link.active{color:var(--accent);border-left-color:var(--accent);background:rgba(249,115,22,.05);}
+.nav-link .icon{font-size:14px;width:18px;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);}
+.sidebar-footer a{color:var(--muted);font-size:11px;text-decoration:none;font-family:'DM Mono',monospace;display:block;margin-bottom:6px;transition:color .15s;}
+.sidebar-footer a:hover{color:var(--accent);}
+
+.main{margin-left:var(--sidebar);min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(8,11,15,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-title{font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;}
+.lang-pills{display:flex;gap:6px;}
+.lp{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .15s;}
+.lp:hover{color:var(--text);}
+.lp.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+.content{max-width:860px;padding:48px 48px 120px;}
+.wiki-section{margin-bottom:80px;scroll-margin-top:80px;}
+.section-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--accent);}
+h2.wiki-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,56px);letter-spacing:2px;line-height:1;color:var(--text);margin-bottom:20px;}
+h3.wiki-h3{font-size:18px;font-weight:600;color:var(--text);margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+h4.wiki-h4{font-size:14px;font-weight:600;color:var(--text);margin:20px 0 8px;font-family:'DM Mono',monospace;letter-spacing:.5px;}
+p.wiki-p{color:var(--muted);margin-bottom:16px;font-weight:300;line-height:1.8;font-size:15px;}
+p.wiki-p strong{color:var(--text);font-weight:500;}
+
+.callout{border-radius:4px;padding:16px 20px;margin:20px 0;font-size:14px;line-height:1.7;}
+.callout-icon{font-size:18px;margin-bottom:8px;display:block;}
+.callout.tip{background:rgba(34,197,94,.06);border-left:3px solid var(--green);color:#86efac;}
+.callout.info{background:rgba(59,130,246,.06);border-left:3px solid var(--blue);color:#93c5fd;}
+.callout.warn{background:rgba(234,179,8,.06);border-left:3px solid var(--amber);color:#fde047;}
+.callout.important{background:rgba(249,115,22,.06);border-left:3px solid var(--accent);color:#fed7aa;}
+.callout strong{color:inherit;font-weight:600;}
+
+.wiki-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px;}
+.wiki-table th{background:var(--bg3);color:var(--text);font-weight:600;padding:10px 14px;text-align:left;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.5px;border-bottom:1px solid var(--border);}
+.wiki-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-weight:300;}
+.wiki-table tr:last-child td{border-bottom:none;}
+.wiki-table tr:hover td{background:var(--glass);}
+
+.steps-list{counter-reset:steps;list-style:none;margin:20px 0;}
+.steps-list li{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);counter-increment:steps;}
+.steps-list li:last-child{border-bottom:none;}
+.steps-list li::before{content:counter(steps,'0'0);font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--accent);opacity:.4;line-height:1;flex-shrink:0;width:36px;}
+.step-body strong{display:block;color:var(--text);font-weight:600;margin-bottom:4px;}
+.step-body span{color:var(--muted);font-size:13px;font-weight:300;line-height:1.6;}
+
+.tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:20px 0;}
+.tier-card{padding:20px 16px;border-radius:4px;border:1px solid;text-align:center;}
+.tier-name{font-weight:700;font-size:14px;margin-bottom:4px;}
+.tier-lock{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:12px;}
+.tier-mult{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1;}
+.tier-desc{font-size:11px;color:var(--muted);margin-top:4px;}
+
+code{font-family:'DM Mono',monospace;font-size:12px;background:var(--bg3);padding:2px 6px;border-radius:3px;color:var(--accent);}
+
+.faq-item{border-bottom:1px solid var(--border);padding:20px 0;}
+.faq-q{font-weight:600;color:var(--text);font-size:15px;margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;}
+.faq-q::before{content:'Q';font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--accent);flex-shrink:0;line-height:1.2;}
+.faq-a{color:var(--muted);font-weight:300;font-size:14px;line-height:1.8;padding-left:28px;}
+
+.hamburger{display:none;position:fixed;top:12px;right:16px;z-index:200;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 12px;cursor:pointer;color:var(--text);font-size:18px;}
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%);transition:transform .3s;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .content{padding:24px 20px 80px;}
+  .topbar{padding:12px 16px;}
+  .hamburger{display:block;}
+}
+
+.reading-progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:999;transition:width .1s;width:0%;}
+.back-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--bg3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:18px;opacity:0;pointer-events:none;transition:all .3s;text-decoration:none;}
+.back-top.show{opacity:1;pointer-events:all;}
+.back-top:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="reading-progress" id="rp"></div>
+<button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-header" href="../landing/index.html">
+    <img src="V_logo.jpg" alt="Vendetta" class="sidebar-logo">
+    <div>
+      <div class="sidebar-name">VENDETTA</div>
+      <div class="sidebar-sub">User Guide</div>
+    </div>
+  </a>
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <div class="nav-section-title" data-i="nav-start">Einstieg</div>
+      <a class="nav-link active" href="#what" onclick="setActive(this)"><span class="icon">👋</span><span data-i="nav-what">Was ist Vendetta?</span></a>
+      <a class="nav-link" href="#how" onclick="setActive(this)"><span class="icon">📱</span><span data-i="nav-how">Wie funktioniert es?</span></a>
+      <a class="nav-link" href="#start" onclick="setActive(this)"><span class="icon">🚀</span><span data-i="nav-start2">Erste Schritte</span></a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title" data-i="nav-features">Funktionen</div>
+      <a class="nav-link" href="#scan" onclick="setActive(this)"><span class="icon">📷</span><span data-i="nav-scan">Preise scannen</span></a>
+      <a class="nav-link" href="#map" onclick="setActive(this)"><span class="icon">🗺️</span><span data-i="nav-map">Karte & Suche</span></a>
+      <a class="nav-link" href="#vote" onclick="setActive(this)"><span class="icon">⚖️</span><span data-i="nav-vote">Abstimmen</span></a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title" data-i="nav-rewards-title">Belohnungen</div>
+      <a class="nav-link" href="#credits" onclick="setActive(this)"><span class="icon">⭐</span><span data-i="nav-credits">Credits</span></a>
+      <a class="nav-link" href="#tiers" onclick="setActive(this)"><span class="icon">🏆</span><span data-i="nav-tiers">Tier-System</span></a>
+      <a class="nav-link" href="#ifr" onclick="setActive(this)"><span class="icon">🔥</span><span data-i="nav-ifr">IFR Token</span></a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title" data-i="nav-account">Konto</div>
+      <a class="nav-link" href="#privacy" onclick="setActive(this)"><span class="icon">🔐</span><span data-i="nav-privacy">Datenschutz</span></a>
+      <a class="nav-link" href="#wallet" onclick="setActive(this)"><span class="icon">💳</span><span data-i="nav-wallet">Wallet</span></a>
+      <a class="nav-link" href="#trust" onclick="setActive(this)"><span class="icon">🛡️</span><span data-i="nav-trust">Trust Score</span></a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title" data-i="nav-more">Mehr</div>
+      <a class="nav-link" href="#faq" onclick="setActive(this)"><span class="icon">❓</span><span data-i="nav-faq">FAQ</span></a>
+      <a class="nav-link" href="#security" onclick="setActive(this)"><span class="icon">🔒</span><span data-i="nav-security">Sicherheit</span></a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="../landing/index.html">← Landing Page</a>
+    <a href="https://github.com/NeaBouli/vendeta" target="_blank">GitHub →</a>
+    <a href="https://ifrunit.tech" target="_blank">IFR Token →</a>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title" data-i="topbar-title">Vendetta — Benutzerhandbuch</div>
+    <div class="lang-pills">
+      <button class="lp on" onclick="setLang('de')">DE</button>
+      <button class="lp" onclick="setLang('en')">EN</button>
+      <button class="lp" onclick="setLang('gr')">ΕΛ</button>
+      <button class="lp" onclick="setLang('it')">IT</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <section class="wiki-section" id="what">
+      <div class="section-tag" data-i="s-what-tag">01</div>
+      <h2 class="wiki-h2" data-i="s-what-h2">Was ist Vendetta?</h2>
+      <p class="wiki-p" data-i="s-what-p1">Vendetta ist eine kostenlose App, mit der du Preise von Produkten und Dienstleistungen in deiner Umgebung scannen und teilen kannst — und dafür <strong>belohnt wirst.</strong></p>
+      <p class="wiki-p" data-i="s-what-p2">Jeder Preis den du einträgst wird <strong>auf der Blockchain gespeichert</strong> — unveränderbar, überprüfbar, für immer. Kein Unternehmen kann ihn nachträglich ändern oder löschen.</p>
+      <p class="wiki-p" data-i="s-what-p3">Das Ergebnis: Eine Datenbank von echten, verifizierten Preisen — von der Community, für die Community. Du findest damit das Günstigste in deiner Nähe. Immer.</p>
+      <div class="callout important">
+        <span class="callout-icon">💡</span>
+        <strong data-i="s-what-c1-title">Das Wichtigste kurz zusammengefasst:</strong>
+        <br><span data-i="s-what-c1-body">Vendetta ist kostenlos. Du brauchst kein Krypto-Wissen. Die App macht alles automatisch. Du scannst — du verdienst.</span>
+      </div>
+      <h3 class="wiki-h3" data-i="s-what-h3a">Warum Blockchain?</h3>
+      <p class="wiki-p" data-i="s-what-p4">Normale Preis-Apps können von Unternehmen beeinflusst werden. Eine Supermarktkette kann zahlen damit ihre Preise besser aussehen. Bei Vendetta ist das unmöglich — jeder Preis ist ein <strong>kryptographischer Beweis</strong> mit GPS-Koordinaten und Zeitstempel. Manipulierbar: nein.</p>
+      <h3 class="wiki-h3" data-i="s-what-h3b">Für wen ist Vendetta?</h3>
+      <table class="wiki-table">
+        <tr><th data-i="s-what-t-col1">Für dich wenn du...</th><th data-i="s-what-t-col2">Was du bekommst</th></tr>
+        <tr><td data-i="s-what-t-r1a">Geld sparen willst</td><td data-i="s-what-t-r1b">Günstigste Preise in deiner Nähe</td></tr>
+        <tr><td data-i="s-what-t-r2a">Überteuerte Preise melden willst</td><td data-i="s-what-t-r2b">Blockchain-Beweis — unveränderbar</td></tr>
+        <tr><td data-i="s-what-t-r3a">Nebenbei etwas verdienen willst</td><td data-i="s-what-t-r3b">IFR Credits für jeden Scan</td></tr>
+        <tr><td data-i="s-what-t-r4a">Der Community helfen willst</td><td data-i="s-what-t-r4b">Mehr Trust = mehr Einfluss</td></tr>
+      </table>
+    </section>
+
+    <section class="wiki-section" id="how">
+      <div class="section-tag" data-i="s-how-tag">02</div>
+      <h2 class="wiki-h2" data-i="s-how-h2">Wie funktioniert es?</h2>
+      <p class="wiki-p" data-i="s-how-p1">Der gesamte Ablauf von Scan bis Belohnung dauert unter 30 Sekunden. Hier ist was im Hintergrund passiert:</p>
+      <ol class="steps-list">
+        <li><div class="step-body"><strong data-i="step1-t">Du scannst einen Barcode</strong><span data-i="step1-d">Die App erkennt den EAN-Code des Produkts automatisch. Alternativ kannst du den Preis auch manuell eingeben — für Dienstleistungen wie Haarschnitte oder Benzin.</span></div></li>
+        <li><div class="step-body"><strong data-i="step2-t">GPS wird bestätigt</strong><span data-i="step2-d">Die App prüft deinen Standort. Genauigkeit unter 150 Meter erforderlich — damit der Preis wirklich dort gilt wo du gerade bist.</span></div></li>
+        <li><div class="step-body"><strong data-i="step3-t">Kryptographischer Hash wird erstellt</strong><span data-i="step3-d">Die App erstellt automatisch einen eindeutigen digitalen "Fingerabdruck" aus Preis + GPS + Zeitstempel. Dieser Hash ist dein Beweis.</span></div></li>
+        <li><div class="step-body"><strong data-i="step4-t">Auf der Blockchain gespeichert</strong><span data-i="step4-d">Dein Preis-Eintrag wird auf Base L2 gespeichert. Kosten für dich: nichts. Die App übernimmt die Transaktionsgebühren.</span></div></li>
+        <li><div class="step-body"><strong data-i="step5-t">Community bestätigt oder bestreitet</strong><span data-i="step5-d">Andere Nutzer in der Nähe können deinen Preis bestätigen (👍) oder anzweifeln (👎). Je mehr Bestätigungen, desto mehr Credits.</span></div></li>
+        <li><div class="step-body"><strong data-i="step6-t">Credits gutgeschrieben</strong><span data-i="step6-d">Direkt nach dem Speichern erhältst du Credits. Erste Einträge bekommen 2× Bonus. Credits kannst du in IFR Token umwandeln.</span></div></li>
+      </ol>
+      <div class="callout tip">
+        <span class="callout-icon">✓</span>
+        <strong data-i="s-how-c1-title">Keine Gasgebühren für dich!</strong>
+        <br><span data-i="s-how-c1-body">Blockchain-Transaktionen kosten normalerweise "Gas". Vendetta übernimmt diese Kosten für normale Nutzung. Du zahlst nichts.</span>
+      </div>
+    </section>
+
+    <section class="wiki-section" id="start">
+      <div class="section-tag" data-i="s-start-tag">03</div>
+      <h2 class="wiki-h2" data-i="s-start-h2">Erste Schritte</h2>
+      <h3 class="wiki-h3" data-i="s-start-h3a">App installieren</h3>
+      <p class="wiki-p" data-i="s-start-p1">Vendetta ist für Android und iOS verfügbar. Die App ist <strong>100% kostenlos</strong> — keine In-App-Käufe, keine Abonnements.</p>
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <strong data-i="s-start-c1-title">App Store & Play Store:</strong>
+        <br><span data-i="s-start-c1-body">Die App befindet sich im Beta-Stadium. Testnet-Phase läuft. Mainnet-Release und App Store Verfügbarkeit kommen in Phase 4.</span>
+      </div>
+      <h3 class="wiki-h3" data-i="s-start-h3b">Onboarding — 4 Schritte</h3>
+      <ol class="steps-list">
+        <li><div class="step-body"><strong data-i="onb1-t">Willkommen</strong><span data-i="onb1-d">Kurze Erklärung was Vendetta ist. Einfach auf "Loslegen" tippen.</span></div></li>
+        <li><div class="step-body"><strong data-i="onb2-t">Nummer bestätigen</strong><span data-i="onb2-d">Deine Telefonnummer wird <strong>einmalig</strong> zur Bestätigung verwendet — danach sofort gelöscht.</span></div></li>
+        <li><div class="step-body"><strong data-i="onb3-t">Standort erlauben</strong><span data-i="onb3-d">Für die Karte und Preissuche in deiner Nähe.</span></div></li>
+        <li><div class="step-body"><strong data-i="onb4-t">Fertig!</strong><span data-i="onb4-d">Die App ist bereit. Dein Konto wurde automatisch eingerichtet.</span></div></li>
+      </ol>
+      <div class="callout important">
+        <span class="callout-icon">🔑</span>
+        <strong data-i="s-start-c2-title">Was im Hintergrund passiert:</strong>
+        <br><span data-i="s-start-c2-body">Beim ersten Start erstellt die App automatisch ein sicheres Konto für dich. Du bekommst eine "Sicherheitskopie" aus 12 Wörtern — schreibe sie auf Papier auf! Unter Einstellungen → Sicherheitskopie.</span>
+      </div>
+    </section>
+
+    <section class="wiki-section" id="scan">
+      <div class="section-tag" data-i="s-scan-tag">04</div>
+      <h2 class="wiki-h2" data-i="s-scan-h2">Preise scannen</h2>
+      <h3 class="wiki-h3" data-i="s-scan-h3a">Was kann ich scannen?</h3>
+      <table class="wiki-table">
+        <tr><th data-i="scan-t-col1">Kategorie</th><th data-i="scan-t-col2">Beispiele</th><th data-i="scan-t-col3">Methode</th></tr>
+        <tr><td data-i="scan-t-r1a">Lebensmittel</td><td data-i="scan-t-r1b">Milch, Brot, Schokolade</td><td data-i="scan-t-r1c">Barcode scannen</td></tr>
+        <tr><td data-i="scan-t-r2a">Drogerie</td><td data-i="scan-t-r2b">Shampoo, Zahnpasta</td><td data-i="scan-t-r2c">Barcode scannen</td></tr>
+        <tr><td data-i="scan-t-r3a">Kraftstoff</td><td data-i="scan-t-r3b">Benzin E10, Diesel</td><td data-i="scan-t-r3c">Manuell eingeben</td></tr>
+        <tr><td data-i="scan-t-r4a">Dienstleistungen</td><td data-i="scan-t-r4b">Friseur, Café, Restaurant</td><td data-i="scan-t-r4c">Manuell eingeben</td></tr>
+        <tr><td data-i="scan-t-r5a">Elektronik</td><td data-i="scan-t-r5b">Kopfhörer, Ladekabel</td><td data-i="scan-t-r5c">Barcode scannen</td></tr>
+      </table>
+      <h3 class="wiki-h3" data-i="s-scan-h3b">Schritt-für-Schritt: Preis einreichen</h3>
+      <ol class="steps-list">
+        <li><div class="step-body"><strong data-i="scan1-t">Scan-Tab öffnen</strong><span data-i="scan1-d">Unten in der App auf das Barcode-Symbol tippen.</span></div></li>
+        <li><div class="step-body"><strong data-i="scan2-t">Barcode scannen</strong><span data-i="scan2-d">Kamera auf das Preisschild richten. App erkennt den Code automatisch.</span></div></li>
+        <li><div class="step-body"><strong data-i="scan3-t">Preis eingeben</strong><span data-i="scan3-d">Den aktuellen Preis eintippen. Währung auswählen (EUR, GBP, etc.).</span></div></li>
+        <li><div class="step-body"><strong data-i="scan4-t">"Speichern" tippen</strong><span data-i="scan4-d">App prüft GPS-Genauigkeit. Hash wird erstellt. ~2 Sekunden.</span></div></li>
+        <li><div class="step-body"><strong data-i="scan5-t">Credits erhalten!</strong><span data-i="scan5-d">Grüne Bestätigung: "+50 Credits" oder "+100 Credits (Erster Preis! 🥇)".</span></div></li>
+      </ol>
+      <h3 class="wiki-h3" data-i="s-scan-h3c">First Mover Bonus</h3>
+      <p class="wiki-p" data-i="s-scan-p1">Wenn du als <strong>Erster</strong> einen Preis für ein bestimmtes Produkt an einem bestimmten Ort einträgst, bekommst du den <strong>2× First Mover Bonus</strong>.</p>
+      <div class="callout tip">
+        <span class="callout-icon">🏆</span>
+        <strong data-i="s-scan-c1-title">Tipp: Neue Geschäfte = mehr Credits!</strong>
+        <br><span data-i="s-scan-c1-body">In neuen Supermärkten gibt es viele noch nicht gescannte Produkte. Dort bekommst du fast immer den First-Mover-Bonus.</span>
+      </div>
+    </section>
+
+    <section class="wiki-section" id="map">
+      <div class="section-tag" data-i="s-map-tag">05</div>
+      <h2 class="wiki-h2" data-i="s-map-h2">Karte & Suche</h2>
+      <p class="wiki-p" data-i="s-map-p1">Der Karten-Tab zeigt dir alle gemeldeten Preise in deiner Umgebung als Pins auf der Karte.</p>
+      <h3 class="wiki-h3" data-i="s-map-h3a">Radius-Slider</h3>
+      <p class="wiki-p" data-i="s-map-p2">Mit dem Schieberegler oben bestimmst du wie weit die Suche geht — von <strong>500 Meter</strong> bis <strong>50 Kilometer</strong>.</p>
+      <h3 class="wiki-h3" data-i="s-map-h3b">Suche nach Produkten</h3>
+      <p class="wiki-p" data-i="s-map-p3">Tippe in die Suchleiste was du suchst: <code>Milch</code>, <code>Benzin E10</code>, <code>Haarschnitt</code>.</p>
+      <h3 class="wiki-h3" data-i="s-map-h3c">Pin antippen</h3>
+      <p class="wiki-p" data-i="s-map-p4">Tippe auf einen Preis-Pin um Details zu sehen: exakter Preis, Zeitstempel, Trust-Score, Bestätigungen.</p>
+      <div class="callout info">
+        <span class="callout-icon">⚡</span>
+        <strong data-i="s-map-c1-title">Geschwindigkeit:</strong>
+        <br><span data-i="s-map-c1-body">Suche läuft über The Graph Protocol — Ergebnisse in unter 50ms.</span>
+      </div>
+    </section>
+
+    <section class="wiki-section" id="vote">
+      <div class="section-tag" data-i="s-vote-tag">06</div>
+      <h2 class="wiki-h2" data-i="s-vote-h2">Abstimmen</h2>
+      <p class="wiki-p" data-i="s-vote-p1">Wenn du an einem Ort warst wo ein Preis gemeldet wurde, kannst du abstimmen ob der Preis stimmt.</p>
+      <h3 class="wiki-h3" data-i="s-vote-h3a">Wann kann ich abstimmen?</h3>
+      <p class="wiki-p" data-i="s-vote-p2">Nur wenn du in den letzten <strong>7 Tagen</strong> in der Region warst (GPS-Nachweis).</p>
+      <h3 class="wiki-h3" data-i="s-vote-h3b">Was passiert bei Abstimmungen?</h3>
+      <table class="wiki-table">
+        <tr><th data-i="vote-t-col1">Ergebnis</th><th data-i="vote-t-col2">Was passiert</th></tr>
+        <tr><td data-i="vote-t-r1a">80%+ Bestätigungen</td><td data-i="vote-t-r1b">Preis "Community-verifiziert" ✓ Einreicher +5 Trust</td></tr>
+        <tr><td data-i="vote-t-r2a">75%+ Ablehnungen</td><td data-i="vote-t-r2b">Preis "angefochten" ⚠ Einreicher -50 Trust</td></tr>
+        <tr><td data-i="vote-t-r3a">72h ohne Gegenstimmen</td><td data-i="vote-t-r3b">"Auto-verifiziert" (Silent Consensus)</td></tr>
+      </table>
+      <h3 class="wiki-h3" data-i="s-vote-h3c">Verdiene Credits durch Abstimmen</h3>
+      <p class="wiki-p" data-i="s-vote-p3">Jede Abstimmung bringt dir <strong>+2 Trust</strong>. Mehr Trust = mehr Credits beim Scannen.</p>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <strong data-i="s-vote-c1-title">Falsch abstimmen schadet dir!</strong>
+        <br><span data-i="s-vote-c1-body">Systematisch falsch abstimmen → Trust sinkt → weniger Credits.</span>
+      </div>
+    </section>
+
+    <section class="wiki-section" id="credits">
+      <div class="section-tag" data-i="s-credits-tag">07</div>
+      <h2 class="wiki-h2" data-i="s-credits-h2">Credits & Belohnungen</h2>
+      <p class="wiki-p" data-i="s-credits-p1">Credits sind deine Belohnung für das Scannen und Verifizieren von Preisen. Ab <strong>1.000 Credits</strong> in IFR Token umtauschbar.</p>
+      <h3 class="wiki-h3" data-i="s-credits-h3a">Wie viele Credits bekomme ich?</h3>
+      <p class="wiki-p" data-i="s-credits-p2">Die Formel lautet:</p>
+      <div class="callout info">
+        <span class="callout-icon">🔢</span>
+        <strong>Credits = 100 × Trust-Multiplikator × Tier-Multiplikator × Bonus</strong>
+        <br><br><span data-i="s-credits-formula"><strong>Trust:</strong> Je mehr Trust-Score (0-1000), desto mehr Credits.<br><strong>Tier:</strong> Je mehr IFR gesperrt, desto höher (0.5× bis 2.0×)<br><strong>Bonus:</strong> First Mover = 2×, Normal = 1×</span>
+      </div>
+      <h3 class="wiki-h3" data-i="s-credits-h3b">Konkrete Beispiele</h3>
+      <table class="wiki-table">
+        <tr><th data-i="cred-t-col1">Situation</th><th data-i="cred-t-col2">Credits</th></tr>
+        <tr><td data-i="cred-t-r1a">Neuer User, erster Preis, First Mover</td><td><strong style="color:var(--green)">100</strong></td></tr>
+        <tr><td data-i="cred-t-r2a">Neuer User, normaler Preis</td><td><strong>50</strong></td></tr>
+        <tr><td data-i="cred-t-r3a">Bronze Tier, First Mover</td><td><strong style="color:var(--green)">200</strong></td></tr>
+        <tr><td data-i="cred-t-r4a">Gold Tier, First Mover, Trust 800</td><td><strong style="color:var(--accent)">480</strong></td></tr>
+        <tr><td data-i="cred-t-r5a">Duplikat (5. Einreichung)</td><td><strong style="color:var(--muted)">10</strong></td></tr>
+      </table>
+      <h3 class="wiki-h3" data-i="s-credits-h3c">Credits auszahlen</h3>
+      <ol class="steps-list">
+        <li><div class="step-body"><strong data-i="payout1-t">1.000 Credits ansammeln</strong><span data-i="payout1-d">Minimum für Auszahlung.</span></div></li>
+        <li><div class="step-body"><strong data-i="payout2-t">"Auszahlen" tippen</strong><span data-i="payout2-d">Einmalige Erklärung.</span></div></li>
+        <li><div class="step-body"><strong data-i="payout3-t">Fingerabdruck bestätigen</strong><span data-i="payout3-d">Face ID oder Fingerabdruck.</span></div></li>
+        <li><div class="step-body"><strong data-i="payout4-t">IFR in Wallet</strong><span data-i="payout4-d">~30 Sekunden. 7-Tage-Wartezeit bis zur nächsten Auszahlung.</span></div></li>
+      </ol>
+    </section>
+
+    <section class="wiki-section" id="tiers">
+      <div class="section-tag" data-i="s-tiers-tag">08</div>
+      <h2 class="wiki-h2" data-i="s-tiers-h2">Tier-System</h2>
+      <p class="wiki-p" data-i="s-tiers-p1">Wer IFR Token in der App <strong>sperrt</strong>, bekommt mehr Credits. Das Sperren ist freiwillig. Gesperrte Token sind jederzeit abrufbar.</p>
+      <div class="tier-grid">
+        <div class="tier-card" style="border-color:var(--muted);background:rgba(100,116,139,.05)">
+          <div class="tier-name" style="color:var(--muted)">FREE</div>
+          <div class="tier-lock" data-i="tier-free-lock">0 IFR</div>
+          <div class="tier-mult" style="color:var(--muted)">0.5×</div>
+          <div class="tier-desc" data-i="tier-free-desc">Halbe Basis-Credits</div>
+        </div>
+        <div class="tier-card" style="border-color:#b45309;background:rgba(180,83,9,.06)">
+          <div class="tier-name" style="color:#b45309">BRONZE</div>
+          <div class="tier-lock">1.000 IFR</div>
+          <div class="tier-mult" style="color:#b45309">1.0×</div>
+          <div class="tier-desc" data-i="tier-b-desc">Volle Basis-Credits</div>
+        </div>
+        <div class="tier-card" style="border-color:#64748b;background:rgba(100,116,139,.06)">
+          <div class="tier-name" style="color:#94a3b8">SILVER</div>
+          <div class="tier-lock">5.000 IFR</div>
+          <div class="tier-mult" style="color:#94a3b8">1.25×</div>
+          <div class="tier-desc" data-i="tier-s-desc">+25% mehr Credits</div>
+        </div>
+        <div class="tier-card" style="border-color:#d97706;background:rgba(217,119,6,.06)">
+          <div class="tier-name" style="color:#d97706">GOLD</div>
+          <div class="tier-lock">10.000 IFR</div>
+          <div class="tier-mult" style="color:#d97706">1.5×</div>
+          <div class="tier-desc" data-i="tier-g-desc">+50% mehr Credits</div>
+        </div>
+        <div class="tier-card" style="border-color:#7c3aed;background:rgba(124,58,237,.06)">
+          <div class="tier-name" style="color:#a78bfa">PLATINUM</div>
+          <div class="tier-lock">50.000 IFR</div>
+          <div class="tier-mult" style="color:#a78bfa">2.0×</div>
+          <div class="tier-desc" data-i="tier-p-desc">Doppelte Credits</div>
+        </div>
+      </div>
+      <h3 class="wiki-h3" data-i="s-tiers-h3a">Wie sperrt man IFR?</h3>
+      <ol class="steps-list">
+        <li><div class="step-body"><strong data-i="lock1-t">Wallet-Tab öffnen</strong><span data-i="lock1-d">Unten in der App.</span></div></li>
+        <li><div class="step-body"><strong data-i="lock2-t">"IFR sperren für mehr Credits"</strong><span data-i="lock2-d">Gewünschtes Tier auswählen.</span></div></li>
+        <li><div class="step-body"><strong data-i="lock3-t">IFR kaufen falls nötig</strong><span data-i="lock3-d">Im Swap-Tab ETH gegen IFR tauschen.</span></div></li>
+        <li><div class="step-body"><strong data-i="lock4-t">Bestätigen</strong><span data-i="lock4-d">Fingerabdruck → fertig. Tier sofort aktiv.</span></div></li>
+      </ol>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <strong data-i="s-tiers-c1-title">Jederzeit entsperrbar!</strong>
+        <br><span data-i="s-tiers-c1-body">IFR sperren ist kein Staking. Kein Yield, keine Sperrfrist, kein Risiko. 100% deiner Token, sofort zurück.</span>
+      </div>
+    </section>
+
+    <section class="wiki-section" id="ifr">
+      <div class="section-tag" data-i="s-ifr-tag">09</div>
+      <h2 class="wiki-h2" data-i="s-ifr-h2">IFR Token</h2>
+      <p class="wiki-p" data-i="s-ifr-p1">IFR ($IFR) ist das Token mit dem Vendetta seine Nutzer belohnt. Vendetta <strong>stellt kein eigenes Token her</strong> — wir nutzen das IFR-Ökosystem von <a href="https://ifrunit.tech" target="_blank" style="color:var(--accent)">ifrunit.tech</a>.</p>
+      <h3 class="wiki-h3" data-i="s-ifr-h3a">Was ist IFR?</h3>
+      <table class="wiki-table">
+        <tr><th>Info</th><th>Details</th></tr>
+        <tr><td data-i="ifr-t-r1a">Token</td><td><code>$IFR</code></td></tr>
+        <tr><td data-i="ifr-t-r2a">Netzwerk</td><td data-i="ifr-t-r2b">Ethereum Mainnet</td></tr>
+        <tr><td data-i="ifr-t-r3a">Art</td><td data-i="ifr-t-r3b">Deflationary ERC-20 (2.5% wird gebrannt)</td></tr>
+        <tr><td data-i="ifr-t-r4a">PartnerVault</td><td data-i="ifr-t-r4b">40.000.000 IFR für Vendetta reserviert</td></tr>
+        <tr><td data-i="ifr-t-r5a">Kurs</td><td data-i="ifr-t-r5b">Dynamisch — auf Uniswap V2 handelbar</td></tr>
+      </table>
+      <h3 class="wiki-h3" data-i="s-ifr-h3b">Woher kommen meine IFR?</h3>
+      <p class="wiki-p" data-i="s-ifr-p2">Deine Credits werden aus dem <strong>PartnerVault</strong> ausgezahlt — 40 Millionen IFR ausschließlich für Vendetta-Nutzer reserviert.</p>
+      <h3 class="wiki-h3" data-i="s-ifr-h3c">Was kann ich mit IFR machen?</h3>
+      <table class="wiki-table">
+        <tr><th data-i="ifr-use-col1">Option</th><th data-i="ifr-use-col2">Was es bringt</th></tr>
+        <tr><td data-i="ifr-use-r1a">Halten</td><td data-i="ifr-use-r1b">Wert steigt wenn mehr Nutzer beitreten</td></tr>
+        <tr><td data-i="ifr-use-r2a">Sperren (Lock)</td><td data-i="ifr-use-r2b">Höheres Tier = mehr Credits</td></tr>
+        <tr><td data-i="ifr-use-r3a">Verkaufen</td><td data-i="ifr-use-r3b">Auf Uniswap V2 gegen ETH tauschen</td></tr>
+        <tr><td data-i="ifr-use-r4a">Spenden</td><td data-i="ifr-use-r4b">An andere Wallets senden</td></tr>
+      </table>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <strong data-i="s-ifr-c1-title">Wichtig: Dynamische Auszahlungsrate</strong>
+        <br><span data-i="s-ifr-c1-body">1.000 Credits entsprechen nicht immer dem gleichen IFR-Betrag. Die App zeigt dir immer die aktuelle Rate vor der Auszahlung.</span>
+      </div>
+    </section>
+
+    <section class="wiki-section" id="privacy">
+      <div class="section-tag" data-i="s-priv-tag">10</div>
+      <h2 class="wiki-h2" data-i="s-priv-h2">Datenschutz</h2>
+      <p class="wiki-p" data-i="s-priv-p1">Vendetta speichert <strong>keinerlei persönliche Daten</strong>. Kein Name. Keine E-Mail. Keine Telefonnummer.</p>
+      <div class="callout tip">
+        <span class="callout-icon">🔐</span>
+        <strong data-i="s-priv-c1-title">DSGVO by Design</strong>
+        <br><span data-i="s-priv-c1-body">Mathematisch garantiert. Durch das Nullifier-System können wir deine Daten nicht preisgeben — sie existieren nicht.</span>
+      </div>
+      <h3 class="wiki-h3" data-i="s-priv-h3a">Das Nullifier-System</h3>
+      <p class="wiki-p" data-i="s-priv-p2">Beim ersten Start passiert folgendes:</p>
+      <ol class="steps-list">
+        <li><div class="step-body"><strong data-i="null1-t">Du gibst deine Nummer ein</strong><span data-i="null1-d">Nur für die SMS-Bestätigung.</span></div></li>
+        <li><div class="step-body"><strong data-i="null2-t">Server erstellt "Nullifier"</strong><span data-i="null2-d">Eine zufällige 256-stellige Zahl. Kein Bezug zu deiner Nummer.</span></div></li>
+        <li><div class="step-body"><strong data-i="null3-t">Nummer wird sofort gelöscht</strong><span data-i="null3-d">Der Server vergisst sie sofort.</span></div></li>
+        <li><div class="step-body"><strong data-i="null4-t">Deine On-Chain-Identität</strong><span data-i="null4-d">= SHA-256(Nullifier + Gerät-Salt). Unmöglich zurückzuverfolgen.</span></div></li>
+      </ol>
+      <h3 class="wiki-h3" data-i="s-priv-h3b">Was wird gespeichert?</h3>
+      <table class="wiki-table">
+        <tr><th data-i="priv-t-col1">Daten</th><th data-i="priv-t-col2">Gespeichert?</th><th data-i="priv-t-col3">Wo?</th></tr>
+        <tr><td data-i="priv-t-r1a">Telefonnummer</td><td style="color:var(--green)">✗ Nein</td><td data-i="priv-t-r1c">Nirgends</td></tr>
+        <tr><td data-i="priv-t-r2a">Name / E-Mail</td><td style="color:var(--green)">✗ Nein</td><td data-i="priv-t-r2c">Nirgends</td></tr>
+        <tr><td data-i="priv-t-r3a">GPS-Standort</td><td style="color:var(--amber)">Teilweise</td><td data-i="priv-t-r3c">Nur mit Preis-Hash</td></tr>
+        <tr><td data-i="priv-t-r4a">Preise die du einreichst</td><td style="color:var(--accent)">✓ Ja</td><td data-i="priv-t-r4c">Blockchain (öffentlich, anonym)</td></tr>
+        <tr><td data-i="priv-t-r5a">Krypto-Hash</td><td style="color:var(--accent)">✓ Ja</td><td data-i="priv-t-r5c">Blockchain (nicht zurückverfolgbar)</td></tr>
+      </table>
+    </section>
+
+    <section class="wiki-section" id="wallet">
+      <div class="section-tag" data-i="s-wallet-tag">11</div>
+      <h2 class="wiki-h2" data-i="s-wallet-h2">Wallet</h2>
+      <p class="wiki-p" data-i="s-wallet-p1">Beim ersten App-Start wird automatisch ein Wallet für dich erstellt. Kein MetaMask nötig. Das Wallet gehört dir allein.</p>
+      <h3 class="wiki-h3" data-i="s-wallet-h3a">Was ist ein Wallet?</h3>
+      <p class="wiki-p" data-i="s-wallet-p2">Ein Wallet ist wie ein Bankkonto — aber ohne Bank. Nur du hast Zugriff.</p>
+      <h3 class="wiki-h3" data-i="s-wallet-h3b">Die 12 Sicherheitswörter</h3>
+      <p class="wiki-p" data-i="s-wallet-p3">Dein Wallet wird durch 12 zufällige Wörter gesichert — die <strong>Seed Phrase</strong>. Unter <code>Einstellungen → Sicherheitskopie</code>. Schreibe sie auf Papier auf!</p>
+      <div class="callout important">
+        <span class="callout-icon">🚨</span>
+        <strong data-i="s-wallet-c1-title">Niemals digital speichern!</strong>
+        <br><span data-i="s-wallet-c1-body">Speichere die 12 Wörter NICHT in einer Notiz-App, E-Mail oder Foto. NUR auf Papier. Wer diese 12 Wörter kennt, hat Zugriff auf dein Wallet.</span>
+      </div>
+      <h3 class="wiki-h3" data-i="s-wallet-h3c">Wallet-Funktionen</h3>
+      <table class="wiki-table">
+        <tr><th data-i="wallet-t-col1">Funktion</th><th data-i="wallet-t-col2">Was sie macht</th></tr>
+        <tr><td data-i="wallet-t-r1a">Empfangen</td><td data-i="wallet-t-r1b">QR-Code zeigen oder Adresse kopieren</td></tr>
+        <tr><td data-i="wallet-t-r2a">Senden</td><td data-i="wallet-t-r2b">IFR an eine andere Adresse schicken</td></tr>
+        <tr><td data-i="wallet-t-r3a">Tauschen</td><td data-i="wallet-t-r3b">ETH gegen IFR (und umgekehrt)</td></tr>
+        <tr><td data-i="wallet-t-r4a">IFR Sperren</td><td data-i="wallet-t-r4b">Tier aktivieren für mehr Credits</td></tr>
+        <tr><td data-i="wallet-t-r5a">Sicherheitskopie</td><td data-i="wallet-t-r5b">12 Wörter anzeigen (mit Biometrie)</td></tr>
+      </table>
+    </section>
+
+    <section class="wiki-section" id="trust">
+      <div class="section-tag" data-i="s-trust-tag">12</div>
+      <h2 class="wiki-h2" data-i="s-trust-h2">Trust Score</h2>
+      <p class="wiki-p" data-i="s-trust-p1">Jeder Nutzer hat einen <strong>Trust Score zwischen 0 und 1000</strong>. Standard: 500. Je höher, desto mehr Credits und Stimmgewicht.</p>
+      <h3 class="wiki-h3" data-i="s-trust-h3a">Wie ändert sich der Trust Score?</h3>
+      <table class="wiki-table">
+        <tr><th data-i="trust-t-col1">Aktion</th><th data-i="trust-t-col2">Änderung</th></tr>
+        <tr><td data-i="trust-t-r1a">Preis von Community bestätigt</td><td style="color:var(--green)">+5 Trust</td></tr>
+        <tr><td data-i="trust-t-r2a">Abstimmung abgegeben</td><td style="color:var(--green)">+2 Trust</td></tr>
+        <tr><td data-i="trust-t-r3a">72h ohne Gegenstimmen</td><td style="color:var(--green)">+3 Trust</td></tr>
+        <tr><td data-i="trust-t-r4a">Preis von Community abgelehnt</td><td style="color:var(--red)">-50 Trust</td></tr>
+        <tr><td data-i="trust-t-r5a">Tägliche Erholung</td><td style="color:var(--green)">+1 Trust/Tag</td></tr>
+        <tr><td data-i="trust-t-r6a">Minimum (nie unter)</td><td style="color:var(--muted)">100 Trust</td></tr>
+      </table>
+      <div class="callout info">
+        <span class="callout-icon">📈</span>
+        <strong data-i="s-trust-c1-title">Trust baut sich langsam auf.</strong>
+        <br><span data-i="s-trust-c1-body">Das ist Absicht. Vertrauen muss verdient werden.</span>
+      </div>
+    </section>
+
+    <section class="wiki-section" id="faq">
+      <div class="section-tag" data-i="s-faq-tag">13</div>
+      <h2 class="wiki-h2" data-i="s-faq-h2">FAQ</h2>
+      <div class="faq-item"><div class="faq-q"><span data-i="faq-q1">Kostet die App Geld?</span></div><div class="faq-a" data-i="faq-a1">Nein. Vollständig kostenlos. Keine In-App-Käufe, keine Abonnements.</div></div>
+      <div class="faq-item"><div class="faq-q"><span data-i="faq-q2">Brauche ich Krypto-Kenntnisse?</span></div><div class="faq-a" data-i="faq-a2">Absolut nicht. Alles passiert automatisch im Hintergrund.</div></div>
+      <div class="faq-item"><div class="faq-q"><span data-i="faq-q3">Wie viel kann ich verdienen?</span></div><div class="faq-a" data-i="faq-a3">Ca. 2.000 Credits/Tag aktiv mit Bronze-Tier. 1.000 Credits = ein Auszahlungspaket.</div></div>
+      <div class="faq-item"><div class="faq-q"><span data-i="faq-q4">Was passiert wenn ich das Handy verliere?</span></div><div class="faq-a" data-i="faq-a4">Mit deinen 12 Sicherheitswörtern kannst du dein Konto auf jedem neuen Gerät wiederherstellen.</div></div>
+      <div class="faq-item"><div class="faq-q"><span data-i="faq-q5">Wer sieht meine Preise?</span></div><div class="faq-a" data-i="faq-a5">Die Preise sind öffentlich auf der Blockchain — aber niemand kann sehen WER sie eingereicht hat.</div></div>
+      <div class="faq-item"><div class="faq-q"><span data-i="faq-q6">Kann ich falsche Preise melden?</span></div><div class="faq-a" data-i="faq-a6">Du kannst, aber es lohnt sich nicht. Trust sinkt um -50 pro Ablehnung.</div></div>
+      <div class="faq-item"><div class="faq-q"><span data-i="faq-q7">Warum ist GPS-Genauigkeit wichtig?</span></div><div class="faq-a" data-i="faq-a7">Preise sind standortgebunden. Bei schlechtem Signal: kurz nach draußen.</div></div>
+      <div class="faq-item"><div class="faq-q"><span data-i="faq-q8">Ist mein IFR sicher?</span></div><div class="faq-a" data-i="faq-a8">Ja. iOS Keychain / Android Keystore + Biometrie + Slither Audit: 0 kritische Schwachstellen.</div></div>
+    </section>
+
+    <section class="wiki-section" id="security">
+      <div class="section-tag" data-i="s-sec-tag">14</div>
+      <h2 class="wiki-h2" data-i="s-sec-h2">Sicherheit</h2>
+      <p class="wiki-p" data-i="s-sec-p1">Vendetta wurde von Grund auf mit Sicherheit als Priorität gebaut.</p>
+      <h3 class="wiki-h3" data-i="s-sec-h3a">Smart Contract Sicherheit</h3>
+      <table class="wiki-table">
+        <tr><th data-i="sec-t-col1">Maßnahme</th><th data-i="sec-t-col2">Was sie schützt</th></tr>
+        <tr><td data-i="sec-t-r1a">Slither Security Audit</td><td data-i="sec-t-r1b">0 High/Medium Schwachstellen</td></tr>
+        <tr><td data-i="sec-t-r2a">ReentrancyGuard</td><td data-i="sec-t-r2b">Verhindert doppelte Auszahlungen</td></tr>
+        <tr><td data-i="sec-t-r3a">Pausable (Notaus)</td><td data-i="sec-t-r3b">Bei Exploit: sofortiger Stopp</td></tr>
+        <tr><td data-i="sec-t-r4a">UUPS Proxy</td><td data-i="sec-t-r4b">Fehler können behoben werden</td></tr>
+        <tr><td data-i="sec-t-r5a">60 automatisierte Tests</td><td data-i="sec-t-r5b">Jede Funktion ist getestet</td></tr>
+      </table>
+      <h3 class="wiki-h3" data-i="s-sec-h3b">App-Sicherheit</h3>
+      <table class="wiki-table">
+        <tr><th data-i="sec2-t-col1">Maßnahme</th><th data-i="sec2-t-col2">Was sie schützt</th></tr>
+        <tr><td data-i="sec2-t-r1a">iOS Keychain / Android Keystore</td><td data-i="sec2-t-r1b">Private Keys hardware-verschlüsselt</td></tr>
+        <tr><td data-i="sec2-t-r2a">Biometrie vor jeder TX</td><td data-i="sec2-t-r2b">Keine Transaktion ohne dich</td></tr>
+        <tr><td data-i="sec2-t-r3a">Nullifier Pattern</td><td data-i="sec2-t-r3b">Identität mathematisch anonym</td></tr>
+        <tr><td data-i="sec2-t-r4a">Open Source Code</td><td data-i="sec2-t-r4b">Jeder kann alles prüfen</td></tr>
+      </table>
+      <div class="callout info">
+        <span class="callout-icon">🔍</span>
+        <strong data-i="s-sec-c1-title">Sicherheitslücke gefunden?</strong>
+        <br><span data-i="s-sec-c1-body">Bitte öffne ein privates Security Advisory auf GitHub. Wir antworten innerhalb von 48 Stunden.</span>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<a href="#" class="back-top" id="backTop">↑</a>
+
+<script>
+const T = {
+de:{
+  'topbar-title':'Vendetta — Benutzerhandbuch',
+  'nav-start':'Einstieg','nav-what':'Was ist Vendetta?','nav-how':'Wie funktioniert es?','nav-start2':'Erste Schritte',
+  'nav-features':'Funktionen','nav-scan':'Preise scannen','nav-map':'Karte & Suche','nav-vote':'Abstimmen',
+  'nav-rewards-title':'Belohnungen','nav-credits':'Credits','nav-tiers':'Tier-System','nav-ifr':'IFR Token',
+  'nav-account':'Konto','nav-privacy':'Datenschutz','nav-wallet':'Wallet','nav-trust':'Trust Score',
+  'nav-more':'Mehr','nav-faq':'FAQ','nav-security':'Sicherheit',
+},
+en:{
+  'topbar-title':'Vendetta — User Guide',
+  'nav-start':'Getting Started','nav-what':'What is Vendetta?','nav-how':'How does it work?','nav-start2':'First Steps',
+  'nav-features':'Features','nav-scan':'Scanning Prices','nav-map':'Map & Search','nav-vote':'Voting',
+  'nav-rewards-title':'Rewards','nav-credits':'Credits','nav-tiers':'Tier System','nav-ifr':'IFR Token',
+  'nav-account':'Account','nav-privacy':'Privacy','nav-wallet':'Wallet','nav-trust':'Trust Score',
+  'nav-more':'More','nav-faq':'FAQ','nav-security':'Security',
+  's-what-h2':'What is Vendetta?',
+  's-what-p1':'Vendetta is a free app that lets you scan and share prices — and <strong>get rewarded</strong> for it.',
+  's-what-p2':'Every price is stored <strong>on the blockchain</strong> — immutable, verifiable, forever.',
+  's-what-p3':'The result: A database of real, verified prices — by the community, for the community.',
+  's-what-c1-title':'The essentials:','s-what-c1-body':'Free. No crypto knowledge needed. The app does everything automatically.',
+  's-what-h3a':'Why Blockchain?','s-what-p4':'Normal price apps can be influenced by companies. At Vendetta that\'s impossible.',
+  's-what-h3b':'Who is it for?',
+  's-what-t-col1':'For you if you...','s-what-t-col2':'What you get',
+  's-what-t-r1a':'Want to save money','s-what-t-r1b':'Cheapest prices nearby',
+  's-what-t-r2a':'Want to report overpriced items','s-what-t-r2b':'Blockchain proof — immutable',
+  's-what-t-r3a':'Want to earn on the side','s-what-t-r3b':'IFR credits per scan',
+  's-what-t-r4a':'Want to help the community','s-what-t-r4b':'More trust = more influence',
+  's-how-h2':'How does it work?','s-how-p1':'The entire flow takes under 30 seconds.',
+  'step1-t':'Scan a barcode','step1-d':'The app recognizes the EAN code automatically.',
+  'step2-t':'GPS verified','step2-d':'Accuracy under 150m required.',
+  'step3-t':'Cryptographic hash','step3-d':'Unique fingerprint from price + GPS + time.',
+  'step4-t':'Stored on blockchain','step4-d':'On Base L2. Cost: nothing.',
+  'step5-t':'Community verifies','step5-d':'Others can confirm or dispute your price.',
+  'step6-t':'Credits credited','step6-d':'Immediately. First Mover = 2× bonus.',
+  's-how-c1-title':'No gas fees for you!','s-how-c1-body':'Vendetta covers transaction fees.',
+  's-start-h2':'Getting Started','s-start-h3a':'Install the App','s-start-p1':'Free for Android and iOS.',
+  's-start-c1-title':'App Store & Play Store:','s-start-c1-body':'Beta phase. Mainnet in Phase 4.',
+  's-start-h3b':'Onboarding',
+  'onb1-t':'Welcome','onb1-d':'Tap "Get Started".',
+  'onb2-t':'Confirm phone','onb2-d':'One-time. Deleted immediately.',
+  'onb3-t':'Allow location','onb3-d':'For map and search.',
+  'onb4-t':'Done!','onb4-d':'Account auto-configured.',
+  's-start-c2-title':'Background:','s-start-c2-body':'Auto wallet creation. 12 words under Settings → Backup.',
+  's-scan-h2':'Scanning Prices','s-scan-h3a':'What can I scan?',
+  'scan-t-col1':'Category','scan-t-col2':'Examples','scan-t-col3':'Method',
+  'scan-t-r1a':'Food','scan-t-r1b':'Milk, bread','scan-t-r1c':'Barcode',
+  'scan-t-r2a':'Drugstore','scan-t-r2b':'Shampoo','scan-t-r2c':'Barcode',
+  'scan-t-r3a':'Fuel','scan-t-r3b':'Petrol E10','scan-t-r3c':'Manual',
+  'scan-t-r4a':'Services','scan-t-r4b':'Hairdresser, café','scan-t-r4c':'Manual',
+  'scan-t-r5a':'Electronics','scan-t-r5b':'Headphones','scan-t-r5c':'Barcode',
+  's-scan-h3b':'Step by step',
+  'scan1-t':'Open Scan tab','scan1-d':'Barcode icon at bottom.',
+  'scan2-t':'Scan barcode','scan2-d':'Point camera at price tag.',
+  'scan3-t':'Enter price','scan3-d':'Amount + currency.',
+  'scan4-t':'Tap "Save"','scan4-d':'GPS check + blockchain ~2s.',
+  'scan5-t':'Credits received!','scan5-d':'Green confirmation.',
+  's-scan-h3c':'First Mover Bonus','s-scan-p1':'First to report = 2× bonus.',
+  's-scan-c1-title':'Tip: New stores = more credits!','s-scan-c1-body':'New supermarkets have many unscanned products.',
+  's-map-h2':'Map & Search','s-map-p1':'Map tab shows all prices as pins.',
+  's-map-h3a':'Radius Slider','s-map-p2':'500m to 50km.',
+  's-map-h3b':'Search','s-map-p3':'Enter product name → cheapest nearby.',
+  's-map-h3c':'Tap a pin','s-map-p4':'Details: price, time, trust, votes.',
+  's-map-c1-title':'Speed:','s-map-c1-body':'The Graph Protocol: under 50ms.',
+  's-vote-h2':'Voting','s-vote-p1':'Vote whether a price is correct.',
+  's-vote-h3a':'When can I vote?','s-vote-p2':'Only if you were nearby in the last 7 days.',
+  's-vote-h3b':'What happens?',
+  'vote-t-col1':'Result','vote-t-col2':'What happens',
+  'vote-t-r1a':'80%+ confirmations','vote-t-r1b':'Verified ✓ +5 trust',
+  'vote-t-r2a':'75%+ rejections','vote-t-r2b':'Disputed ⚠ -50 trust',
+  'vote-t-r3a':'72h no objections','vote-t-r3b':'Auto-verified',
+  's-vote-h3c':'Earn by voting','s-vote-p3':'Every vote: +2 trust.',
+  's-vote-c1-title':'Wrong votes hurt you!','s-vote-c1-body':'Systematic wrong votes → trust drops → fewer credits.',
+  's-credits-h2':'Credits & Rewards','s-credits-p1':'Credits are your reward. Redeemable from 1,000.',
+  's-credits-h3a':'How many credits?','s-credits-p2':'The formula:',
+  's-credits-formula':'Trust: higher = more. Tier: more IFR locked = more. Bonus: First Mover = 2×.',
+  's-credits-h3b':'Examples',
+  'cred-t-col1':'Situation','cred-t-col2':'Credits',
+  'cred-t-r1a':'New user, First Mover','cred-t-r2a':'New user, normal',
+  'cred-t-r3a':'Bronze, First Mover','cred-t-r4a':'Gold, First Mover, Trust 800','cred-t-r5a':'Duplicate (5th)',
+  's-credits-h3c':'Redeem credits',
+  'payout1-t':'Accumulate 1,000','payout1-d':'Minimum.',
+  'payout2-t':'Tap "Redeem"','payout2-d':'One-time explanation.',
+  'payout3-t':'Fingerprint','payout3-d':'Face ID or fingerprint.',
+  'payout4-t':'IFR in wallet','payout4-d':'~30 seconds. 7-day cooldown.',
+  's-tiers-h2':'Tier System','s-tiers-p1':'Lock IFR = more credits. Voluntary. Unlockable anytime.',
+  'tier-free-lock':'0 IFR','tier-free-desc':'Half credits',
+  'tier-b-desc':'Full credits','tier-s-desc':'+25% more','tier-g-desc':'+50% more','tier-p-desc':'Double credits',
+  's-tiers-h3a':'How to lock IFR?',
+  'lock1-t':'Open Wallet tab','lock1-d':'Bottom of app.',
+  'lock2-t':'"Lock IFR"','lock2-d':'Select tier.',
+  'lock3-t':'Buy IFR if needed','lock3-d':'Swap ETH for IFR.',
+  'lock4-t':'Confirm','lock4-d':'Fingerprint → active.',
+  's-tiers-c1-title':'Unlock anytime!','s-tiers-c1-body':'Not staking. No risk. All tokens back immediately.',
+  's-ifr-h2':'IFR Token','s-ifr-p1':'IFR is the reward token. We use <a href="https://ifrunit.tech" target="_blank" style="color:var(--accent)">ifrunit.tech</a>.',
+  's-ifr-h3a':'What is IFR?',
+  'ifr-t-r1a':'Token','ifr-t-r2a':'Network','ifr-t-r2b':'Ethereum Mainnet',
+  'ifr-t-r3a':'Type','ifr-t-r3b':'Deflationary ERC-20 (2.5% burned)',
+  'ifr-t-r4a':'PartnerVault','ifr-t-r4b':'40M IFR reserved',
+  'ifr-t-r5a':'Price','ifr-t-r5b':'Dynamic — Uniswap V2',
+  's-ifr-h3b':'Where do my IFR come from?','s-ifr-p2':'From the PartnerVault — 40M IFR for Vendetta users.',
+  's-ifr-h3c':'What can I do with IFR?',
+  'ifr-use-col1':'Option','ifr-use-col2':'What it brings',
+  'ifr-use-r1a':'Hold','ifr-use-r1b':'Value rises with users',
+  'ifr-use-r2a':'Lock','ifr-use-r2b':'Higher tier = more credits',
+  'ifr-use-r3a':'Sell','ifr-use-r3b':'Swap for ETH on Uniswap',
+  'ifr-use-r4a':'Send','ifr-use-r4b':'Transfer to other wallets',
+  's-ifr-c1-title':'Dynamic payout rate','s-ifr-c1-body':'Rate varies. App shows current rate.',
+  's-priv-h2':'Privacy','s-priv-p1':'Vendetta stores <strong>no personal data</strong>.',
+  's-priv-c1-title':'GDPR by Design','s-priv-c1-body':'Mathematically guaranteed. Data doesn\'t exist.',
+  's-priv-h3a':'Nullifier System','s-priv-p2':'On first start:',
+  'null1-t':'Enter phone','null1-d':'SMS verification only.',
+  'null2-t':'Server creates Nullifier','null2-d':'Random 256-bit number.',
+  'null3-t':'Phone deleted','null3-d':'Immediately.',
+  'null4-t':'On-chain identity','null4-d':'SHA-256(Nullifier + device). Untraceable.',
+  's-priv-h3b':'What is stored?',
+  'priv-t-col1':'Data','priv-t-col2':'Stored?','priv-t-col3':'Where?',
+  'priv-t-r1a':'Phone number','priv-t-r1c':'Nowhere',
+  'priv-t-r2a':'Name / Email','priv-t-r2c':'Nowhere',
+  'priv-t-r3a':'GPS location','priv-t-r3c':'Only with price hash',
+  'priv-t-r4a':'Submitted prices','priv-t-r4c':'Blockchain (public, anonymous)',
+  'priv-t-r5a':'Crypto hash','priv-t-r5c':'Blockchain (untraceable)',
+  's-wallet-h2':'Wallet','s-wallet-p1':'Auto-created. No MetaMask needed.',
+  's-wallet-h3a':'What is a wallet?','s-wallet-p2':'Like a bank account without a bank.',
+  's-wallet-h3b':'The 12 security words','s-wallet-p3':'Seed phrase under Settings → Backup. Write on paper!',
+  's-wallet-c1-title':'Never store digitally!','s-wallet-c1-body':'Paper only. Never share.',
+  's-wallet-h3c':'Wallet functions',
+  'wallet-t-col1':'Function','wallet-t-col2':'What it does',
+  'wallet-t-r1a':'Receive','wallet-t-r1b':'QR code or copy address',
+  'wallet-t-r2a':'Send','wallet-t-r2b':'IFR to another address',
+  'wallet-t-r3a':'Swap','wallet-t-r3b':'ETH ↔ IFR',
+  'wallet-t-r4a':'Lock IFR','wallet-t-r4b':'Activate tier',
+  'wallet-t-r5a':'Backup','wallet-t-r5b':'Show 12 words',
+  's-trust-h2':'Trust Score','s-trust-p1':'0-1000. Default: 500. More = more credits + vote weight.',
+  's-trust-h3a':'How does it change?',
+  'trust-t-col1':'Action','trust-t-col2':'Change',
+  'trust-t-r1a':'Price confirmed','trust-t-r2a':'Vote cast','trust-t-r3a':'72h auto-verify',
+  'trust-t-r4a':'Price rejected','trust-t-r5a':'Daily recovery','trust-t-r6a':'Minimum',
+  's-trust-c1-title':'Trust builds slowly.','s-trust-c1-body':'By design.',
+  's-faq-h2':'FAQ',
+  'faq-q1':'Does it cost money?','faq-a1':'No. Completely free.',
+  'faq-q2':'Need crypto knowledge?','faq-a2':'No. Everything is automatic.',
+  'faq-q3':'How much can I earn?','faq-a3':'~2,000 credits/day with Bronze.',
+  'faq-q4':'Lost my phone?','faq-a4':'12 words = full recovery.',
+  'faq-q5':'Who sees my prices?','faq-a5':'Prices are public but anonymous.',
+  'faq-q6':'Can I submit false prices?','faq-a6':'Community detects it. Trust drops.',
+  'faq-q7':'Why GPS accuracy?','faq-a7':'Prices are location-bound.',
+  'faq-q8':'Is my IFR safe?','faq-a8':'Yes. Keychain + biometrics + 0 audit findings.',
+  's-sec-h2':'Security','s-sec-p1':'Built with security as priority.',
+  's-sec-h3a':'Smart Contract Security',
+  'sec-t-col1':'Measure','sec-t-col2':'What it protects',
+  'sec-t-r1a':'Slither Audit','sec-t-r1b':'0 critical vulnerabilities',
+  'sec-t-r2a':'ReentrancyGuard','sec-t-r2b':'Prevents double payouts',
+  'sec-t-r3a':'Pausable','sec-t-r3b':'Emergency stop',
+  'sec-t-r4a':'UUPS Proxy','sec-t-r4b':'Bugs fixable',
+  'sec-t-r5a':'60 Tests','sec-t-r5b':'Every function tested',
+  's-sec-h3b':'App Security',
+  'sec2-t-col1':'Measure','sec2-t-col2':'What it protects',
+  'sec2-t-r1a':'Keychain / Keystore','sec2-t-r1b':'Keys hardware-encrypted',
+  'sec2-t-r2a':'Biometrics','sec2-t-r2b':'No TX without you',
+  'sec2-t-r3a':'Nullifier','sec2-t-r3b':'Identity anonymous',
+  'sec2-t-r4a':'Open Source','sec2-t-r4b':'Anyone can audit',
+  's-sec-c1-title':'Found a vulnerability?','s-sec-c1-body':'Private Security Advisory on GitHub. 48h response.',
+},
+gr:{
+  'topbar-title':'Vendetta — Οδηγός Χρήστη',
+  'nav-start':'Εκκίνηση','nav-what':'Τι είναι;','nav-how':'Πώς λειτουργεί;','nav-start2':'Πρώτα Βήματα',
+  'nav-features':'Λειτουργίες','nav-scan':'Σάρωση','nav-map':'Χάρτης','nav-vote':'Ψηφοφορία',
+  'nav-rewards-title':'Ανταμοιβές','nav-credits':'Credits','nav-tiers':'Tier','nav-ifr':'IFR Token',
+  'nav-account':'Λογαριασμός','nav-privacy':'Απόρρητο','nav-wallet':'Wallet','nav-trust':'Trust Score',
+  'nav-more':'Περισσότερα','nav-faq':'FAQ','nav-security':'Ασφάλεια',
+  's-what-h2':'Τι είναι η Vendetta;',
+  's-what-p1':'Δωρεάν εφαρμογή για σάρωση και κοινοποίηση τιμών — με <strong>ανταμοιβή</strong>.',
+  's-what-p2':'Κάθε τιμή αποθηκεύεται <strong>στο blockchain</strong> — αμετάβλητη, για πάντα.',
+  's-what-p3':'Βάση πραγματικών τιμών — από την κοινότητα, για την κοινότητα.',
+  's-what-c1-title':'Τα βασικά:','s-what-c1-body':'Δωρεάν. Χωρίς γνώσεις crypto. Αυτόματα.',
+  's-how-h2':'Πώς λειτουργεί;','s-how-p1':'Κάτω από 30 δευτερόλεπτα.',
+  's-faq-h2':'FAQ','s-sec-h2':'Ασφάλεια',
+},
+it:{
+  'topbar-title':'Vendetta — Guida Utente',
+  'nav-start':'Iniziare','nav-what':'Cos\'è?','nav-how':'Come funziona?','nav-start2':'Primi Passi',
+  'nav-features':'Funzionalità','nav-scan':'Scansione','nav-map':'Mappa','nav-vote':'Votazione',
+  'nav-rewards-title':'Premi','nav-credits':'Credits','nav-tiers':'Tier','nav-ifr':'IFR Token',
+  'nav-account':'Account','nav-privacy':'Privacy','nav-wallet':'Wallet','nav-trust':'Trust Score',
+  'nav-more':'Altro','nav-faq':'FAQ','nav-security':'Sicurezza',
+  's-what-h2':'Cos\'è Vendetta?',
+  's-what-p1':'App gratuita per scansionare e condividere prezzi — e essere <strong>ricompensati</strong>.',
+  's-what-p2':'Ogni prezzo salvato <strong>sulla blockchain</strong> — immutabile, per sempre.',
+  's-what-p3':'Database di prezzi reali — dalla community, per la community.',
+  's-what-c1-title':'L\'essenziale:','s-what-c1-body':'Gratuita. Nessuna conoscenza crypto. Automatica.',
+  's-how-h2':'Come funziona?','s-how-p1':'Meno di 30 secondi.',
+  's-faq-h2':'FAQ','s-sec-h2':'Sicurezza',
+}
+};
+
+let currentLang = 'de';
+
+function setLang(l) {
+  currentLang = l;
+  const d = T[l];
+  if (!d) return;
+  Object.keys(d).forEach(key => {
+    document.querySelectorAll('[data-i="'+key+'"]').forEach(el => {
+      el.innerHTML = d[key];
+    });
+  });
+  document.querySelectorAll('.lp').forEach(b => b.classList.remove('on'));
+  const idx = {de:0,en:1,gr:2,it:3}[l];
+  if (idx !== undefined) document.querySelectorAll('.lp')[idx].classList.add('on');
+  document.documentElement.lang = {de:'de',en:'en',gr:'el',it:'it'}[l];
+}
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+function setActive(el) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('rp').style.width = pct + '%';
+  const bt = document.getElementById('backTop');
+  if (el.scrollTop > 400) bt.classList.add('show');
+  else bt.classList.remove('show');
+});
+
+const sections = document.querySelectorAll('.wiki-section');
+const links = document.querySelectorAll('.nav-link');
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#'+id); });
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => sectionObserver.observe(s));
+
+function detectLang() {
+  const l = (navigator.language || 'de').toLowerCase();
+  if (l.startsWith('el')) return 'gr';
+  if (l.startsWith('en')) return 'en';
+  if (l.startsWith('it')) return 'it';
+  return 'de';
+}
+
+setLang(detectLang());
+</script>
+</body>
+</html>
