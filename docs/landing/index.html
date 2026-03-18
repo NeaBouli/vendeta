@@ -3,109 +3,691 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="Vendetta — Community Price Network. Scan prices. Anchor on blockchain. Earn IFR rewards.">
-<title>Vendetta — Community Price Network</title>
+<meta name="viewport"
+  content="width=device-width,initial-scale=1">
+<title>Vendetta — Price Transparency Network</title>
+<meta name="description"
+  content="Scan prices. Anchor truth on blockchain.
+           Earn IFR rewards.">
+<meta property="og:title"
+  content="Vendetta — Price Transparency Network">
+<meta property="og:description"
+  content="Community-driven price transparency.
+           Built on Base L2. Powered by IFR.">
+<meta property="og:image"
+  content="../logo/V_logo.jpg">
+
 <style>
-:root{
-  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;
-  --border:#30363d;--text:#c9d1d9;--muted:#8b949e;
-  --accent:#f97316;--blue:#3b82f6;--green:#22c55e;
-  --red:#ef4444;--purple:#8b5cf6;
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap');
+
+/* ── VARIABLES ─────────────────────────── */
+:root {
+  --bg:     #080b0f;
+  --bg2:    #0d1117;
+  --bg3:    #161b22;
+  --glass:  rgba(255,255,255,.04);
+  --border: rgba(255,255,255,.08);
+  --text:   #e8edf2;
+  --muted:  #64748b;
+  --accent: #f97316;
+  --blue:   #3b82f6;
+  --green:  #22c55e;
 }
+
+/* ── RESET ──────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.7}
-a{color:var(--blue);text-decoration:none}
-a:hover{text-decoration:underline}
+html{scroll-behavior:smooth;
+  -webkit-font-smoothing:antialiased}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
 
-/* NAV */
-nav{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo img{width:32px;height:32px;border-radius:6px;object-fit:cover}
-.nav-logo span{font-weight:700;font-size:16px;letter-spacing:2px;color:var(--accent)}
-.nav-right{display:flex;align-items:center;gap:6px}
-.lang-btn{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .15s;letter-spacing:.5px}
-.lang-btn:hover{color:var(--text);border-color:var(--text)}
-.lang-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+/* ── NAV ────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:0 clamp(20px,5vw,60px);
+  height:64px;
+  background:rgba(8,11,15,.8);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:12px;
+  text-decoration:none;
+}
+.nav-logo{
+  width:36px;height:36px;
+  border-radius:8px;
+  object-fit:cover;
+  border:1px solid var(--border);
+}
+.nav-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;letter-spacing:4px;
+  color:var(--accent);
+}
+.nav-right{
+  display:flex;align-items:center;gap:8px;
+}
+.lang-btn{
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:11px;font-weight:500;
+  letter-spacing:.5px;
+  cursor:pointer;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  transition:all .2s;
+  font-family:'DM Sans',sans-serif;
+}
+.lang-btn:hover{color:var(--text);
+  border-color:rgba(255,255,255,.2);}
+.lang-btn.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+}
 
-/* HERO */
-#hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.2;animation:gp 8s ease-in-out infinite}
-@keyframes gp{0%,100%{opacity:.15}50%{opacity:.3}}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:12px;border:1px solid var(--accent);color:var(--accent);margin-bottom:24px;position:relative;font-weight:600;letter-spacing:.5px}
-.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:800;letter-spacing:-1px;line-height:1.15;margin-bottom:20px;position:relative}
-h1 em{font-style:normal;color:var(--accent)}
-.hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--muted);max-width:600px;margin-bottom:36px;position:relative}
-.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;position:relative}
-.btn{padding:12px 28px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:#ea6a0e;text-decoration:none}
-.btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
-.btn-secondary:hover{border-color:var(--text);text-decoration:none}
+/* ── HERO ───────────────────────────────── */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:100px clamp(20px,5vw,60px) 60px;
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+}
 
-/* SECTIONS */
-section{padding:80px 24px}
-.container{max-width:1000px;margin:0 auto}
-.section-title{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;text-align:center;margin-bottom:12px}
-.section-sub{text-align:center;color:var(--muted);margin-bottom:48px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto}
+/* Animated grid background */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(249,115,22,.06) 1px,
+      transparent 1px),
+    linear-gradient(90deg,
+      rgba(249,115,22,.06) 1px,transparent 1px);
+  background-size:80px 80px;
+  animation:gridpulse 6s ease-in-out infinite;
+}
+@keyframes gridpulse{
+  0%,100%{opacity:.4}50%{opacity:1}
+}
 
-/* HOW IT WORKS */
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
-.step{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px 20px;text-align:center;transition:border-color .2s}
-.step:hover{border-color:var(--accent)}
-.step-icon{font-size:36px;margin-bottom:14px}
-.step-num{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;margin-bottom:10px}
-.step h3{font-size:15px;font-weight:600;margin-bottom:6px}
-.step p{font-size:13px;color:var(--muted)}
+/* Radial glow */
+.hero-glow{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:600px;height:600px;
+  background:radial-gradient(
+    circle,
+    rgba(249,115,22,.12) 0%,
+    transparent 70%);
+  pointer-events:none;
+}
 
-/* FEATURES */
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.feature{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;transition:border-color .2s}
-.feature:hover{border-color:var(--accent)}
-.feature-icon{font-size:28px;margin-bottom:12px}
-.feature h3{font-size:15px;font-weight:600;margin-bottom:6px}
-.feature p{font-size:13px;color:var(--muted)}
+.hero-content{
+  position:relative;z-index:1;
+  max-width:900px;
+}
 
-/* STATS */
-#stats{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:24px;text-align:center}
-.stat-num{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--accent)}
-.stat-label{font-size:13px;color:var(--muted);margin-top:4px}
+.hero-badge{
+  display:inline-flex;align-items:center;
+  gap:8px;
+  padding:6px 16px;
+  border-radius:20px;
+  border:1px solid rgba(249,115,22,.3);
+  background:rgba(249,115,22,.08);
+  font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:32px;
+  animation:fadein .8s ease both;
+}
+.hero-badge::before{
+  content:'';
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--accent);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(.8)}
+}
 
-/* ROADMAP */
-.timeline{position:relative;max-width:600px;margin:0 auto}
-.timeline::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:2px;background:var(--border)}
-.tl-item{display:flex;gap:20px;margin-bottom:28px;position:relative}
-.tl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:6px;position:relative;left:15px}
-.tl-dot.done{background:var(--green)}
-.tl-dot.active{background:var(--accent);box-shadow:0 0 10px var(--accent)}
-.tl-dot.planned{background:var(--border)}
-.tl-dot.future{background:var(--border)}
-.tl-content{padding-left:14px}
-.tl-content h4{font-size:14px;font-weight:600}
-.tl-content p{font-size:12px;color:var(--muted)}
+.hero-logo-wrap{
+  margin-bottom:32px;
+  animation:fadein .8s .1s ease both;
+}
+.hero-logo{
+  width:100px;height:100px;
+  border-radius:20px;
+  object-fit:cover;
+  border:2px solid rgba(249,115,22,.3);
+  box-shadow:
+    0 0 40px rgba(249,115,22,.2),
+    0 0 80px rgba(249,115,22,.08);
+}
 
-/* TOKEN */
-.token-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:28px;max-width:700px;margin:0 auto}
-.token-box h3{font-size:16px;font-weight:600;margin-bottom:8px}
-.token-box p{font-size:14px;color:var(--muted);margin-bottom:6px}
+h1.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,15vw,180px);
+  letter-spacing:8px;
+  line-height:.9;
+  color:var(--text);
+  margin-bottom:16px;
+  animation:fadein .8s .2s ease both;
+}
+h1.hero-title span{
+  color:var(--accent);
+  display:block;
+}
 
-/* OPEN SOURCE */
-.oss-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px;text-align:center;max-width:600px;margin:0 auto}
-.oss-box p{font-size:14px;color:var(--muted);margin:10px 0}
+.hero-sub{
+  font-size:clamp(16px,2.5vw,22px);
+  color:var(--muted);
+  font-weight:300;
+  letter-spacing:.5px;
+  margin-bottom:48px;
+  animation:fadein .8s .3s ease both;
+}
+.hero-sub strong{
+  color:var(--text);font-weight:500;
+}
 
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--muted);font-size:12px}
-footer a{color:var(--blue)}
+.hero-btns{
+  display:flex;gap:12px;
+  justify-content:center;flex-wrap:wrap;
+  animation:fadein .8s .4s ease both;
+}
 
-@media(max-width:640px){
-  nav{padding:0 14px}
-  section{padding:50px 16px}
-  .hero-cta{flex-direction:column;align-items:center}
-  .btn{width:100%;justify-content:center}
+@keyframes fadein{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── BUTTONS ────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;
+  gap:8px;
+  padding:14px 28px;
+  border-radius:8px;
+  font-size:14px;font-weight:500;
+  font-family:'DM Sans',sans-serif;
+  text-decoration:none;
+  transition:all .2s;
+  cursor:pointer;
+  border:none;
+  letter-spacing:.3px;
+}
+.btn-primary{
+  background:var(--accent);
+  color:#fff;
+}
+.btn-primary:hover{
+  background:#ea6c0a;
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(249,115,22,.3);
+}
+.btn-ghost{
+  background:var(--glass);
+  color:var(--text);
+  border:1px solid var(--border);
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.2);
+  transform:translateY(-2px);
+}
+.btn-disabled{
+  background:var(--glass);
+  color:var(--muted);
+  border:1px solid var(--border);
+  cursor:not-allowed;
+  opacity:.5;
+}
+
+/* ── SCROLL INDICATOR ───────────────────── */
+.scroll-hint{
+  position:absolute;
+  bottom:32px;left:50%;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;
+  align-items:center;gap:8px;
+  color:var(--muted);
+  font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;
+  animation:bounce 2s infinite;
+}
+.scroll-hint::after{
+  content:'';
+  width:1px;height:40px;
+  background:linear-gradient(
+    var(--accent),transparent);
+}
+@keyframes bounce{
+  0%,100%{transform:translateX(-50%)
+    translateY(0)}
+  50%{transform:translateX(-50%)
+    translateY(8px)}
+}
+
+/* ── SECTIONS ───────────────────────────── */
+section{
+  padding:clamp(60px,10vw,120px)
+    clamp(20px,5vw,60px);
+}
+.container{max-width:1200px;margin:0 auto;}
+
+.section-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:12px;
+}
+.section-eyebrow::before{
+  content:'';
+  width:32px;height:1px;
+  background:var(--accent);
+}
+
+h2.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,6vw,72px);
+  letter-spacing:2px;
+  line-height:1;
+  color:var(--text);
+  margin-bottom:16px;
+}
+.section-desc{
+  font-size:clamp(15px,2vw,18px);
+  color:var(--muted);
+  max-width:560px;
+  margin-bottom:60px;
+  font-weight:300;
+  line-height:1.7;
+}
+
+/* ── HOW IT WORKS ───────────────────────── */
+#how{background:var(--bg2);}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,
+    minmax(280px,1fr));
+  gap:2px;
+}
+.step{
+  position:relative;
+  padding:40px 32px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  backdrop-filter:blur(10px);
+  transition:all .3s;
+  overflow:hidden;
+}
+.step::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,
+    transparent,var(--accent),transparent);
+  opacity:0;
+  transition:opacity .3s;
+}
+.step:hover{background:rgba(249,115,22,.04);}
+.step:hover::before{opacity:1;}
+
+.step-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:72px;
+  color:rgba(249,115,22,.1);
+  line-height:1;
+  margin-bottom:24px;
+  transition:color .3s;
+}
+.step:hover .step-num{
+  color:rgba(249,115,22,.25);
+}
+.step-icon{
+  font-size:32px;margin-bottom:16px;
+}
+.step-title{
+  font-size:18px;font-weight:700;
+  margin-bottom:8px;color:var(--text);
+}
+.step-text{
+  font-size:14px;color:var(--muted);
+  line-height:1.7;font-weight:300;
+}
+
+/* ── FEATURES ───────────────────────────── */
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,
+    minmax(300px,1fr));
+  gap:16px;
+}
+.feat{
+  padding:28px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:4px;
+  transition:all .3s;
+  position:relative;
+  overflow:hidden;
+}
+.feat::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,
+    transparent,var(--accent),transparent);
+  transform:scaleX(0);
+  transition:transform .3s;
+}
+.feat:hover{
+  background:rgba(255,255,255,.06);
+  transform:translateY(-4px);
+}
+.feat:hover::after{transform:scaleX(1);}
+.feat-icon{
+  width:40px;height:40px;
+  border-radius:8px;
+  background:rgba(249,115,22,.1);
+  border:1px solid rgba(249,115,22,.2);
+  display:flex;align-items:center;
+  justify-content:center;
+  font-size:18px;
+  margin-bottom:16px;
+}
+.feat-title{
+  font-size:15px;font-weight:600;
+  margin-bottom:8px;color:var(--text);
+}
+.feat-text{
+  font-size:13px;color:var(--muted);
+  line-height:1.65;font-weight:300;
+}
+
+/* ── STATS ──────────────────────────────── */
+#stats{
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:clamp(40px,6vw,80px)
+    clamp(20px,5vw,60px);
+}
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,
+    minmax(180px,1fr));
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+}
+.stat{
+  background:var(--bg2);
+  padding:40px 32px;
+  text-align:center;
+}
+.stat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,5vw,64px);
+  color:var(--accent);
+  display:block;
+  line-height:1;
+}
+.stat-lbl{
+  font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:8px;
+  display:block;
+  font-family:'DM Mono',monospace;
+}
+.stats-note{
+  text-align:center;
+  margin-top:20px;
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+/* ── TOKEN ──────────────────────────────── */
+#token{background:var(--bg);}
+.token-wrap{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;align-items:center;
+}
+@media(max-width:768px){
+  .token-wrap{grid-template-columns:1fr;}
+}
+.token-card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+}
+.token-card-header{
+  padding:20px 24px;
+  background:rgba(249,115,22,.06);
+  border-bottom:1px solid var(--border);
+  font-family:'DM Mono',monospace;
+  font-size:12px;letter-spacing:1px;
+  color:var(--accent);
+  display:flex;align-items:center;
+  justify-content:space-between;
+}
+.token-row{
+  display:flex;justify-content:space-between;
+  align-items:center;
+  padding:14px 24px;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+.token-row:last-child{border-bottom:none;}
+.token-key{color:var(--muted);}
+.token-val{
+  color:var(--text);font-weight:500;
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+}
+.token-val.accent{color:var(--accent);}
+.copy-addr{
+  cursor:pointer;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-color:var(--border);
+  transition:color .2s;
+}
+.copy-addr:hover{color:var(--accent);}
+
+/* ── ROADMAP ────────────────────────────── */
+#roadmap{background:var(--bg2);}
+.timeline{
+  max-width:720px;
+  position:relative;
+}
+.timeline::before{
+  content:'';
+  position:absolute;left:20px;top:0;bottom:0;
+  width:1px;
+  background:var(--border);
+}
+.tl-item{
+  display:flex;gap:32px;
+  padding:32px 0;
+  position:relative;
+}
+.tl-dot{
+  width:40px;height:40px;min-width:40px;
+  border-radius:50%;
+  display:flex;align-items:center;
+  justify-content:center;
+  font-size:12px;font-weight:700;
+  font-family:'DM Mono',monospace;
+  position:relative;z-index:1;
+  flex-shrink:0;
+}
+.tl-dot.done{
+  background:rgba(34,197,94,.1);
+  border:1px solid var(--green);
+  color:var(--green);
+}
+.tl-dot.active{
+  background:rgba(249,115,22,.1);
+  border:1px solid var(--accent);
+  color:var(--accent);
+  box-shadow:0 0 20px rgba(249,115,22,.2);
+  animation:tl-pulse 2s infinite;
+}
+@keyframes tl-pulse{
+  0%,100%{box-shadow:0 0 20px
+    rgba(249,115,22,.2)}
+  50%{box-shadow:0 0 40px
+    rgba(249,115,22,.4)}
+}
+.tl-dot.future{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  color:var(--muted);
+}
+.tl-body{flex:1;padding-top:8px;}
+.tl-phase{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;
+}
+.tl-title{
+  font-size:18px;font-weight:600;
+  color:var(--text);margin-bottom:4px;
+}
+.tl-desc{
+  font-size:13px;color:var(--muted);
+  font-weight:300;line-height:1.6;
+}
+
+/* ── BUILD WITH US ──────────────────────── */
+#build{
+  background:var(--bg);
+  text-align:center;
+}
+.stack-pills{
+  display:flex;flex-wrap:wrap;gap:10px;
+  justify-content:center;
+  margin:32px 0 48px;
+}
+.pill{
+  padding:8px 18px;
+  border-radius:2px;
+  font-size:12px;
+  font-family:'DM Mono',monospace;
+  letter-spacing:.5px;
+  border:1px solid var(--border);
+  color:var(--muted);
+  background:var(--glass);
+  transition:all .2s;
+}
+.pill:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+/* ── FOOTER ─────────────────────────────── */
+footer{
+  border-top:1px solid var(--border);
+  padding:48px clamp(20px,5vw,60px);
+  background:var(--bg2);
+}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;gap:24px;
+}
+.footer-brand{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.footer-logo{
+  width:28px;height:28px;
+  border-radius:6px;object-fit:cover;
+}
+.footer-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:3px;
+  color:var(--accent);
+}
+.footer-links{
+  display:flex;gap:24px;flex-wrap:wrap;
+}
+.footer-links a{
+  color:var(--muted);font-size:13px;
+  text-decoration:none;
+  transition:color .2s;
+}
+.footer-links a:hover{color:var(--accent);}
+.footer-copy{
+  color:var(--muted);font-size:12px;
+  font-family:'DM Mono',monospace;
+  width:100%;margin-top:24px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+}
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media(max-width:600px){
+  nav{padding:0 16px;}
+  .scroll-hint{display:none;}
+  .timeline::before{display:none;}
+}
+
+/* ── TOAST ──────────────────────────────── */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--bg3);
+  border:1px solid var(--green);
+  color:var(--green);
+  padding:12px 20px;
+  border-radius:4px;
+  font-size:13px;
+  font-family:'DM Mono',monospace;
+  opacity:0;pointer-events:none;
+  transition:all .3s;
+  transform:translateY(8px);
+  z-index:999;
+}
+.toast.show{
+  opacity:1;transform:translateY(0);
+}
+
+/* ── SCROLL REVEAL ──────────────────────── */
+.reveal{
+  opacity:0;
+  transform:translateY(32px);
+  transition:opacity .7s ease,
+    transform .7s ease;
+}
+.reveal.visible{
+  opacity:1;transform:translateY(0);
 }
 </style>
 </head>
@@ -113,59 +695,84 @@ footer a{color:var(--blue)}
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">
-    <img src="../logo/V_logo.jpg" alt="V">
-    <span>VENDETTA</span>
+  <a class="nav-brand" href="#">
+    <img src="../logo/V_logo.jpg"
+         alt="Vendetta" class="nav-logo">
+    <span class="nav-name">VENDETTA</span>
   </a>
   <div class="nav-right">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('gr')">GR</button>
-    <button class="lang-btn" onclick="setLang('de')">DE</button>
-    <button class="lang-btn" onclick="setLang('it')">IT</button>
+    <button class="lang-btn active"
+      onclick="setLang('en')">EN</button>
+    <button class="lang-btn"
+      onclick="setLang('gr')">EL</button>
+    <button class="lang-btn"
+      onclick="setLang('de')">DE</button>
+    <button class="lang-btn"
+      onclick="setLang('it')">IT</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-grid"></div>
-  <div class="hero-badge"><span data-i18n="hero_badge">Open Source &middot; Base Sepolia Live &middot; IFR Builder</span></div>
-  <h1><em>Vendetta</em><br><span data-i18n="hero_title">Community Price Network</span></h1>
-  <p class="hero-sub" data-i18n="hero_sub">Scan prices around you. Anchor them on blockchain. Earn IFR token rewards. Transparent. Decentralized. For everyone.</p>
-  <div class="hero-cta">
-    <a href="https://github.com/NeaBouli/vendeta" target="_blank" class="btn btn-primary" data-i18n="hero_cta1">View on GitHub</a>
-    <a href="#how" class="btn btn-secondary" data-i18n="hero_cta2">How it works</a>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge" id="hero-badge">
+    </div>
+    <div class="hero-logo-wrap">
+      <img src="../logo/V_logo.jpg"
+           alt="Vendetta" class="hero-logo">
+    </div>
+    <h1 class="hero-title">
+      VENDETTA
+    </h1>
+    <p class="hero-sub" id="hero-sub"></p>
+    <div class="hero-btns">
+      <a href="https://github.com/NeaBouli/vendeta"
+         target="_blank"
+         class="btn btn-primary"
+         id="btn-github"></a>
+      <button class="btn btn-disabled"
+        id="btn-app"></button>
+    </div>
   </div>
+  <div class="scroll-hint"
+    id="scroll-hint">SCROLL</div>
 </section>
 
 <!-- HOW IT WORKS -->
 <section id="how">
   <div class="container">
-    <h2 class="section-title" data-i18n="how_title">How It Works</h2>
-    <p class="section-sub" data-i18n="how_sub">Four steps. No account needed. Your phone is your wallet.</p>
-    <div class="steps">
+    <div class="section-eyebrow"
+      id="how-label"></div>
+    <h2 class="section-title"
+      id="how-title"></h2>
+    <p class="section-desc"
+      id="how-sub"></p>
+    <div class="steps reveal">
       <div class="step">
-        <div class="step-icon">📱</div>
-        <div class="step-num" data-i18n="step1_num">Step 1</div>
-        <h3 data-i18n="step1_title">Scan</h3>
-        <p data-i18n="step1_text">Scan a barcode or photograph a price tag. The app reads the EAN and price automatically.</p>
+        <div class="step-num">01</div>
+        <div class="step-icon">📷</div>
+        <div class="step-title"
+          id="s1-t"></div>
+        <div class="step-text"
+          id="s1-d"></div>
       </div>
       <div class="step">
-        <div class="step-icon">📍</div>
-        <div class="step-num" data-i18n="step2_num">Step 2</div>
-        <h3 data-i18n="step2_title">Locate</h3>
-        <p data-i18n="step2_text">GPS captures your exact location. Price + coordinates are hashed client-side with SHA-256.</p>
-      </div>
-      <div class="step">
+        <div class="step-num">02</div>
         <div class="step-icon">⛓️</div>
-        <div class="step-num" data-i18n="step3_num">Step 3</div>
-        <h3 data-i18n="step3_title">Anchor</h3>
-        <p data-i18n="step3_text">The hash is anchored on Base L2 blockchain. Immutable. Transparent. ~$0.001 per transaction.</p>
+        <div class="step-title"
+          id="s2-t"></div>
+        <div class="step-text"
+          id="s2-d"></div>
       </div>
       <div class="step">
-        <div class="step-icon">🎁</div>
-        <div class="step-num" data-i18n="step4_num">Step 4</div>
-        <h3 data-i18n="step4_title">Earn</h3>
-        <p data-i18n="step4_text">Earn IFR token credits for every verified submission. First movers earn 2x bonus rewards.</p>
+        <div class="step-num">03</div>
+        <div class="step-icon">🔥</div>
+        <div class="step-title"
+          id="s3-t"></div>
+        <div class="step-text"
+          id="s3-d"></div>
       </div>
     </div>
   </div>
@@ -174,38 +781,42 @@ footer a{color:var(--blue)}
 <!-- FEATURES -->
 <section id="features">
   <div class="container">
-    <h2 class="section-title" data-i18n="feat_title">Features</h2>
-    <p class="section-sub" data-i18n="feat_sub">Built for privacy, speed, and fairness.</p>
-    <div class="features">
-      <div class="feature">
-        <div class="feature-icon">🔒</div>
-        <h3 data-i18n="f1_title">Zero Personal Data</h3>
-        <p data-i18n="f1_text">No name, no email, no phone stored. A random nullifier is your identity. GDPR by design.</p>
+    <div class="section-eyebrow"
+      id="feat-label"></div>
+    <h2 class="section-title"
+      id="feat-title"></h2>
+    <p class="section-desc"
+      id="feat-sub"></p>
+    <div class="features-grid reveal">
+      <div class="feat">
+        <div class="feat-icon">📍</div>
+        <div class="feat-title" id="f1-t"></div>
+        <div class="feat-text" id="f1-d"></div>
       </div>
-      <div class="feature">
-        <div class="feature-icon">🗺️</div>
-        <h3 data-i18n="f2_title">Real-Time Price Map</h3>
-        <p data-i18n="f2_text">Search products near you on an open map. MapLibre + OpenStreetMap. Free and offline-capable.</p>
+      <div class="feat">
+        <div class="feat-icon">🔐</div>
+        <div class="feat-title" id="f2-t"></div>
+        <div class="feat-text" id="f2-d"></div>
       </div>
-      <div class="feature">
-        <div class="feature-icon">⚡</div>
-        <h3 data-i18n="f3_title">Lightning Fast Search</h3>
-        <p data-i18n="f3_text">The Graph Protocol indexes blockchain data. Regional queries in under 50ms. 3-layer cache.</p>
+      <div class="feat">
+        <div class="feat-icon">⚖️</div>
+        <div class="feat-title" id="f3-t"></div>
+        <div class="feat-text" id="f3-d"></div>
       </div>
-      <div class="feature">
-        <div class="feature-icon">🛡️</div>
-        <h3 data-i18n="f4_title">Anti-Gaming</h3>
-        <p data-i18n="f4_text">Trust scores, locality locks, rate limits, and community voting prevent spam and manipulation.</p>
+      <div class="feat">
+        <div class="feat-icon">👤</div>
+        <div class="feat-title" id="f4-t"></div>
+        <div class="feat-text" id="f4-d"></div>
       </div>
-      <div class="feature">
-        <div class="feature-icon">💰</div>
-        <h3 data-i18n="f5_title">IFR Rewards</h3>
-        <p data-i18n="f5_text">No new token. Rewards paid in IFR from the PartnerVault. Lock IFR for +20% premium bonus.</p>
+      <div class="feat">
+        <div class="feat-icon">💳</div>
+        <div class="feat-title" id="f5-t"></div>
+        <div class="feat-text" id="f5-d"></div>
       </div>
-      <div class="feature">
-        <div class="feature-icon">🌍</div>
-        <h3 data-i18n="f6_title">Open Source</h3>
-        <p data-i18n="f6_text">MIT licensed. Rust core, Solidity contracts, Flutter app. Fully auditable. Contribute on GitHub.</p>
+      <div class="feat">
+        <div class="feat-icon">⚡</div>
+        <div class="feat-title" id="f6-t"></div>
+        <div class="feat-text" id="f6-d"></div>
       </div>
     </div>
   </div>
@@ -214,247 +825,596 @@ footer a{color:var(--blue)}
 <!-- STATS -->
 <section id="stats">
   <div class="container">
-    <div class="stats-grid">
-      <div><div class="stat-num">4</div><div class="stat-label" data-i18n="stat1">Smart Contracts</div></div>
-      <div><div class="stat-num">96</div><div class="stat-label" data-i18n="stat2">Tests Passing</div></div>
-      <div><div class="stat-num">36</div><div class="stat-label" data-i18n="stat3">Rust Unit Tests</div></div>
-      <div><div class="stat-num">0</div><div class="stat-label" data-i18n="stat4">Personal Data Stored</div></div>
+    <div class="stats-grid reveal">
+      <div class="stat">
+        <span class="stat-num">0</span>
+        <span class="stat-lbl"
+          id="stat1"></span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">0</span>
+        <span class="stat-lbl"
+          id="stat2"></span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">96</span>
+        <span class="stat-lbl"
+          id="stat3"></span>
+      </div>
+      <div class="stat">
+        <span class="stat-num"
+          style="font-size:clamp(20px,3vw,32px);
+          padding-top:8px;display:block">
+          Base L2</span>
+        <span class="stat-lbl"
+          id="stat4"></span>
+      </div>
     </div>
-    <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px" data-i18n="stats_note">Live on Base Sepolia Testnet &middot; Mainnet coming soon</p>
-  </div>
-</section>
-
-<!-- ROADMAP -->
-<section id="roadmap">
-  <div class="container">
-    <h2 class="section-title" data-i18n="road_title">Roadmap</h2>
-    <p class="section-sub" data-i18n="road_sub">From architecture to mainnet.</p>
-    <div class="timeline">
-      <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><h4 data-i18n="r1_title">Phase 0 — Architecture</h4><p data-i18n="r1_text">Design, decisions, documentation. Complete.</p></div></div>
-      <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><h4 data-i18n="r2_title">Phase 1 — Smart Contracts</h4><p data-i18n="r2_text">VendRegistry, VendTrust, VendRewards, VendClaim on Base L2.</p></div></div>
-      <div class="tl-item"><div class="tl-dot active"></div><div class="tl-content"><h4 data-i18n="r3_title">Phase 2 — Mobile App</h4><p data-i18n="r3_text">Flutter + Rust FFI. Scanner, map, wallet, rewards dashboard.</p></div></div>
-      <div class="tl-item"><div class="tl-dot future"></div><div class="tl-content"><h4 data-i18n="r4_title">Phase 3 — Testnet & Audit</h4><p data-i18n="r4_text">Base Sepolia deployment. Slither + Mythril security audit.</p></div></div>
-      <div class="tl-item"><div class="tl-dot future"></div><div class="tl-content"><h4 data-i18n="r5_title">Phase 4 — Mainnet Launch</h4><p data-i18n="r5_text">Europe first. Seed submissions. App Store + Google Play.</p></div></div>
-      <div class="tl-item"><div class="tl-dot future"></div><div class="tl-content"><h4 data-i18n="r6_title">Phase 5 — DAO Governance</h4><p data-i18n="r6_text">Community governance. Global expansion. DAO treasury.</p></div></div>
-    </div>
+    <p class="stats-note"
+      id="stats-note"></p>
   </div>
 </section>
 
 <!-- TOKEN -->
 <section id="token">
   <div class="container">
-    <h2 class="section-title" data-i18n="tok_title">IFR Token Integration</h2>
-    <p class="section-sub" data-i18n="tok_sub">No new token. Vendetta uses IFR as the reward currency.</p>
-    <div class="token-box">
-      <h3 data-i18n="tok_h1">How Rewards Work</h3>
-      <p data-i18n="tok_p1">Every verified price submission earns IFR credits. First movers earn 2x. IFR lockers earn +20%.</p>
-      <p data-i18n="tok_p2">Credits accumulate off-chain. Claim on-chain when you reach 1,000 credits via VendClaim.sol on Base L2.</p>
-      <p style="margin-top:14px"><a href="https://ifrunit.tech" target="_blank" data-i18n="tok_link">Learn more about IFR &rarr;</a></p>
+    <div class="token-wrap">
+      <div class="reveal">
+        <div class="section-eyebrow"
+          id="tok-label"></div>
+        <h2 class="section-title"
+          id="tok-title"></h2>
+        <p style="color:var(--muted);
+          font-size:15px;line-height:1.8;
+          margin-bottom:28px;font-weight:300"
+          id="tok-desc"></p>
+        <a href="https://ifrunit.tech"
+           target="_blank"
+           class="btn btn-ghost"
+           id="tok-btn"></a>
+      </div>
+      <div class="token-card reveal">
+        <div class="token-card-header">
+          <span>$IFR TOKEN</span>
+          <span style="color:var(--green)">
+            ● LIVE</span>
+        </div>
+        <div class="token-row">
+          <span class="token-key">
+            Network</span>
+          <span class="token-val">
+            Ethereum Mainnet</span>
+        </div>
+        <div class="token-row">
+          <span class="token-key">
+            Type</span>
+          <span class="token-val"
+            id="tok-type"></span>
+        </div>
+        <div class="token-row">
+          <span class="token-key"
+            id="tok-burn-lbl"></span>
+          <span class="token-val"
+            style="color:#ef4444">2.5%</span>
+        </div>
+        <div class="token-row">
+          <span class="token-key">
+            PartnerVault</span>
+          <span class="token-val accent">
+            40,000,000 IFR</span>
+        </div>
+        <div class="token-row">
+          <span class="token-key">
+            Contract</span>
+          <span class="token-val copy-addr"
+            onclick="copyAddr()"
+            title="Click to copy">
+            0x77e999...580A6e7B</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- OPEN SOURCE -->
-<section id="oss">
+<!-- ROADMAP -->
+<section id="roadmap">
   <div class="container">
-    <div class="oss-box">
-      <h2 class="section-title" data-i18n="oss_title">100% Open Source</h2>
-      <p data-i18n="oss_text">MIT licensed. Every line of code is public. Audit it. Fork it. Contribute.</p>
-      <a href="https://github.com/NeaBouli/vendeta" target="_blank" class="btn btn-primary" style="margin-top:16px" data-i18n="oss_cta">View Repository</a>
+    <div class="section-eyebrow"
+      id="rm-label"></div>
+    <h2 class="section-title"
+      id="rm-title"></h2>
+    <div class="timeline reveal">
+
+      <div class="tl-item">
+        <div class="tl-dot done">✓</div>
+        <div class="tl-body">
+          <div class="tl-phase"
+            id="rm-p0-phase"></div>
+          <div class="tl-title"
+            id="rm-p0-title"></div>
+          <div class="tl-desc"
+            id="rm-p0-desc"></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot done">✓</div>
+        <div class="tl-body">
+          <div class="tl-phase"
+            id="rm-p1-phase"></div>
+          <div class="tl-title"
+            id="rm-p1-title"></div>
+          <div class="tl-desc"
+            id="rm-p1-desc"></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot active">2</div>
+        <div class="tl-body">
+          <div class="tl-phase"
+            id="rm-p2-phase"></div>
+          <div class="tl-title"
+            id="rm-p2-title"></div>
+          <div class="tl-desc"
+            id="rm-p2-desc"></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot future">3</div>
+        <div class="tl-body">
+          <div class="tl-phase"
+            id="rm-p3-phase"></div>
+          <div class="tl-title"
+            id="rm-p3-title"></div>
+          <div class="tl-desc"
+            id="rm-p3-desc"></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot future">4</div>
+        <div class="tl-body">
+          <div class="tl-phase"
+            id="rm-p4-phase"></div>
+          <div class="tl-title"
+            id="rm-p4-title"></div>
+          <div class="tl-desc"
+            id="rm-p4-desc"></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot future">5</div>
+        <div class="tl-body">
+          <div class="tl-phase"
+            id="rm-p5-phase"></div>
+          <div class="tl-title"
+            id="rm-p5-title"></div>
+          <div class="tl-desc"
+            id="rm-p5-desc"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BUILD WITH US -->
+<section id="build">
+  <div class="container">
+    <div class="section-eyebrow"
+      id="build-label"></div>
+    <h2 class="section-title"
+      id="build-title"></h2>
+    <p class="section-desc"
+      style="margin:0 auto 0"
+      id="build-sub"></p>
+    <div class="stack-pills reveal">
+      <span class="pill">Rust</span>
+      <span class="pill">Flutter</span>
+      <span class="pill">Solidity</span>
+      <span class="pill">The Graph</span>
+      <span class="pill">Base L2</span>
+      <span class="pill">BIP39/BIP44</span>
+      <span class="pill">OpenStreetMap</span>
+    </div>
+    <div style="display:flex;gap:12px;
+      justify-content:center;flex-wrap:wrap"
+      class="reveal">
+      <a href="https://github.com/NeaBouli/vendeta"
+         target="_blank"
+         class="btn btn-primary"
+         id="build-gh"></a>
+      <a href="https://github.com/NeaBouli/vendeta/tree/main/docs"
+         target="_blank"
+         class="btn btn-ghost"
+         id="build-docs"></a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>
-    <strong style="color:var(--accent)">VENDETTA</strong> &mdash;
-    <span data-i18n="footer_tagline">Community Price Network</span> |
-    <a href="https://github.com/NeaBouli/vendeta" target="_blank">GitHub</a> |
-    <a href="https://ifrunit.tech" target="_blank">IFR Token</a> |
-    <a href="https://sepolia.basescan.org/address/0x77e99917Eca8539c62F509ED1193ac36580A6e7B" target="_blank">Basescan</a>
-  </p>
-  <p style="margin-top:6px" data-i18n="footer_built">Built in Greece. For Europe. Open Source.</p>
+  <div class="footer-inner">
+    <a class="footer-brand" href="#">
+      <img src="../logo/V_logo.jpg"
+           alt="V" class="footer-logo">
+      <span class="footer-name">VENDETTA</span>
+    </a>
+    <div class="footer-links">
+      <a href="https://github.com/NeaBouli/vendeta"
+         target="_blank">GitHub</a>
+      <a href="https://ifrunit.tech"
+         target="_blank">IFR Token</a>
+      <a href="https://sepolia.basescan.org/address/0x77e99917Eca8539c62F509ED1193ac36580A6e7B"
+         target="_blank">Basescan</a>
+      <a href="https://github.com/NeaBouli/vendeta/tree/main/docs"
+         target="_blank">Docs</a>
+      <a href="https://github.com/NeaBouli/vendeta/blob/main/SECURITY.md"
+         target="_blank">Security</a>
+    </div>
+    <div class="footer-copy">
+      <span id="footer-copy"></span>
+    </div>
+  </div>
 </footer>
 
+<div class="toast" id="toast"></div>
+
 <script>
+/* ── TRANSLATIONS ───────────────────────── */
 const T = {
-  en: {
-    hero_badge: "Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder",
-    hero_title: "Community Price Network",
-    hero_sub: "Scan prices around you. Anchor them on blockchain. Earn IFR token rewards. Transparent. Decentralized. For everyone.",
-    hero_cta1: "View on GitHub",
-    hero_cta2: "How it works",
-    how_title: "How It Works",
-    how_sub: "Four steps. No account needed. Your phone is your wallet.",
-    step1_num:"Step 1", step1_title:"Scan", step1_text:"Scan a barcode or photograph a price tag. The app reads the EAN and price automatically.",
-    step2_num:"Step 2", step2_title:"Locate", step2_text:"GPS captures your exact location. Price + coordinates are hashed client-side with SHA-256.",
-    step3_num:"Step 3", step3_title:"Anchor", step3_text:"The hash is anchored on Base L2 blockchain. Immutable. Transparent. ~$0.001 per transaction.",
-    step4_num:"Step 4", step4_title:"Earn", step4_text:"Earn IFR token credits for every verified submission. First movers earn 2x bonus rewards.",
-    feat_title:"Features", feat_sub:"Built for privacy, speed, and fairness.",
-    f1_title:"Zero Personal Data", f1_text:"No name, no email, no phone stored. A random nullifier is your identity. GDPR by design.",
-    f2_title:"Real-Time Price Map", f2_text:"Search products near you on an open map. MapLibre + OpenStreetMap. Free and offline-capable.",
-    f3_title:"Lightning Fast Search", f3_text:"The Graph Protocol indexes blockchain data. Regional queries in under 50ms. 3-layer cache.",
-    f4_title:"Anti-Gaming", f4_text:"Trust scores, locality locks, rate limits, and community voting prevent spam and manipulation.",
-    f5_title:"IFR Rewards", f5_text:"No new token. Rewards paid in IFR from the PartnerVault. Lock IFR for +20% premium bonus.",
-    f6_title:"Open Source", f6_text:"MIT licensed. Rust core, Solidity contracts, Flutter app. Fully auditable. Contribute on GitHub.",
-    stat1:"Smart Contracts", stat2:"Tests Passing", stat3:"Rust Unit Tests", stat4:"Personal Data Stored",
-    stats_note:"Live on Base Sepolia Testnet \u00B7 Mainnet coming soon",
-    road_title:"Roadmap", road_sub:"From architecture to mainnet.",
-    r1_title:"Phase 0 \u2014 Architecture", r1_text:"Design, decisions, documentation. Complete.",
-    r2_title:"Phase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim on Base L2. Complete.",
-    r3_title:"Phase 2 \u2014 Mobile App", r3_text:"Flutter + Rust FFI. Scanner, map, wallet, rewards dashboard.",
-    r4_title:"Phase 3 \u2014 Testnet & Audit", r4_text:"Base Sepolia deployment. Slither + Mythril security audit.",
-    r5_title:"Phase 4 \u2014 Mainnet Launch", r5_text:"Europe first. Seed submissions. App Store + Google Play.",
-    r6_title:"Phase 5 \u2014 DAO Governance", r6_text:"Community governance. Global expansion. DAO treasury.",
-    tok_title:"IFR Token Integration", tok_sub:"No new token. Vendetta uses IFR as the reward currency.",
-    tok_h1:"How Rewards Work",
-    tok_p1:"Every verified price submission earns IFR credits. First movers earn 2x. IFR lockers earn +20%.",
-    tok_p2:"Credits accumulate off-chain. Claim on-chain when you reach 1,000 credits via VendClaim.sol on Base L2.",
-    tok_link:"Learn more about IFR \u2192",
-    oss_title:"100% Open Source", oss_text:"MIT licensed. Every line of code is public. Audit it. Fork it. Contribute.", oss_cta:"View Repository",
-    footer_tagline:"Community Price Network", footer_built:"Built in Greece. For Europe. Open Source."
-  },
-  gr: {
-    hero_badge: "\u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2 \u00B7 Base Sepolia Live \u00B7 IFR Builder",
-    hero_title: "\u0394\u03AF\u03BA\u03C4\u03C5\u03BF \u03A4\u03B9\u03BC\u03CE\u03BD \u039A\u03BF\u03B9\u03BD\u03CC\u03C4\u03B7\u03C4\u03B1\u03C2",
-    hero_sub: "\u03A3\u03BA\u03AC\u03BD\u03B1\u03C1\u03B5 \u03C4\u03B9\u03BC\u03AD\u03C2 \u03B3\u03CD\u03C1\u03C9 \u03C3\u03BF\u03C5. \u039A\u03B1\u03C4\u03B1\u03C7\u03CE\u03C1\u03B7\u03C3\u03AD \u03C4\u03B5\u03C2 \u03C3\u03C4\u03BF blockchain. \u039A\u03AD\u03C1\u03B4\u03B9\u03C3\u03B5 IFR tokens. \u0394\u03B9\u03B1\u03C6\u03B1\u03BD\u03AD\u03C2. \u0391\u03C0\u03BF\u03BA\u03B5\u03BD\u03C4\u03C1\u03C9\u03BC\u03AD\u03BD\u03BF. \u0393\u03B9\u03B1 \u03CC\u03BB\u03BF\u03C5\u03C2.",
-    hero_cta1: "\u0394\u03B5\u03C2 \u03C3\u03C4\u03BF GitHub",
-    hero_cta2: "\u03A0\u03CE\u03C2 \u03BB\u03B5\u03B9\u03C4\u03BF\u03C5\u03C1\u03B3\u03B5\u03AF",
-    how_title: "\u03A0\u03CE\u03C2 \u039B\u03B5\u03B9\u03C4\u03BF\u03C5\u03C1\u03B3\u03B5\u03AF",
-    how_sub: "\u03A4\u03AD\u03C3\u03C3\u03B5\u03C1\u03B1 \u03B2\u03AE\u03BC\u03B1\u03C4\u03B1. \u0394\u03B5\u03BD \u03C7\u03C1\u03B5\u03B9\u03AC\u03B6\u03B5\u03C4\u03B1\u03B9 \u03BB\u03BF\u03B3\u03B1\u03C1\u03B9\u03B1\u03C3\u03BC\u03CC\u03C2. \u03A4\u03BF \u03BA\u03B9\u03BD\u03B7\u03C4\u03CC \u03C3\u03BF\u03C5 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03C4\u03BF \u03C0\u03BF\u03C1\u03C4\u03BF\u03C6\u03CC\u03BB\u03B9 \u03C3\u03BF\u03C5.",
-    step1_num:"\u0392\u03AE\u03BC\u03B1 1", step1_title:"\u03A3\u03BA\u03AC\u03BD\u03B1\u03C1\u03B5", step1_text:"\u03A3\u03BA\u03AC\u03BD\u03B1\u03C1\u03B5 \u03AD\u03BD\u03B1 barcode \u03AE \u03C6\u03C9\u03C4\u03BF\u03B3\u03C1\u03AC\u03C6\u03B9\u03C3\u03B5 \u03BC\u03B9\u03B1 \u03B5\u03C4\u03B9\u03BA\u03AD\u03C4\u03B1 \u03C4\u03B9\u03BC\u03AE\u03C2. \u0397 \u03B5\u03C6\u03B1\u03C1\u03BC\u03BF\u03B3\u03AE \u03B4\u03B9\u03B1\u03B2\u03AC\u03B6\u03B5\u03B9 \u03C4\u03BF EAN \u03BA\u03B1\u03B9 \u03C4\u03B7\u03BD \u03C4\u03B9\u03BC\u03AE \u03B1\u03C5\u03C4\u03CC\u03BC\u03B1\u03C4\u03B1.",
-    step2_num:"\u0392\u03AE\u03BC\u03B1 2", step2_title:"\u0395\u03BD\u03C4\u03CC\u03C0\u03B9\u03C3\u03B5", step2_text:"\u03A4\u03BF GPS \u03BA\u03B1\u03C4\u03B1\u03B3\u03C1\u03AC\u03C6\u03B5\u03B9 \u03C4\u03B7\u03BD \u03B1\u03BA\u03C1\u03B9\u03B2\u03AE \u03C4\u03BF\u03C0\u03BF\u03B8\u03B5\u03C3\u03AF\u03B1 \u03C3\u03BF\u03C5. \u03A4\u03B9\u03BC\u03AE + \u03C3\u03C5\u03BD\u03C4\u03B5\u03C4\u03B1\u03B3\u03BC\u03AD\u03BD\u03B5\u03C2 \u03BA\u03C1\u03C5\u03C0\u03C4\u03BF\u03B3\u03C1\u03B1\u03C6\u03BF\u03CD\u03BD\u03C4\u03B1\u03B9 \u03C4\u03BF\u03C0\u03B9\u03BA\u03AC \u03BC\u03B5 SHA-256.",
-    step3_num:"\u0392\u03AE\u03BC\u03B1 3", step3_title:"\u039A\u03B1\u03C4\u03B1\u03C7\u03CE\u03C1\u03B7\u03C3\u03B5", step3_text:"\u03A4\u03BF hash \u03BA\u03B1\u03C4\u03B1\u03C7\u03C9\u03C1\u03B5\u03AF\u03C4\u03B1\u03B9 \u03C3\u03C4\u03BF Base L2 blockchain. \u0391\u03BC\u03B5\u03C4\u03AC\u03B2\u03BB\u03B7\u03C4\u03BF. \u0394\u03B9\u03B1\u03C6\u03B1\u03BD\u03AD\u03C2. ~$0.001 \u03B1\u03BD\u03AC \u03C3\u03C5\u03BD\u03B1\u03BB\u03BB\u03B1\u03B3\u03AE.",
-    step4_num:"\u0392\u03AE\u03BC\u03B1 4", step4_title:"\u039A\u03AD\u03C1\u03B4\u03B9\u03C3\u03B5", step4_text:"\u039A\u03AD\u03C1\u03B4\u03B9\u03C3\u03B5 IFR credits \u03B3\u03B9\u03B1 \u03BA\u03AC\u03B8\u03B5 \u03B5\u03C0\u03B1\u03BB\u03B7\u03B8\u03B5\u03C5\u03BC\u03AD\u03BD\u03B7 \u03BA\u03B1\u03C4\u03B1\u03C7\u03CE\u03C1\u03B7\u03C3\u03B7. \u039F\u03B9 \u03C0\u03C1\u03CE\u03C4\u03BF\u03B9 \u03BA\u03B5\u03C1\u03B4\u03AF\u03B6\u03BF\u03C5\u03BD 2x \u03BC\u03C0\u03CC\u03BD\u03BF\u03C5\u03C2.",
-    feat_title:"\u03A7\u03B1\u03C1\u03B1\u03BA\u03C4\u03B7\u03C1\u03B9\u03C3\u03C4\u03B9\u03BA\u03AC", feat_sub:"\u03A6\u03C4\u03B9\u03B1\u03B3\u03BC\u03AD\u03BD\u03BF \u03B3\u03B9\u03B1 \u03B9\u03B4\u03B9\u03C9\u03C4\u03B9\u03BA\u03CC\u03C4\u03B7\u03C4\u03B1, \u03C4\u03B1\u03C7\u03CD\u03C4\u03B7\u03C4\u03B1 \u03BA\u03B1\u03B9 \u03B4\u03B9\u03BA\u03B1\u03B9\u03BF\u03C3\u03CD\u03BD\u03B7.",
-    f1_title:"\u039C\u03B7\u03B4\u03AD\u03BD \u03A0\u03C1\u03BF\u03C3\u03C9\u03C0\u03B9\u03BA\u03AC \u0394\u03B5\u03B4\u03BF\u03BC\u03AD\u03BD\u03B1", f1_text:"\u039A\u03B1\u03BD\u03AD\u03BD\u03B1 \u03CC\u03BD\u03BF\u03BC\u03B1, email, \u03C4\u03B7\u03BB\u03AD\u03C6\u03C9\u03BD\u03BF. \u0388\u03BD\u03B1\u03C2 \u03C4\u03C5\u03C7\u03B1\u03AF\u03BF\u03C2 nullifier \u03B5\u03AF\u03BD\u03B1\u03B9 \u03B7 \u03C4\u03B1\u03C5\u03C4\u03CC\u03C4\u03B7\u03C4\u03AC \u03C3\u03BF\u03C5. GDPR \u03B1\u03C0\u03CC \u03C3\u03C7\u03B5\u03B4\u03B9\u03B1\u03C3\u03BC\u03CC.",
-    f2_title:"\u03A7\u03AC\u03C1\u03C4\u03B7\u03C2 \u03A4\u03B9\u03BC\u03CE\u03BD", f2_text:"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B5 \u03C0\u03C1\u03BF\u03CA\u03CC\u03BD\u03C4\u03B1 \u03BA\u03BF\u03BD\u03C4\u03AC \u03C3\u03BF\u03C5 \u03C3\u03B5 \u03B1\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC \u03C7\u03AC\u03C1\u03C4\u03B7. MapLibre + OpenStreetMap. \u0394\u03C9\u03C1\u03B5\u03AC\u03BD.",
-    f3_title:"\u0391\u03C3\u03C4\u03C1\u03B1\u03C0\u03B9\u03B1\u03AF\u03B1 \u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7", f3_text:"\u03A4\u03BF The Graph Protocol \u03B5\u03C5\u03C1\u03B5\u03C4\u03B7\u03C1\u03B9\u03AC\u03B6\u03B5\u03B9 \u03C4\u03B1 \u03B4\u03B5\u03B4\u03BF\u03BC\u03AD\u03BD\u03B1. \u03A0\u03B5\u03C1\u03B9\u03C6\u03B5\u03C1\u03B5\u03B9\u03B1\u03BA\u03AC queries \u03C3\u03B5 <50ms.",
-    f4_title:"\u0391\u03BD\u03C4\u03AF-Gaming", f4_text:"Trust scores, \u03C4\u03BF\u03C0\u03B9\u03BA\u03CC \u03BA\u03BB\u03B5\u03AF\u03B4\u03C9\u03BC\u03B1, \u03CC\u03C1\u03B9\u03B1 \u03C1\u03C5\u03B8\u03BC\u03BF\u03CD \u03BA\u03B1\u03B9 \u03C8\u03B7\u03C6\u03BF\u03C6\u03BF\u03C1\u03AF\u03B1 \u03BA\u03BF\u03B9\u03BD\u03CC\u03C4\u03B7\u03C4\u03B1\u03C2 \u03B1\u03C0\u03BF\u03C4\u03C1\u03AD\u03C0\u03BF\u03C5\u03BD spam.",
-    f5_title:"\u0391\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AD\u03C2 IFR", f5_text:"\u039A\u03B1\u03BD\u03AD\u03BD\u03B1 \u03BD\u03AD\u03BF token. \u0391\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AD\u03C2 \u03C3\u03B5 IFR \u03B1\u03C0\u03CC \u03C4\u03BF PartnerVault. \u039A\u03BB\u03B5\u03AF\u03B4\u03C9\u03C3\u03B5 IFR \u03B3\u03B9\u03B1 +20% \u03BC\u03C0\u03CC\u03BD\u03BF\u03C5\u03C2.",
-    f6_title:"\u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2", f6_text:"\u0386\u03B4\u03B5\u03B9\u03B1 MIT. Rust core, Solidity contracts, Flutter app. \u03A0\u03BB\u03AE\u03C1\u03C9\u03C2 \u03B5\u03BB\u03AD\u03B3\u03BE\u03B9\u03BC\u03BF. \u03A3\u03C5\u03BD\u03B5\u03B9\u03C3\u03C6\u03AD\u03C1\u03B5\u03C4\u03B5 \u03C3\u03C4\u03BF GitHub.",
-    stat1:"Smart Contracts", stat2:"\u0395\u03C0\u03B9\u03C4\u03C5\u03C7\u03AE Tests", stat3:"Rust Unit Tests", stat4:"\u03A0\u03C1\u03BF\u03C3\u03C9\u03C0\u03B9\u03BA\u03AC \u0394\u03B5\u03B4\u03BF\u03BC\u03AD\u03BD\u03B1",
-    stats_note:"Live \u03C3\u03C4\u03BF Base Sepolia Testnet \u00B7 Mainnet \u03C3\u03CD\u03BD\u03C4\u03BF\u03BC\u03B1",
-    road_title:"\u03A7\u03AC\u03C1\u03C4\u03B7\u03C2 \u03A0\u03BF\u03C1\u03B5\u03AF\u03B1\u03C2", road_sub:"\u0391\u03C0\u03CC \u03C4\u03B7\u03BD \u03B1\u03C1\u03C7\u03B9\u03C4\u03B5\u03BA\u03C4\u03BF\u03BD\u03B9\u03BA\u03AE \u03C3\u03C4\u03BF mainnet.",
-    r1_title:"\u03A6\u03AC\u03C3\u03B7 0 \u2014 \u0391\u03C1\u03C7\u03B9\u03C4\u03B5\u03BA\u03C4\u03BF\u03BD\u03B9\u03BA\u03AE", r1_text:"\u03A3\u03C7\u03B5\u03B4\u03B9\u03B1\u03C3\u03BC\u03CC\u03C2, \u03B1\u03C0\u03BF\u03C6\u03AC\u03C3\u03B5\u03B9\u03C2, \u03C4\u03B5\u03BA\u03BC\u03B7\u03C1\u03AF\u03C9\u03C3\u03B7. \u039F\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03B8\u03B7\u03BA\u03B5.",
-    r2_title:"\u03A6\u03AC\u03C3\u03B7 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim \u03C3\u03C4\u03BF Base L2. \u039F\u03BB\u03BF\u03BA\u03BB\u03B7\u03C1\u03CE\u03B8\u03B7\u03BA\u03B5.",
-    r3_title:"\u03A6\u03AC\u03C3\u03B7 2 \u2014 \u0395\u03C6\u03B1\u03C1\u03BC\u03BF\u03B3\u03AE", r3_text:"Flutter + Rust FFI. Scanner, \u03C7\u03AC\u03C1\u03C4\u03B7\u03C2, \u03C0\u03BF\u03C1\u03C4\u03BF\u03C6\u03CC\u03BB\u03B9, dashboard.",
-    r4_title:"\u03A6\u03AC\u03C3\u03B7 3 \u2014 Testnet & \u0388\u03BB\u03B5\u03B3\u03C7\u03BF\u03C2", r4_text:"Base Sepolia deployment. Slither + Mythril \u03AD\u03BB\u03B5\u03B3\u03C7\u03BF\u03C2 \u03B1\u03C3\u03C6\u03B1\u03BB\u03B5\u03AF\u03B1\u03C2.",
-    r5_title:"\u03A6\u03AC\u03C3\u03B7 4 \u2014 Mainnet Launch", r5_text:"\u0395\u03C5\u03C1\u03CE\u03C0\u03B7 \u03C0\u03C1\u03CE\u03C4\u03B1. Seed submissions. App Store + Google Play.",
-    r6_title:"\u03A6\u03AC\u03C3\u03B7 5 \u2014 DAO Governance", r6_text:"\u0394\u03B9\u03B1\u03BA\u03C5\u03B2\u03AD\u03C1\u03BD\u03B7\u03C3\u03B7 \u03BA\u03BF\u03B9\u03BD\u03CC\u03C4\u03B7\u03C4\u03B1\u03C2. \u03A0\u03B1\u03B3\u03BA\u03CC\u03C3\u03BC\u03B9\u03B1 \u03B5\u03C0\u03AD\u03BA\u03C4\u03B1\u03C3\u03B7. DAO treasury.",
-    tok_title:"\u0395\u03BD\u03C3\u03C9\u03BC\u03AC\u03C4\u03C9\u03C3\u03B7 IFR Token", tok_sub:"\u039A\u03B1\u03BD\u03AD\u03BD\u03B1 \u03BD\u03AD\u03BF token. \u03A4\u03BF Vendetta \u03C7\u03C1\u03B7\u03C3\u03B9\u03BC\u03BF\u03C0\u03BF\u03B9\u03B5\u03AF IFR \u03C9\u03C2 \u03BD\u03CC\u03BC\u03B9\u03C3\u03BC\u03B1 \u03B1\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AE\u03C2.",
-    tok_h1:"\u03A0\u03CE\u03C2 \u039B\u03B5\u03B9\u03C4\u03BF\u03C5\u03C1\u03B3\u03BF\u03CD\u03BD \u03BF\u03B9 \u0391\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AD\u03C2",
-    tok_p1:"\u039A\u03AC\u03B8\u03B5 \u03B5\u03C0\u03B1\u03BB\u03B7\u03B8\u03B5\u03C5\u03BC\u03AD\u03BD\u03B7 \u03BA\u03B1\u03C4\u03B1\u03C7\u03CE\u03C1\u03B7\u03C3\u03B7 \u03BA\u03B5\u03C1\u03B4\u03AF\u03B6\u03B5\u03B9 IFR credits. \u039F\u03B9 \u03C0\u03C1\u03CE\u03C4\u03BF\u03B9 \u03BA\u03B5\u03C1\u03B4\u03AF\u03B6\u03BF\u03C5\u03BD 2x. IFR lockers \u03BA\u03B5\u03C1\u03B4\u03AF\u03B6\u03BF\u03C5\u03BD +20%.",
-    tok_p2:"\u03A4\u03B1 credits \u03C3\u03C5\u03C3\u03C3\u03C9\u03C1\u03B5\u03CD\u03BF\u03BD\u03C4\u03B1\u03B9 off-chain. \u0395\u03BE\u03B1\u03C1\u03B3\u03CD\u03C1\u03C9\u03C3\u03B5 on-chain \u03CC\u03C4\u03B1\u03BD \u03C6\u03C4\u03AC\u03C3\u03B5\u03B9\u03C2 1.000 credits \u03BC\u03AD\u03C3\u03C9 VendClaim.sol \u03C3\u03C4\u03BF Base L2.",
-    tok_link:"\u039C\u03AC\u03B8\u03B5 \u03C0\u03B5\u03C1\u03B9\u03C3\u03C3\u03CC\u03C4\u03B5\u03C1\u03B1 \u03B3\u03B9\u03B1 \u03C4\u03BF IFR \u2192",
-    oss_title:"100% \u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2", oss_text:"\u0386\u03B4\u03B5\u03B9\u03B1 MIT. \u039A\u03AC\u03B8\u03B5 \u03B3\u03C1\u03B1\u03BC\u03BC\u03AE \u03BA\u03CE\u03B4\u03B9\u03BA\u03B1 \u03B5\u03AF\u03BD\u03B1\u03B9 \u03B4\u03B7\u03BC\u03CC\u03C3\u03B9\u03B1. \u0395\u03BB\u03AD\u03B3\u03BE\u03C4\u03B5. Fork. \u03A3\u03C5\u03BD\u03B5\u03B9\u03C3\u03C6\u03AD\u03C1\u03B5\u03C4\u03B5.", oss_cta:"\u0394\u03B5\u03C2 \u03C4\u03BF Repository",
-    footer_tagline:"\u0394\u03AF\u03BA\u03C4\u03C5\u03BF \u03A4\u03B9\u03BC\u03CE\u03BD \u039A\u03BF\u03B9\u03BD\u03CC\u03C4\u03B7\u03C4\u03B1\u03C2", footer_built:"\u03A6\u03C4\u03B9\u03B1\u03B3\u03BC\u03AD\u03BD\u03BF \u03C3\u03C4\u03B7\u03BD \u0395\u03BB\u03BB\u03AC\u03B4\u03B1. \u0393\u03B9\u03B1 \u03C4\u03B7\u03BD \u0395\u03C5\u03C1\u03CE\u03C0\u03B7. \u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2."
-  },
-  de: {
-    hero_badge: "Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder",
-    hero_title: "Community Preis-Netzwerk",
-    hero_sub: "Scanne Preise in deiner Umgebung. Verankere sie auf der Blockchain. Verdiene IFR-Token-Rewards. Transparent. Dezentral. F\u00FCr alle.",
-    hero_cta1: "Auf GitHub ansehen",
-    hero_cta2: "So funktioniert's",
-    how_title: "So Funktioniert's",
-    how_sub: "Vier Schritte. Kein Konto n\u00F6tig. Dein Handy ist dein Wallet.",
-    step1_num:"Schritt 1", step1_title:"Scannen", step1_text:"Scanne einen Barcode oder fotografiere ein Preisschild. Die App liest EAN und Preis automatisch.",
-    step2_num:"Schritt 2", step2_title:"Orten", step2_text:"GPS erfasst deinen genauen Standort. Preis + Koordinaten werden lokal mit SHA-256 gehasht.",
-    step3_num:"Schritt 3", step3_title:"Verankern", step3_text:"Der Hash wird auf der Base L2 Blockchain verankert. Unver\u00E4nderlich. Transparent. ~0,001$ pro Transaktion.",
-    step4_num:"Schritt 4", step4_title:"Verdienen", step4_text:"Verdiene IFR-Credits f\u00FCr jede verifizierte Einreichung. Erste Melder erhalten 2x Bonus.",
-    feat_title:"Features", feat_sub:"Gebaut f\u00FCr Datenschutz, Geschwindigkeit und Fairness.",
-    f1_title:"Keine pers\u00F6nlichen Daten", f1_text:"Kein Name, keine E-Mail, kein Telefon. Ein zuf\u00E4lliger Nullifier ist deine Identit\u00E4t. DSGVO by Design.",
-    f2_title:"Echtzeit-Preiskarte", f2_text:"Suche Produkte in deiner N\u00E4he auf einer offenen Karte. MapLibre + OpenStreetMap. Kostenlos.",
-    f3_title:"Blitzschnelle Suche", f3_text:"The Graph Protocol indiziert Blockchain-Daten. Regionale Abfragen in unter 50ms. 3-Schicht-Cache.",
-    f4_title:"Anti-Gaming", f4_text:"Trust-Scores, Locality-Locks, Rate-Limits und Community-Voting verhindern Spam und Manipulation.",
-    f5_title:"IFR-Rewards", f5_text:"Kein neuer Token. Rewards in IFR aus dem PartnerVault. IFR locken f\u00FCr +20% Premium-Bonus.",
-    f6_title:"Open Source", f6_text:"MIT-Lizenz. Rust Core, Solidity Contracts, Flutter App. Vollst\u00E4ndig pr\u00FCfbar. Auf GitHub beitragen.",
-    stat1:"Smart Contracts", stat2:"Tests bestanden", stat3:"Rust Unit Tests", stat4:"Pers\u00F6nliche Daten",
-    stats_note:"Live auf Base Sepolia Testnet \u00B7 Mainnet demn\u00E4chst",
-    road_title:"Roadmap", road_sub:"Von der Architektur zum Mainnet.",
-    r1_title:"Phase 0 \u2014 Architektur", r1_text:"Design, Entscheidungen, Dokumentation. Abgeschlossen.",
-    r2_title:"Phase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim auf Base L2. Abgeschlossen.",
-    r3_title:"Phase 2 \u2014 Mobile App", r3_text:"Flutter + Rust FFI. Scanner, Karte, Wallet, Rewards-Dashboard.",
-    r4_title:"Phase 3 \u2014 Testnet & Audit", r4_text:"Base Sepolia Deployment. Slither + Mythril Sicherheitsaudit.",
-    r5_title:"Phase 4 \u2014 Mainnet Launch", r5_text:"Europa zuerst. Seed-Submissions. App Store + Google Play.",
-    r6_title:"Phase 5 \u2014 DAO Governance", r6_text:"Community-Governance. Globale Expansion. DAO Treasury.",
-    tok_title:"IFR Token Integration", tok_sub:"Kein neuer Token. Vendetta nutzt IFR als Reward-W\u00E4hrung.",
-    tok_h1:"So funktionieren Rewards",
-    tok_p1:"Jede verifizierte Preismeldung verdient IFR-Credits. Erste Melder erhalten 2x. IFR-Locker erhalten +20%.",
-    tok_p2:"Credits sammeln sich off-chain. Einl\u00F6sen on-chain ab 1.000 Credits \u00FCber VendClaim.sol auf Base L2.",
-    tok_link:"Mehr \u00FCber IFR erfahren \u2192",
-    oss_title:"100% Open Source", oss_text:"MIT-Lizenz. Jede Zeile Code ist \u00F6ffentlich. Pr\u00FCfen. Forken. Beitragen.", oss_cta:"Repository ansehen",
-    footer_tagline:"Community Preis-Netzwerk", footer_built:"Gebaut in Griechenland. F\u00FCr Europa. Open Source."
-  },
-  it: {
-    hero_badge: "Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder",
-    hero_title: "Rete Prezzi della Comunit\u00E0",
-    hero_sub: "Scansiona i prezzi intorno a te. Ancorarli sulla blockchain. Guadagna ricompense in token IFR. Trasparente. Decentralizzato. Per tutti.",
-    hero_cta1: "Vedi su GitHub",
-    hero_cta2: "Come funziona",
-    how_title: "Come Funziona",
-    how_sub: "Quattro passi. Nessun account necessario. Il tuo telefono \u00E8 il tuo portafoglio.",
-    step1_num:"Passo 1", step1_title:"Scansiona", step1_text:"Scansiona un codice a barre o fotografa un cartellino del prezzo. L'app legge EAN e prezzo automaticamente.",
-    step2_num:"Passo 2", step2_title:"Localizza", step2_text:"Il GPS cattura la tua posizione esatta. Prezzo + coordinate vengono hash localmente con SHA-256.",
-    step3_num:"Passo 3", step3_title:"Ancora", step3_text:"L'hash viene ancorato sulla blockchain Base L2. Immutabile. Trasparente. ~$0,001 per transazione.",
-    step4_num:"Passo 4", step4_title:"Guadagna", step4_text:"Guadagna crediti IFR per ogni invio verificato. I primi a segnalare guadagnano un bonus 2x.",
-    feat_title:"Funzionalit\u00E0", feat_sub:"Costruito per privacy, velocit\u00E0 e correttezza.",
-    f1_title:"Zero Dati Personali", f1_text:"Nessun nome, email, telefono. Un nullifier casuale \u00E8 la tua identit\u00E0. GDPR by design.",
-    f2_title:"Mappa Prezzi in Tempo Reale", f2_text:"Cerca prodotti vicino a te su una mappa aperta. MapLibre + OpenStreetMap. Gratuito.",
-    f3_title:"Ricerca Velocissima", f3_text:"The Graph Protocol indicizza i dati blockchain. Query regionali in meno di 50ms. Cache a 3 livelli.",
-    f4_title:"Anti-Gaming", f4_text:"Punteggi di fiducia, blocchi locali, limiti e voto della comunit\u00E0 prevengono spam e manipolazione.",
-    f5_title:"Ricompense IFR", f5_text:"Nessun nuovo token. Ricompense in IFR dal PartnerVault. Blocca IFR per un bonus premium del +20%.",
-    f6_title:"Open Source", f6_text:"Licenza MIT. Core Rust, contratti Solidity, app Flutter. Completamente verificabile. Contribuisci su GitHub.",
-    stat1:"Smart Contracts", stat2:"Test Superati", stat3:"Rust Unit Tests", stat4:"Dati Personali Salvati",
-    stats_note:"Live su Base Sepolia Testnet \u00B7 Mainnet prossimamente",
-    road_title:"Roadmap", road_sub:"Dall'architettura al mainnet.",
-    r1_title:"Fase 0 \u2014 Architettura", r1_text:"Design, decisioni, documentazione. Completata.",
-    r2_title:"Fase 1 \u2014 Smart Contracts", r2_text:"VendRegistry, VendTrust, VendRewards, VendClaim su Base L2. Completata.",
-    r3_title:"Fase 2 \u2014 App Mobile", r3_text:"Flutter + Rust FFI. Scanner, mappa, portafoglio, dashboard ricompense.",
-    r4_title:"Fase 3 \u2014 Testnet & Audit", r4_text:"Deployment Base Sepolia. Audit di sicurezza Slither + Mythril.",
-    r5_title:"Fase 4 \u2014 Lancio Mainnet", r5_text:"Europa prima. Seed submissions. App Store + Google Play.",
-    r6_title:"Fase 5 \u2014 DAO Governance", r6_text:"Governance comunitaria. Espansione globale. DAO treasury.",
-    tok_title:"Integrazione Token IFR", tok_sub:"Nessun nuovo token. Vendetta usa IFR come valuta di ricompensa.",
-    tok_h1:"Come Funzionano le Ricompense",
-    tok_p1:"Ogni segnalazione verificata guadagna crediti IFR. I primi segnalatori guadagnano 2x. Chi blocca IFR guadagna +20%.",
-    tok_p2:"I crediti si accumulano off-chain. Riscatta on-chain quando raggiungi 1.000 crediti tramite VendClaim.sol su Base L2.",
-    tok_link:"Scopri di pi\u00F9 su IFR \u2192",
-    oss_title:"100% Open Source", oss_text:"Licenza MIT. Ogni riga di codice \u00E8 pubblica. Verificala. Forkala. Contribuisci.", oss_cta:"Vedi il Repository",
-    footer_tagline:"Rete Prezzi della Comunit\u00E0", footer_built:"Costruito in Grecia. Per l'Europa. Open Source."
-  }
+en:{
+  'hero-badge':
+    'Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder',
+  'hero-sub':
+    'Scan prices. Anchor truth on blockchain.<br>Earn IFR rewards. Find cheaper near you.',
+  'btn-github': '\u2192 View on GitHub',
+  'btn-app': 'App \u2014 Coming Soon',
+  'how-label': 'How It Works',
+  'how-title': 'Three steps.',
+  'how-sub': 'No account. No personal data. Just scan, submit, and earn.',
+  's1-t': 'Scan or Enter',
+  's1-d': 'Scan any EAN barcode or enter a price manually. Products, fuel, services \u2014 everywhere.',
+  's2-t': 'Anchored Forever',
+  's2-d': 'SHA-256 hash + GPS + timestamp, stored on Base L2. Immutable. Verifiable. Permanent.',
+  's3-t': 'Earn IFR Rewards',
+  's3-d': 'First submissions earn 2\u00D7 bonus. Lock IFR for up to 2\u00D7 multiplier. Claim anytime.',
+  'feat-label': 'Features',
+  'feat-title': 'Built different.',
+  'feat-sub': 'Every decision made to empower consumers, not corporations.',
+  'f1-t': 'Find Cheapest Near You',
+  'f1-d': 'Search by product + radius. Real-time from The Graph Protocol. Under 50ms.',
+  'f2-t': 'Cryptographic Proof',
+  'f2-d': 'Every price is a SHA-256 proof on Base L2. Not a rating. A fact.',
+  'f3-t': 'Community Trust',
+  'f3-d': 'Weighted votes by reputation (0\u20131000). Liars lose trust. Truth earns.',
+  'f4-t': 'Zero Personal Data',
+  'f4-d': 'No name. No email. Nullifier identity \u2014 GDPR by design. Mathematically untraceable.',
+  'f5-t': 'Built-in Wallet',
+  'f5-d': 'ETH + IFR wallet, auto-created. Swap, send, receive \u2014 no MetaMask needed.',
+  'f6-t': 'Open Source',
+  'f6-d': '100% open. Audit every line. MIT License. Community-owned forever.',
+  'stat1': 'Submissions',
+  'stat2': 'Users',
+  'stat3': 'Tests Passing',
+  'stat4': 'Blockchain',
+  'stats-note':
+    'Live on Base Sepolia Testnet \u00B7 Mainnet coming soon',
+  'tok-label': 'Token',
+  'tok-title': 'Powered by $IFR.',
+  'tok-desc': 'Vendetta is an official IFR Builder. Rewards come from the PartnerVault \u2014 40M IFR reserved. Lock IFR for premium tiers and up to 2\u00D7 rewards.',
+  'tok-btn': 'Learn about IFR \u2192',
+  'tok-type': 'Deflationary ERC-20',
+  'tok-burn-lbl': 'Burn per transfer',
+  'rm-label': 'Roadmap',
+  'rm-title': 'From code to ecosystem.',
+  'rm-p0-phase': 'PHASE 0 \u2014 COMPLETE',
+  'rm-p0-title': 'Architecture & Planning',
+  'rm-p0-desc': 'System design, risk register, documentation.',
+  'rm-p1-phase': 'PHASE 1 \u2014 COMPLETE',
+  'rm-p1-title': 'Smart Contracts on Base L2',
+  'rm-p1-desc': 'VendRegistry \u00B7 VendTrust \u00B7 VendRewards \u00B7 VendClaim \u00B7 Subgraph \u00B7 Security Audit',
+  'rm-p2-phase': 'PHASE 2 \u2014 ACTIVE',
+  'rm-p2-title': 'Mobile App',
+  'rm-p2-desc': 'Flutter app for Android + iOS. Scanner, map, wallet, rewards.',
+  'rm-p3-phase': 'PHASE 3',
+  'rm-p3-title': 'Beta Launch',
+  'rm-p3-desc': 'Real users. Greece first. OTP. Feedback loop.',
+  'rm-p4-phase': 'PHASE 4',
+  'rm-p4-title': 'Mainnet \u2014 Europe',
+  'rm-p4-desc': 'Production on Base L2 Mainnet. EU rollout begins.',
+  'rm-p5-phase': 'PHASE 5',
+  'rm-p5-title': 'DAO & Global',
+  'rm-p5-desc': 'IFR DAO governance. Community-owned. Worldwide.',
+  'build-label': 'Open Source',
+  'build-title': 'Build with us.',
+  'build-sub': 'Vendetta is fully open source. Contributions welcome \u2014 Rust, Solidity, Flutter, The Graph.',
+  'build-gh': '\u2192 View GitHub',
+  'build-docs': 'Read Docs',
+  'footer-copy':
+    'Built in Greece. For Europe. Open Source. \u00A9 2026 Vendetta \u2014 MIT License.',
+  'toast-copy': '\u2713 Address copied'
+},
+gr:{
+  'hero-badge':
+    '\u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2 \u00B7 Base Sepolia Live \u00B7 IFR Builder',
+  'hero-sub':
+    '\u03A3\u03BA\u03B1\u03BD\u03AC\u03C1\u03B5\u03C4\u03B5 \u03C4\u03B9\u03BC\u03AD\u03C2. \u0391\u03B3\u03BA\u03C5\u03C1\u03CE\u03C3\u03C4\u03B5 \u03C4\u03B7\u03BD \u03B1\u03BB\u03AE\u03B8\u03B5\u03B9\u03B1 \u03C3\u03C4\u03BF blockchain.<br>\u039A\u03B5\u03C1\u03B4\u03AF\u03C3\u03C4\u03B5 IFR rewards. \u0392\u03C1\u03B5\u03AF\u03C4\u03B5 \u03C6\u03B8\u03B7\u03BD\u03CC\u03C4\u03B5\u03C1\u03B1 \u03BA\u03BF\u03BD\u03C4\u03AC \u03C3\u03B1\u03C2.',
+  'btn-github': '\u2192 GitHub',
+  'btn-app': 'App \u2014 \u03A3\u03CD\u03BD\u03C4\u03BF\u03BC\u03B1',
+  'how-label': '\u03A0\u03CE\u03C2 \u039B\u03B5\u03B9\u03C4\u03BF\u03C5\u03C1\u03B3\u03B5\u03AF',
+  'how-title': '\u03A4\u03C1\u03AF\u03B1 \u03B2\u03AE\u03BC\u03B1\u03C4\u03B1.',
+  'how-sub': '\u03A7\u03C9\u03C1\u03AF\u03C2 \u03BB\u03BF\u03B3\u03B1\u03C1\u03B9\u03B1\u03C3\u03BC\u03CC. \u03A7\u03C9\u03C1\u03AF\u03C2 \u03C0\u03C1\u03BF\u03C3\u03C9\u03C0\u03B9\u03BA\u03AC \u03B4\u03B5\u03B4\u03BF\u03BC\u03AD\u03BD\u03B1.',
+  's1-t': '\u03A3\u03BA\u03B1\u03BD\u03AC\u03C1\u03B9\u03C3\u03BC\u03B1 \u03AE \u0395\u03B9\u03C3\u03B1\u03B3\u03C9\u03B3\u03AE',
+  's1-d': '\u03A3\u03BA\u03B1\u03BD\u03AC\u03C1\u03B5\u03C4\u03B5 barcode EAN \u03AE \u03B5\u03B9\u03C3\u03AC\u03B3\u03B5\u03C4\u03B5 \u03C7\u03B5\u03B9\u03C1\u03BF\u03BA\u03AF\u03BD\u03B7\u03C4\u03B1. \u03A0\u03C1\u03BF\u03CA\u03CC\u03BD\u03C4\u03B1, \u03BA\u03B1\u03CD\u03C3\u03B9\u03BC\u03B1, \u03C5\u03C0\u03B7\u03C1\u03B5\u03C3\u03AF\u03B5\u03C2 \u2014 \u03C0\u03B1\u03BD\u03C4\u03BF\u03CD.',
+  's2-t': '\u0391\u03B3\u03BA\u03CD\u03C1\u03C9\u03C3\u03B7 \u03B3\u03B9\u03B1 \u03A0\u03AC\u03BD\u03C4\u03B1',
+  's2-d': 'Hash SHA-256 + GPS + \u03C7\u03C1\u03BF\u03BD\u03BF\u03C3\u03C6\u03C1\u03B1\u03B3\u03AF\u03B4\u03B1 \u03C3\u03C4\u03BF Base L2. \u0391\u03BC\u03B5\u03C4\u03AC\u03B2\u03BB\u03B7\u03C4\u03BF. \u0395\u03C0\u03B1\u03BB\u03B7\u03B8\u03B5\u03CD\u03C3\u03B9\u03BC\u03BF.',
+  's3-t': '\u039A\u03B5\u03C1\u03B4\u03AF\u03C3\u03C4\u03B5 IFR Rewards',
+  's3-d': '\u03A0\u03C1\u03CE\u03C4\u03B5\u03C2 \u03C5\u03C0\u03BF\u03B2\u03BF\u03BB\u03AD\u03C2 = 2\u00D7 bonus. \u039A\u03BB\u03B5\u03B9\u03B4\u03CE\u03C3\u03C4\u03B5 IFR \u03B3\u03B9\u03B1 \u03AD\u03C9\u03C2 2\u00D7 \u03C0\u03BF\u03BB\u03BB\u03B1\u03C0\u03BB\u03B1\u03C3\u03B9\u03B1\u03C3\u03C4\u03AE.',
+  'feat-label': '\u03A7\u03B1\u03C1\u03B1\u03BA\u03C4\u03B7\u03C1\u03B9\u03C3\u03C4\u03B9\u03BA\u03AC',
+  'feat-title': '\u0394\u03B9\u03B1\u03C6\u03BF\u03C1\u03B5\u03C4\u03B9\u03BA\u03CC.',
+  'feat-sub': '\u039A\u03AC\u03B8\u03B5 \u03B1\u03C0\u03CC\u03C6\u03B1\u03C3\u03B7 \u03B3\u03B9\u03B1 \u03BD\u03B1 \u03B5\u03BD\u03B4\u03C5\u03BD\u03B1\u03BC\u03CE\u03C3\u03B5\u03B9 \u03C4\u03BF\u03C5\u03C2 \u03BA\u03B1\u03C4\u03B1\u03BD\u03B1\u03BB\u03C9\u03C4\u03AD\u03C2.',
+  'f1-t': '\u0392\u03C1\u03B5\u03AF\u03C4\u03B5 \u03C4\u03BF \u03A6\u03B8\u03B7\u03BD\u03CC\u03C4\u03B5\u03C1\u03BF',
+  'f1-d': '\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7 \u03B1\u03BD\u03AC \u03C0\u03C1\u03BF\u03CA\u03CC\u03BD + \u03B1\u03BA\u03C4\u03AF\u03BD\u03B1. \u03A0\u03C1\u03B1\u03B3\u03BC\u03B1\u03C4\u03B9\u03BA\u03CC\u03C2 \u03C7\u03C1\u03CC\u03BD\u03BF\u03C2 \u03B1\u03C0\u03CC The Graph. \u039A\u03AC\u03C4\u03C9 \u03B1\u03C0\u03CC 50ms.',
+  'f2-t': '\u039A\u03C1\u03C5\u03C0\u03C4\u03BF\u03B3\u03C1\u03B1\u03C6\u03B9\u03BA\u03AE \u0391\u03C0\u03CC\u03B4\u03B5\u03B9\u03BE\u03B7',
+  'f2-d': '\u039A\u03AC\u03B8\u03B5 \u03C4\u03B9\u03BC\u03AE \u03B5\u03AF\u03BD\u03B1\u03B9 SHA-256 \u03B1\u03C0\u03CC\u03B4\u03B5\u03B9\u03BE\u03B7 \u03C3\u03C4\u03BF Base L2. \u038C\u03C7\u03B9 \u03B1\u03BE\u03B9\u03BF\u03BB\u03CC\u03B3\u03B7\u03C3\u03B7. \u0393\u03B5\u03B3\u03BF\u03BD\u03CC\u03C2.',
+  'f3-t': '\u0395\u03BC\u03C0\u03B9\u03C3\u03C4\u03BF\u03C3\u03CD\u03BD\u03B7 \u039A\u03BF\u03B9\u03BD\u03CC\u03C4\u03B7\u03C4\u03B1\u03C2',
+  'f3-d': '\u03A3\u03C4\u03B1\u03B8\u03BC\u03B9\u03C3\u03BC\u03AD\u03BD\u03B5\u03C2 \u03C8\u03AE\u03C6\u03BF\u03B9 (0\u20131000). \u03A8\u03B5\u03CD\u03C4\u03B5\u03C2 \u03C7\u03AC\u03BD\u03BF\u03C5\u03BD trust. \u0397 \u03B1\u03BB\u03AE\u03B8\u03B5\u03B9\u03B1 \u03BA\u03B5\u03C1\u03B4\u03AF\u03B6\u03B5\u03B9.',
+  'f4-t': '\u039C\u03B7\u03B4\u03AD\u03BD \u03A0\u03C1\u03BF\u03C3\u03C9\u03C0\u03B9\u03BA\u03AC \u0394\u03B5\u03B4\u03BF\u03BC\u03AD\u03BD\u03B1',
+  'f4-d': '\u03A7\u03C9\u03C1\u03AF\u03C2 \u03CC\u03BD\u03BF\u03BC\u03B1. \u03A7\u03C9\u03C1\u03AF\u03C2 email. Nullifier \u2014 GDPR by design.',
+  'f5-t': '\u0395\u03BD\u03C3\u03C9\u03BC\u03B1\u03C4\u03C9\u03BC\u03AD\u03BD\u03BF Wallet',
+  'f5-d': 'ETH + IFR wallet \u03B1\u03C5\u03C4\u03CC\u03BC\u03B1\u03C4\u03B1. Swap, \u03B1\u03C0\u03BF\u03C3\u03C4\u03BF\u03BB\u03AE, \u03BB\u03AE\u03C8\u03B7 \u2014 \u03C7\u03C9\u03C1\u03AF\u03C2 MetaMask.',
+  'f6-t': '\u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2',
+  'f6-d': '100% \u03B1\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2. \u0388\u03BB\u03B5\u03B3\u03C7\u03BF\u03C2 \u03BA\u03AC\u03B8\u03B5 \u03B3\u03C1\u03B1\u03BC\u03BC\u03AE\u03C2. MIT License. \u039A\u03BF\u03B9\u03BD\u03BF\u03C4\u03B9\u03BA\u03CC.',
+  'stat1': '\u03A5\u03C0\u03BF\u03B2\u03BF\u03BB\u03AD\u03C2',
+  'stat2': '\u03A7\u03C1\u03AE\u03C3\u03C4\u03B5\u03C2',
+  'stat3': 'Tests',
+  'stat4': 'Blockchain',
+  'stats-note':
+    'Live \u03C3\u03C4\u03BF Base Sepolia Testnet \u00B7 Mainnet \u03C3\u03CD\u03BD\u03C4\u03BF\u03BC\u03B1',
+  'tok-label': 'Token',
+  'tok-title': '\u03A4\u03C1\u03BF\u03C6\u03BF\u03B4\u03BF\u03C4\u03B5\u03AF\u03C4\u03B1\u03B9 \u03B1\u03C0\u03CC $IFR.',
+  'tok-desc': '\u0397 Vendetta \u03B5\u03AF\u03BD\u03B1\u03B9 \u03B5\u03C0\u03AF\u03C3\u03B7\u03BC\u03BF\u03C2 IFR Builder. \u0391\u03BD\u03C4\u03B1\u03BC\u03BF\u03B9\u03B2\u03AD\u03C2 \u03B1\u03C0\u03CC PartnerVault \u2014 40M IFR \u03B4\u03B5\u03C3\u03BC\u03B5\u03C5\u03BC\u03AD\u03BD\u03B1.',
+  'tok-btn': '\u039C\u03AC\u03B8\u03B5\u03C4\u03B5 \u03B3\u03B9\u03B1 IFR \u2192',
+  'tok-type': '\u0391\u03C0\u03BF\u03C0\u03BB\u03B7\u03B8\u03C9\u03C1\u03B9\u03C3\u03C4\u03B9\u03BA\u03CC ERC-20',
+  'tok-burn-lbl': '\u039A\u03AC\u03C8\u03B9\u03BC\u03BF \u03B1\u03BD\u03AC \u03C3\u03C5\u03BD\u03B1\u03BB\u03BB\u03B1\u03B3\u03AE',
+  'rm-label': '\u03A7\u03AC\u03C1\u03C4\u03B7\u03C2 \u0394\u03C1\u03CC\u03BC\u03BF\u03C5',
+  'rm-title': '\u0391\u03C0\u03CC \u03C4\u03BF\u03BD \u03BA\u03CE\u03B4\u03B9\u03BA\u03B1 \u03C3\u03C4\u03BF \u03BF\u03B9\u03BA\u03BF\u03C3\u03CD\u03C3\u03C4\u03B7\u03BC\u03B1.',
+  'rm-p0-phase': '\u03A6\u0391\u03A3\u0397 0 \u2014 \u039F\u039B\u039F\u039A\u039B\u0397\u03A1\u03A9\u0398\u0397\u039A\u0395',
+  'rm-p0-title': '\u0391\u03C1\u03C7\u03B9\u03C4\u03B5\u03BA\u03C4\u03BF\u03BD\u03B9\u03BA\u03AE & \u03A3\u03C7\u03B5\u03B4\u03B9\u03B1\u03C3\u03BC\u03CC\u03C2',
+  'rm-p0-desc': '\u03A3\u03C7\u03B5\u03B4\u03B9\u03B1\u03C3\u03BC\u03CC\u03C2, \u03BC\u03B7\u03C4\u03C1\u03CE\u03BF \u03BA\u03B9\u03BD\u03B4\u03CD\u03BD\u03C9\u03BD, \u03C4\u03B5\u03BA\u03BC\u03B7\u03C1\u03AF\u03C9\u03C3\u03B7.',
+  'rm-p1-phase': '\u03A6\u0391\u03A3\u0397 1 \u2014 \u039F\u039B\u039F\u039A\u039B\u0397\u03A1\u03A9\u0398\u0397\u039A\u0395',
+  'rm-p1-title': 'Smart Contracts \u03C3\u03C4\u03BF Base L2',
+  'rm-p1-desc': 'VendRegistry \u00B7 VendTrust \u00B7 VendRewards \u00B7 VendClaim \u00B7 Subgraph \u00B7 Security Audit',
+  'rm-p2-phase': '\u03A6\u0391\u03A3\u0397 2 \u2014 \u0395\u039D\u0395\u03A1\u0393\u0397',
+  'rm-p2-title': 'Mobile \u0395\u03C6\u03B1\u03C1\u03BC\u03BF\u03B3\u03AE',
+  'rm-p2-desc': 'Flutter \u03B3\u03B9\u03B1 Android + iOS. Scanner, \u03C7\u03AC\u03C1\u03C4\u03B7\u03C2, wallet, rewards.',
+  'rm-p3-phase': '\u03A6\u0391\u03A3\u0397 3',
+  'rm-p3-title': 'Beta Launch',
+  'rm-p3-desc': '\u03A0\u03C1\u03B1\u03B3\u03BC\u03B1\u03C4\u03B9\u03BA\u03BF\u03AF \u03C7\u03C1\u03AE\u03C3\u03C4\u03B5\u03C2. \u0395\u03BB\u03BB\u03AC\u03B4\u03B1 \u03C0\u03C1\u03CE\u03C4\u03B1.',
+  'rm-p4-phase': '\u03A6\u0391\u03A3\u0397 4',
+  'rm-p4-title': 'Mainnet \u2014 \u0395\u03C5\u03C1\u03CE\u03C0\u03B7',
+  'rm-p4-desc': '\u03A0\u03B1\u03C1\u03B1\u03B3\u03C9\u03B3\u03AE \u03C3\u03C4\u03BF Base L2 Mainnet. \u0395\u03C5\u03C1\u03C9\u03C0\u03B1\u03CA\u03BA\u03CC rollout.',
+  'rm-p5-phase': '\u03A6\u0391\u03A3\u0397 5',
+  'rm-p5-title': 'DAO & \u03A0\u03B1\u03B3\u03BA\u03CC\u03C3\u03BC\u03B9\u03B1',
+  'rm-p5-desc': 'IFR DAO \u03B4\u03B9\u03B1\u03BA\u03C5\u03B2\u03AD\u03C1\u03BD\u03B7\u03C3\u03B7. \u03A0\u03B1\u03B3\u03BA\u03CC\u03C3\u03BC\u03B9\u03B1 \u03B5\u03C0\u03AD\u03BA\u03C4\u03B1\u03C3\u03B7.',
+  'build-label': '\u0391\u03BD\u03BF\u03B9\u03C7\u03C4\u03CC\u03C2 \u039A\u03CE\u03B4\u03B9\u03BA\u03B1\u03C2',
+  'build-title': '\u0394\u03B7\u03BC\u03B9\u03BF\u03C5\u03C1\u03B3\u03AE\u03C3\u03C4\u03B5 \u03BC\u03B1\u03B6\u03AF \u03BC\u03B1\u03C2.',
+  'build-sub': '\u03A0\u03BB\u03AE\u03C1\u03C9\u03C2 \u03B1\u03BD\u03BF\u03B9\u03C7\u03C4\u03BF\u03CD \u03BA\u03CE\u03B4\u03B9\u03BA\u03B1. Rust, Solidity, Flutter, The Graph.',
+  'build-gh': '\u2192 GitHub',
+  'build-docs': 'Docs',
+  'footer-copy':
+    '\u03A6\u03C4\u03B9\u03B1\u03B3\u03BC\u03AD\u03BD\u03BF \u03C3\u03C4\u03B7\u03BD \u0395\u03BB\u03BB\u03AC\u03B4\u03B1. \u0393\u03B9\u03B1 \u03C4\u03B7\u03BD \u0395\u03C5\u03C1\u03CE\u03C0\u03B7. \u00A9 2026 Vendetta \u2014 MIT',
+  'toast-copy': '\u2713 \u0394\u03B9\u03B5\u03CD\u03B8\u03C5\u03BD\u03C3\u03B7 \u03B1\u03BD\u03C4\u03B9\u03B3\u03C1\u03AC\u03C6\u03B7\u03BA\u03B5'
+},
+de:{
+  'hero-badge':
+    'Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder',
+  'hero-sub':
+    'Preise scannen. Wahrheit auf der Blockchain verankern.<br>IFR-Belohnungen verdienen. G\u00FCnstiger finden.',
+  'btn-github': '\u2192 Auf GitHub ansehen',
+  'btn-app': 'App \u2014 Demn\u00E4chst',
+  'how-label': 'So funktioniert es',
+  'how-title': 'Drei Schritte.',
+  'how-sub': 'Kein Konto. Keine pers\u00F6nlichen Daten. Einfach scannen und verdienen.',
+  's1-t': 'Scannen oder Eingeben',
+  's1-d': 'EAN-Barcode scannen oder manuell eingeben. Produkte, Kraftstoff, Dienste \u2014 \u00FCberall.',
+  's2-t': 'F\u00FCr immer verankert',
+  's2-d': 'SHA-256 Hash + GPS + Zeitstempel auf Base L2. Unver\u00E4nderlich. Verifizierbar.',
+  's3-t': 'IFR-Belohnungen verdienen',
+  's3-d': 'Erste Einreichungen: 2\u00D7 Bonus. IFR sperren f\u00FCr bis zu 2\u00D7 Multiplikator.',
+  'feat-label': 'Funktionen',
+  'feat-title': 'Anders gebaut.',
+  'feat-sub': 'Jede Entscheidung zugunsten der Verbraucher.',
+  'f1-t': 'G\u00FCnstigstes in der N\u00E4he',
+  'f1-d': 'Suche nach Produkt + Radius. Echtzeit vom The Graph. Unter 50ms.',
+  'f2-t': 'Kryptographischer Beweis',
+  'f2-d': 'Jeder Preis ist ein SHA-256 Beweis auf Base L2. Kein Rating. Eine Tatsache.',
+  'f3-t': 'Community-Vertrauen',
+  'f3-d': 'Gewichtete Stimmen (0\u20131000). L\u00FCgner verlieren Vertrauen. Wahrheit gewinnt.',
+  'f4-t': 'Null pers\u00F6nliche Daten',
+  'f4-d': 'Kein Name. Keine E-Mail. Nullifier \u2014 DSGVO by Design.',
+  'f5-t': 'Integrierte Wallet',
+  'f5-d': 'ETH + IFR Wallet automatisch erstellt. Tauschen, senden, empfangen.',
+  'f6-t': 'Open Source',
+  'f6-d': '100% offen. Jede Zeile pr\u00FCfbar. MIT-Lizenz. Community-Eigentum.',
+  'stat1': 'Einreichungen',
+  'stat2': 'Nutzer',
+  'stat3': 'Tests Bestanden',
+  'stat4': 'Blockchain',
+  'stats-note':
+    'Live auf Base Sepolia Testnet \u00B7 Mainnet demn\u00E4chst',
+  'tok-label': 'Token',
+  'tok-title': 'Powered by $IFR.',
+  'tok-desc': 'Vendetta ist ein offizieller IFR Builder. Belohnungen kommen aus dem PartnerVault \u2014 40M IFR reserviert.',
+  'tok-btn': 'Mehr \u00FCber IFR \u2192',
+  'tok-type': 'Deflation\u00E4res ERC-20',
+  'tok-burn-lbl': 'Verbrennung pro Transfer',
+  'rm-label': 'Fahrplan',
+  'rm-title': 'Vom Code zum \u00D6kosystem.',
+  'rm-p0-phase': 'PHASE 0 \u2014 ABGESCHLOSSEN',
+  'rm-p0-title': 'Architektur & Planung',
+  'rm-p0-desc': 'Systemdesign, Risikoregister, Dokumentation.',
+  'rm-p1-phase': 'PHASE 1 \u2014 ABGESCHLOSSEN',
+  'rm-p1-title': 'Smart Contracts auf Base L2',
+  'rm-p1-desc': 'VendRegistry \u00B7 VendTrust \u00B7 VendRewards \u00B7 VendClaim \u00B7 Subgraph \u00B7 Security Audit',
+  'rm-p2-phase': 'PHASE 2 \u2014 AKTIV',
+  'rm-p2-title': 'Mobile App',
+  'rm-p2-desc': 'Flutter App f\u00FCr Android + iOS. Scanner, Karte, Wallet, Rewards.',
+  'rm-p3-phase': 'PHASE 3',
+  'rm-p3-title': 'Beta-Launch',
+  'rm-p3-desc': 'Echte Nutzer. Griechenland zuerst.',
+  'rm-p4-phase': 'PHASE 4',
+  'rm-p4-title': 'Mainnet \u2014 Europa',
+  'rm-p4-desc': 'Produktion auf Base L2 Mainnet. EU-Rollout beginnt.',
+  'rm-p5-phase': 'PHASE 5',
+  'rm-p5-title': 'DAO & Global',
+  'rm-p5-desc': 'IFR DAO Governance. Weltweit.',
+  'build-label': 'Open Source',
+  'build-title': 'Bau mit uns.',
+  'build-sub': 'Vollst\u00E4ndig Open Source. Beitr\u00E4ge willkommen \u2014 Rust, Solidity, Flutter.',
+  'build-gh': '\u2192 GitHub',
+  'build-docs': 'Docs',
+  'footer-copy':
+    'Gebaut in Griechenland. F\u00FCr Europa. \u00A9 2026 Vendetta \u2014 MIT-Lizenz',
+  'toast-copy': '\u2713 Adresse kopiert'
+},
+it:{
+  'hero-badge':
+    'Open Source \u00B7 Base Sepolia Live \u00B7 IFR Builder',
+  'hero-sub':
+    'Scansiona i prezzi. Ancora la verit\u00E0 sulla blockchain.<br>Guadagna premi IFR. Trova il pi\u00F9 economico.',
+  'btn-github': '\u2192 Vedi su GitHub',
+  'btn-app': 'App \u2014 Prossimamente',
+  'how-label': 'Come Funziona',
+  'how-title': 'Tre passi.',
+  'how-sub': 'Nessun account. Nessun dato personale. Scansiona e guadagna.',
+  's1-t': 'Scansiona o Inserisci',
+  's1-d': 'Scansiona codice EAN o inserisci manualmente. Prodotti, carburante, servizi \u2014 ovunque.',
+  's2-t': 'Ancorato per Sempre',
+  's2-d': 'Hash SHA-256 + GPS + timestamp su Base L2. Immutabile. Verificabile.',
+  's3-t': 'Guadagna Premi IFR',
+  's3-d': 'Prime segnalazioni: bonus 2\u00D7. Blocca IFR per moltiplicatore fino a 2\u00D7.',
+  'feat-label': 'Funzionalit\u00E0',
+  'feat-title': 'Diversamente costruito.',
+  'feat-sub': 'Ogni decisione a favore dei consumatori.',
+  'f1-t': 'Trova il Pi\u00F9 Economico',
+  'f1-d': 'Cerca per prodotto + raggio. Tempo reale da The Graph. Sotto 50ms.',
+  'f2-t': 'Prova Crittografica',
+  'f2-d': 'Ogni prezzo \u00E8 una prova SHA-256 su Base L2. Non una valutazione. Un fatto.',
+  'f3-t': 'Fiducia della Comunit\u00E0',
+  'f3-d': 'Voti ponderati (0\u20131000). I bugiardi perdono fiducia. La verit\u00E0 vince.',
+  'f4-t': 'Zero Dati Personali',
+  'f4-d': 'Nessun nome. Nessuna email. Nullifier \u2014 GDPR by design.',
+  'f5-t': 'Portafoglio Integrato',
+  'f5-d': 'Wallet ETH + IFR automatico. Scambia, invia, ricevi \u2014 senza MetaMask.',
+  'f6-t': 'Open Source',
+  'f6-d': '100% aperto. Controlla ogni riga. Licenza MIT. Propriet\u00E0 della comunit\u00E0.',
+  'stat1': 'Segnalazioni',
+  'stat2': 'Utenti',
+  'stat3': 'Test Superati',
+  'stat4': 'Blockchain',
+  'stats-note':
+    'Live su Base Sepolia Testnet \u00B7 Mainnet prossimamente',
+  'tok-label': 'Token',
+  'tok-title': 'Alimentato da $IFR.',
+  'tok-desc': 'Vendetta \u00E8 un IFR Builder ufficiale. I premi vengono dal PartnerVault \u2014 40M IFR riservati.',
+  'tok-btn': 'Scopri IFR \u2192',
+  'tok-type': 'ERC-20 Deflazionistico',
+  'tok-burn-lbl': 'Bruciato per trasferimento',
+  'rm-label': 'Roadmap',
+  'rm-title': "Dal codice all'ecosistema.",
+  'rm-p0-phase': 'FASE 0 \u2014 COMPLETATA',
+  'rm-p0-title': 'Architettura e Pianificazione',
+  'rm-p0-desc': 'Design del sistema, registro dei rischi, documentazione.',
+  'rm-p1-phase': 'FASE 1 \u2014 COMPLETATA',
+  'rm-p1-title': 'Smart Contract su Base L2',
+  'rm-p1-desc': 'VendRegistry \u00B7 VendTrust \u00B7 VendRewards \u00B7 VendClaim \u00B7 Subgraph \u00B7 Security Audit',
+  'rm-p2-phase': 'FASE 2 \u2014 ATTIVA',
+  'rm-p2-title': 'App Mobile',
+  'rm-p2-desc': 'App Flutter per Android + iOS. Scanner, mappa, wallet, premi.',
+  'rm-p3-phase': 'FASE 3',
+  'rm-p3-title': 'Beta Launch',
+  'rm-p3-desc': 'Utenti reali. Grecia per prima.',
+  'rm-p4-phase': 'FASE 4',
+  'rm-p4-title': 'Mainnet \u2014 Europa',
+  'rm-p4-desc': 'Produzione su Base L2 Mainnet. Rollout europeo.',
+  'rm-p5-phase': 'FASE 5',
+  'rm-p5-title': 'DAO e Globale',
+  'rm-p5-desc': 'Governance IFR DAO. Espansione mondiale.',
+  'build-label': 'Open Source',
+  'build-title': 'Costruisci con noi.',
+  'build-sub': 'Completamente open source. Contributi benvenuti.',
+  'build-gh': '\u2192 GitHub',
+  'build-docs': 'Docs',
+  'footer-copy':
+    "Costruito in Grecia. Per l'Europa. \u00A9 2026 Vendetta \u2014 Licenza MIT",
+  'toast-copy': '\u2713 Indirizzo copiato'
+}
 };
 
+/* ── LANG ENGINE ────────────────────────── */
 let currentLang = 'en';
 
 function setLang(lang) {
   currentLang = lang;
-  const strings = T[lang];
-  if (!strings) return;
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (strings[key]) {
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        el.placeholder = strings[key];
-      } else {
-        el.innerHTML = strings[key];
-      }
-    }
+  const d = T[lang];
+  Object.keys(d).forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id === 'hero-sub')
+      el.innerHTML = d[id];
+    else
+      el.textContent = d[id];
   });
-  document.documentElement.lang = lang === 'gr' ? 'el' : lang;
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase());
-  });
+  document.querySelectorAll('.lang-btn')
+    .forEach(b => b.classList.remove('active'));
+  const idx = {en:0,gr:1,de:2,it:3}[lang];
+  document.querySelectorAll('.lang-btn')
+    [idx].classList.add('active');
+  document.documentElement.lang =
+    {en:'en',gr:'el',de:'de',it:'it'}[lang];
 }
 
-// Auto-detect browser language
-(function() {
-  const bl = (navigator.language || '').toLowerCase();
-  if (bl.startsWith('el')) setLang('gr');
-  else if (bl.startsWith('de')) setLang('de');
-  else if (bl.startsWith('it')) setLang('it');
-  else setLang('en');
-})();
+function detectLang() {
+  const l = (navigator.language ||
+    navigator.userLanguage || 'en')
+    .toLowerCase();
+  if (l.startsWith('el')) return 'gr';
+  if (l.startsWith('de')) return 'de';
+  if (l.startsWith('it')) return 'it';
+  return 'en';
+}
+
+/* ── COPY ADDRESS ───────────────────────── */
+function copyAddr() {
+  const addr =
+    '0x77e99917Eca8539c62F509ED1193ac36580A6e7B';
+  navigator.clipboard.writeText(addr)
+    .catch(()=>{});
+  const t = document.getElementById('toast');
+  t.textContent = T[currentLang]['toast-copy'];
+  t.classList.add('show');
+  setTimeout(()=>
+    t.classList.remove('show'), 2000);
+}
+
+/* ── SCROLL REVEAL ──────────────────────── */
+const observer = new IntersectionObserver(
+  entries => entries.forEach(e => {
+    if (e.isIntersecting)
+      e.target.classList.add('visible');
+  }),
+  {threshold: .1}
+);
+document.querySelectorAll('.reveal')
+  .forEach(el => observer.observe(el));
+
+/* ── INIT ───────────────────────────────── */
+setLang(detectLang());
 </script>
 </body>
 </html>
