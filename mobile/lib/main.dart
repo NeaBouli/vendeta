@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/router.dart';
 import 'theme/app_theme.dart';
+import 'services/wallet_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await WalletService.instance.initialize();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
