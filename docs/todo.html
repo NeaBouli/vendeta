@@ -826,51 +826,51 @@
 
   <!-- ═══ SYSTEM AUDIT 2026-04-02 ═══ -->
 
-  <div class="bug-item bug-open">
+  <div class="bug-item bug-solved">
     <div class="bug-header">
-      <span class="badge badge-bug-open">OPEN</span>
+      <span class="badge badge-bug-solved">SOLVED</span>
       <span class="bug-title">[AUDIT] FFI Bridge Hash-Mismatch &mdash; djb2 vs SHA-256</span>
     </div>
     <div class="bug-body">
       <strong>Problem:</strong> vendetta_bridge.dart <code>generateHash()</code> nutzt djb2, Rust Core nutzt SHA-256. On-Chain Proof-Hashes stimmen nicht &uuml;berein.<br>
-      <strong>Fix-Plan:</strong> flutter_rust_bridge aufbauen (Session 10) &mdash; Stub durch echtes FFI ersetzen<br>
-      <strong>Audit:</strong> Phase 1e, 2026-04-02
+      <strong>L&ouml;sung:</strong> SHA-256 mit bin&auml;rem LE-Format implementiert (crypto ^3.0.3). EAN-Validierung auf 8/13 korrigiert (wie Rust).<br>
+      <strong>Datum gel&ouml;st:</strong> 2026-04-02
     </div>
   </div>
 
-  <div class="bug-item bug-open">
+  <div class="bug-item bug-solved">
     <div class="bug-header">
-      <span class="badge badge-bug-open">OPEN</span>
+      <span class="badge badge-bug-solved">SOLVED</span>
       <span class="bug-title">[AUDIT] Subgraph: 4 Events ohne Handler</span>
     </div>
     <div class="bug-body">
       <strong>Problem:</strong> FirstMoverBonusPaid, SilentConsensusPaid, LocalityRecorded, WalletRegistered werden emittiert aber nicht indiziert &mdash; Bonus-Zahlungen unsichtbar im Graph<br>
-      <strong>Fix-Plan:</strong> Handler + Entities in subgraph hinzuf&uuml;gen<br>
-      <strong>Audit:</strong> Phase 3b, 2026-04-02
+      <strong>L&ouml;sung:</strong> 4 Handler in rewards.ts/trust.ts/claim.ts + subgraph.yaml hinzugef&uuml;gt. RewardEvent Entity f&uuml;r Bonus-Typen wiederverwendet. graph build OK.<br>
+      <strong>Datum gel&ouml;st:</strong> 2026-04-02
     </div>
   </div>
 
-  <div class="bug-item bug-open">
+  <div class="bug-item bug-solved">
     <div class="bug-header">
-      <span class="badge badge-bug-open">OPEN</span>
+      <span class="badge badge-bug-solved">SOLVED</span>
       <span class="bug-title">[AUDIT] Subgraph: handleDuplicateDetected ist toter Code</span>
     </div>
     <div class="bug-body">
-      <strong>Problem:</strong> DuplicateDetected feuert vor SubmissionCreated in selber TX &rarr; Submission.load() gibt immer null zur&uuml;ck<br>
-      <strong>Fix-Plan:</strong> Handler-Logik umschreiben &mdash; existierende First-Mover Submission markieren<br>
-      <strong>Audit:</strong> Phase 3c, 2026-04-02
+      <strong>Problem:</strong> DuplicateDetected feuert vor SubmissionCreated in selber TX &rarr; Submission.load(new_hash) gibt immer null zur&uuml;ck<br>
+      <strong>L&ouml;sung:</strong> Handler l&auml;dt jetzt existing_hash (First-Mover) statt new_hash. Kommentar erkl&auml;rt Event-Reihenfolge.<br>
+      <strong>Datum gel&ouml;st:</strong> 2026-04-02
     </div>
   </div>
 
-  <div class="bug-item bug-open">
+  <div class="bug-item bug-solved">
     <div class="bug-header">
-      <span class="badge badge-bug-open">OPEN</span>
+      <span class="badge badge-bug-solved">SOLVED</span>
       <span class="bug-title">[AUDIT] README IFR-Token Link zeigt auf falschen Contract</span>
     </div>
     <div class="bug-body">
       <strong>Problem:</strong> README.md:157 &mdash; Etherscan-Link f&uuml;r $IFR zeigt auf VendRegistry (Base Sepolia) statt IFR Token (ETH Mainnet)<br>
-      <strong>Fix-Plan:</strong> Korrekte IFR Token-Adresse einsetzen<br>
-      <strong>Audit:</strong> Phase 7a, 2026-04-02
+      <strong>L&ouml;sung:</strong> Link ge&auml;ndert auf ifrunit.tech (offizielle IFR Token-Seite)<br>
+      <strong>Datum gel&ouml;st:</strong> 2026-04-02
     </div>
   </div>
 

@@ -59,6 +59,8 @@ dataSources:
           handler: handleConsensusReached
         - event: TrustUpdated(indexed bytes32,uint16,uint16,string)
           handler: handleTrustUpdated
+        - event: LocalityRecorded(indexed bytes32,string,uint32)
+          handler: handleLocalityRecorded
       file: ./src/trust.ts
 
   - kind: ethereum
@@ -83,6 +85,10 @@ dataSources:
       eventHandlers:
         - event: RewardEarned(indexed bytes32,indexed bytes32,uint64,uint64,string)
           handler: handleRewardEarned
+        - event: FirstMoverBonusPaid(indexed bytes32,indexed bytes32,uint64)
+          handler: handleFirstMoverBonusPaid
+        - event: SilentConsensusPaid(indexed bytes32,indexed bytes32,uint64)
+          handler: handleSilentConsensusPaid
         - event: CreditsUpdated(indexed bytes32,uint256,uint256)
           handler: handleCreditsUpdated
         - event: TierUpdated(indexed bytes32,uint8)
@@ -112,4 +118,6 @@ dataSources:
           handler: handleClaimInitiated
         - event: RateUpdated(uint256,uint256,uint32)
           handler: handleRateUpdated
+        - event: WalletRegistered(indexed bytes32,indexed address)
+          handler: handleWalletRegistered
       file: ./src/claim.ts

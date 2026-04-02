@@ -154,7 +154,7 @@ Nullifier Pattern: phone number used once for OTP, immediately discarded. Only a
 
 Vendetta is an official **IFR Builder** (Issue [#12](https://github.com/NeaBouli/inferno/issues/12)).
 
-- Token: [$IFR](https://etherscan.io/address/0x77e99917Eca8539c62F509ED1193ac36580A6e7B)
+- Token: [$IFR](https://ifrunit.tech)
 - Ecosystem: [ifrunit.tech](https://ifrunit.tech)
 - PartnerVault: 40M IFR reserved
 

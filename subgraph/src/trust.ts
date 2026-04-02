@@ -2,7 +2,8 @@ import { BigInt } from "@graphprotocol/graph-ts"
 import {
   VoteCast,
   ConsensusReached,
-  TrustUpdated
+  TrustUpdated,
+  LocalityRecorded
 } from "../generated/VendTrust/VendTrust"
 import { Vote, ConsensusEvent, Submission } from "../generated/schema"
 import {
@@ -69,6 +70,16 @@ export function handleTrustUpdated(event: TrustUpdated): void {
     event.params.user_hash, event.block.timestamp
   )
   user.trust_score    = event.params.new_trust
+  user.last_active_at = event.block.timestamp
+  user.save()
+}
+
+export function handleLocalityRecorded(
+  event: LocalityRecorded
+): void {
+  let user = getOrCreateUser(
+    event.params.user_hash, event.block.timestamp
+  )
   user.last_active_at = event.block.timestamp
   user.save()
 }

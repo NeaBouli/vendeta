@@ -62,9 +62,13 @@ export function handleSubmissionCreated(
 export function handleDuplicateDetected(
   event: DuplicateDetected
 ): void {
-  let sub = Submission.load(event.params.new_hash)
-  if (sub) {
-    sub.save()
+  // DuplicateDetected fires BEFORE SubmissionCreated in the same TX.
+  // new_hash does not exist yet — load the existing first-mover submission instead.
+  let existing = Submission.load(event.params.existing_hash)
+  if (existing) {
+    // Mark the existing submission as having received a duplicate price report.
+    // The duplicate submission will be created by handleSubmissionCreated.
+    existing.save()
   }
 }
 

@@ -1,7 +1,8 @@
 import { BigInt } from "@graphprotocol/graph-ts"
 import {
   ClaimInitiated,
-  RateUpdated
+  RateUpdated,
+  WalletRegistered
 } from "../generated/VendClaim/VendClaim"
 import { ClaimEvent } from "../generated/schema"
 import {
@@ -44,4 +45,14 @@ export function handleClaimInitiated(
 
 export function handleRateUpdated(event: RateUpdated): void {
   // Rate change logged via event — no entity needed
+}
+
+export function handleWalletRegistered(
+  event: WalletRegistered
+): void {
+  let user = getOrCreateUser(
+    event.params.user_hash, event.block.timestamp
+  )
+  user.last_active_at = event.block.timestamp
+  user.save()
 }
