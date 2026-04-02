@@ -20,7 +20,7 @@ pub struct BoundingBox {
 impl Coordinates {
     /// Create new coordinates with validation
     pub fn new(lat: f64, lng: f64) -> Option<Self> {
-        if lat < -90.0 || lat > 90.0 || lng < -180.0 || lng > 180.0 {
+        if !(-90.0..=90.0).contains(&lat) || !(-180.0..=180.0).contains(&lng) {
             return None;
         }
         Some(Self { lat, lng })

@@ -30,7 +30,7 @@ class WalletScreen extends ConsumerWidget {
         color: AppColors.orange,
         onRefresh: () => ref.refresh(_balanceProvider.future),
         child: ListView(padding: const EdgeInsets.all(16), children: [
-          _BalanceCard(balance: bal.valueOrNull ?? WalletBalance.empty, loading: bal.isLoading),
+          _BalanceCard(balance: bal.value ?? WalletBalance.empty, loading: bal.isLoading),
           const SizedBox(height: 14),
           _ActionRow(),
           const SizedBox(height: 14),

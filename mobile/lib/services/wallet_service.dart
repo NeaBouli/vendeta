@@ -19,7 +19,7 @@ class WalletService {
   WalletService._();
 
   static const _storage = FlutterSecureStorage(
-      aOptions: AndroidOptions(encryptedSharedPreferences: true));
+      aOptions: AndroidOptions());
 
   WalletMode _mode = WalletMode.notCreated;
   String? _address;

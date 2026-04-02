@@ -874,27 +874,27 @@
     </div>
   </div>
 
-  <div class="bug-item bug-fix">
+  <div class="bug-item bug-solved">
     <div class="bug-header">
-      <span class="badge badge-bug-fix">WARNING</span>
+      <span class="badge badge-bug-solved">SOLVED</span>
       <span class="bug-title">[AUDIT] Clippy: 4 Lint-Errors</span>
     </div>
     <div class="bug-body">
       <strong>Problem:</strong> cargo clippy -D warnings schl&auml;gt fehl: manual_range_contains (location.rs), manual_div_ceil (geohash.rs), needless_borrow (wallet.rs)<br>
-      <strong>Impact:</strong> Kein Logik-Bug, aber CI w&uuml;rde fehlschlagen<br>
-      <strong>Audit:</strong> Phase 1b, 2026-04-02
+      <strong>L&ouml;sung:</strong> Alle 4 Warnings gefixt. clippy -D warnings: 0 Errors. Tests: 36/36.<br>
+      <strong>Datum gel&ouml;st:</strong> 2026-04-02
     </div>
   </div>
 
-  <div class="bug-item bug-fix">
+  <div class="bug-item bug-solved">
     <div class="bug-header">
-      <span class="badge badge-bug-fix">WARNING</span>
+      <span class="badge badge-bug-solved">SOLVED</span>
       <span class="bug-title">[AUDIT] Flutter: 7 Dependencies Major-Version veraltet</span>
     </div>
     <div class="bug-body">
       <strong>Problem:</strong> go_router 14&rarr;17, flutter_riverpod 2&rarr;3, flutter_map 7&rarr;8, etc. Transitive Dep <code>js</code> ist discontinued.<br>
-      <strong>Impact:</strong> Keine bekannten Security-Issues, aber vor Release updaten<br>
-      <strong>Audit:</strong> Phase 4b, 2026-04-02
+      <strong>L&ouml;sung:</strong> Alle 7 Packages auf aktuelle Major-Version. 2 Breaking Changes gefixt (valueOrNull&rarr;value, encryptedSharedPreferences entfernt). <code>js</code> discontinued entfernt. Direct deps: all up-to-date.<br>
+      <strong>Datum gel&ouml;st:</strong> 2026-04-02
     </div>
   </div>
 

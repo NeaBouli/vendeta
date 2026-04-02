@@ -65,7 +65,7 @@ fn wallet_from_entropy(
     let seed = mnemonic.to_seed("");
 
     // BIP32: seed -> master -> BIP44 child
-    let master = XPrv::new(&seed)
+    let master = XPrv::new(seed)
         .map_err(|e| WalletError::Bip32(e.to_string()))?;
     let path = DerivationPath::from_str(ETH_DERIVATION_PATH)
         .map_err(|e| WalletError::Bip32(e.to_string()))?;

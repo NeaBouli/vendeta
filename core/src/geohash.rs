@@ -63,7 +63,7 @@ pub fn geohash_neighbors(center: &str) -> Vec<String> {
     // Precision 5 = 25 bits total: 13 lng bits, 12 lat bits
     // lat_bits and lng_bits alternate, starting with lng
     let total_bits = precision * 5;
-    let lng_bits = (total_bits + 1) / 2;
+    let lng_bits = total_bits.div_ceil(2);
     let lat_bits = total_bits / 2;
     let lat_step = 180.0 / (1u64 << lat_bits) as f64;
     let lng_step = 360.0 / (1u64 << lng_bits) as f64;

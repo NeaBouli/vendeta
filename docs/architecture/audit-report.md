@@ -261,3 +261,37 @@ Die Hauptblocker sind:
 3. Dokumentations-Korrekturen (README Link, security-audit.md)
 
 **Testnet-Status: OPERATIONAL** — alle 4 Contracts antworten korrekt, Subgraph synced.
+
+---
+
+## Warning Fix Report (Post-Audit)
+**Datum:** 2026-04-02
+**Commit:** Post-`4cf706d`
+
+### Rust Clippy: 4 → 0 Warnings
+| Warning | Datei | Fix |
+|---|---|---|
+| `manual_range_contains` (×2) | `location.rs:23` | `!(-90.0..=90.0).contains(&lat)` etc. |
+| `manual_div_ceil` | `geohash.rs:66` | `total_bits.div_ceil(2)` |
+| `needless_borrows_for_generic_args` | `wallet.rs:68` | `XPrv::new(seed)` statt `XPrv::new(&seed)` |
+
+### Flutter Dependencies: 7 outdated → 0
+| Package | Vorher | Nachher | Breaking Changes |
+|---|---|---|---|
+| go_router | 14.8.1 | 17.1.0 | Keine API-Änderung nötig |
+| flutter_riverpod | 2.6.1 | 3.3.1 | `valueOrNull` → `value` (1 Fix in wallet_screen.dart) |
+| flutter_map | 7.0.2 | 8.2.2 | Keine API-Änderung nötig |
+| geolocator | 13.0.4 | 14.0.2 | Keine API-Änderung nötig |
+| flutter_secure_storage | 9.2.4 | 10.0.0 | `encryptedSharedPreferences` deprecated → entfernt |
+| mobile_scanner | 6.0.11 | 7.2.0 | Keine API-Änderung nötig |
+| permission_handler | 11.4.0 | 12.0.1 | Keine API-Änderung nötig |
+
+Bonus: `js` (discontinued) Transitive-Dependency automatisch entfernt durch flutter_secure_storage 10.
+
+### Gegenprüfung
+- cargo clippy: **0 warnings** ✅
+- cargo test: **36/36** ✅
+- forge test: **60/60** ✅
+- flutter analyze: **0 issues** ✅
+- flutter build apk --debug: **OK** ✅
+- graph build: **OK** ✅
