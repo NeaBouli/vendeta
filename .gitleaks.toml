@@ -1,0 +1,31 @@
+title = "Vendeta Custom Gitleaks Config"
+
+[allowlist]
+  description = "Global allowlist"
+  paths = [
+    '''node_modules''',
+    '''\.git''',
+    '''target''',
+    '''broadcast'''
+  ]
+
+[[rules]]
+  description = "Ethereum Private Key"
+  id = "eth-private-key"
+  regex = '''(?i)(0x[0-9a-fA-F]{64})'''
+  tags = ["key", "ethereum", "crypto"]
+  severity = "CRITICAL"
+
+[[rules]]
+  description = "Alchemy API Key"
+  id = "alchemy-api-key"
+  regex = '''(?i)(alchemy\.com/v2/[a-zA-Z0-9_-]{20,})'''
+  tags = ["key", "alchemy"]
+  severity = "HIGH"
+
+[[rules]]
+  description = "BIP39 Mnemonic Phrase"
+  id = "bip39-mnemonic"
+  regex = '''(?i)(mnemonic|seed.phrase)\s*[=:]\s*["']?([a-z]+\s){11,23}[a-z]+["']?'''
+  tags = ["key", "wallet"]
+  severity = "CRITICAL"

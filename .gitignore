@@ -39,6 +39,9 @@ subgraph/node_modules/
 subgraph/build/
 subgraph/generated/
 
+# Deployment logs
+broadcast/
+
 # IDE
 .idea/
 .vscode/
