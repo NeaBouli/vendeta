@@ -23,7 +23,7 @@ Integration:
 
 Expected user base: Phase 1: 100-1000 (Greece/EU beta), Phase 2: 10,000+ (EU launch)
 
-**Beneficiary Address:** 0x6b36687b0cd4386fb14cf565B67D7862110Fed67
+**Beneficiary Address:** `<VENDETTA_BENEFICIARY_ADDRESS>` (a dedicated Vendetta project wallet will be named when a pilot is approved; it must not be a personal or deployer wallet)
 
 **Integration Type:**
 - [x] IFRLock.isLocked() feature gating
