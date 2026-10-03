@@ -5,7 +5,7 @@
 
 **The Community Price Transparency Network**
 
-*Scan prices. Anchor truth on blockchain. Earn IFR rewards.*
+*Scan prices. Anchor truth on blockchain. IFR rewards planned.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
 [![Rust Tests](https://img.shields.io/badge/Rust-36_passing-green.svg)](#testing)
@@ -32,7 +32,7 @@ User scans EAN barcode
 → SHA-256 hash + GPS + timestamp
 → Anchored on Base L2
 → Searchable by radius (<50ms)
-→ Rewarded with IFR tokens
+→ IFR rewards planned (not active yet)
 ```
 
 ## Live Deployments
@@ -43,7 +43,7 @@ User scans EAN barcode
 |---|---|---|
 | VendRegistry | `0x77e99917Eca8539c62F509ED1193ac36580A6e7B` | [↗](https://sepolia.basescan.org/address/0x77e99917Eca8539c62F509ED1193ac36580A6e7B) |
 | VendTrust | `0x769928aBDfc949D0718d8766a1C2d7dBb63954Eb` | [↗](https://sepolia.basescan.org/address/0x769928aBDfc949D0718d8766a1C2d7dBb63954Eb) |
-| VendRewards | `0x670D293e3D65f96171c10DdC8d88B96b0570F812` | [↗](https://sepolia.basescan.org/address/0x670D293e3D65f96171c10DdC8d88B96b0570F812) |
+| VendRewards (Base Sepolia; unrelated to the IFR Mainnet BuybackVault at the same address) | `0x670D293e3D65f96171c10DdC8d88B96b0570F812` | [↗](https://sepolia.basescan.org/address/0x670D293e3D65f96171c10DdC8d88B96b0570F812) |
 | VendClaim | `0x4807B77B2E25cD055DA42B09BA4d0aF9e580C60a` | [↗](https://sepolia.basescan.org/address/0x4807B77B2E25cD055DA42B09BA4d0aF9e580C60a) |
 
 ### The Graph Subgraph
@@ -68,8 +68,8 @@ Flutter App (Android + iOS)
     VendRegistry → VendTrust
     → VendRewards → VendClaim
     │
-    IFR PartnerVault
-    (ETH Mainnet)
+    IFR partner rewards
+    (planned, not active)
 ```
 
 **Serverless-first.** The Graph replaces PostgreSQL. Blockchain is the single source of truth.
@@ -152,11 +152,13 @@ Nullifier Pattern: phone number used once for OTP, immediately discarded. Only a
 
 ## IFR Token
 
-Vendetta is an official **IFR Builder** (Issue [#12](https://github.com/NeaBouli/inferno/issues/12)).
+Vendetta plans to join the IFR partner programme (Issue [#12](https://github.com/NeaBouli/inferno/issues/12)).
+It is not a registered IFR Builder yet.
 
 - Token: [$IFR](https://ifrunit.tech)
 - Ecosystem: [ifrunit.tech](https://ifrunit.tech)
-- PartnerVault: 40M IFR reserved
+- Partner rewards: currently disabled. Future rewards follow the IFR partner model (valued in EUR, paid in IFR
+  only for verified redemptions, fixed budgets). Current status: [ifrunit.tech transparency](https://ifrunit.tech/wiki/transparency.html)
 
 ## Contributing
 

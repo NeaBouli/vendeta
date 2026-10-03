@@ -64,8 +64,10 @@ Credits → IFR Token (Bridge Base L2 → ETH Mainnet).
 ```solidity
 // DRAFT
 // User claimt Credits → IFR Conversion
-// Rate: dynamisch (PartnerVault balance / total credits outstanding)
-// Bridge: Base L2 → ETH Mainnet → IFR PartnerVault → User wallet
+// Stand 2026-10-03: KEIN Auszahlungsweg aus dem IFR PartnerVault.
+// IFR-Partnerbelohnungen sind deaktiviert; eine IFR-Auszahlung ist erst nach
+// genehmigtem Pilot möglich und folgt der Caller-Schnittstelle des IFR-Partnermodells B
+// (EUR-Wert, Auszahlung in IFR nur bei verifizierter Einlösung, feste Budgets).
 ```
 
 ## Koordinaten on-chain: Kein Float!

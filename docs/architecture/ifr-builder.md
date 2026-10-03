@@ -11,15 +11,15 @@
    - Product Name: Vendetta
    - Category: integration
    - Description: Decentralized price transparency network.
-     Users earn IFR by scanning real prices.
+     IFR rewards for scanning prices are planned (not active).
    - Website: github.com/NeaBouli/vendeta
    - Beneficiary: [Deployer wallet address]
-   - Integration Type: IFRLock.isLocked() + PartnerVault rewards
+   - Integration Type: IFRLock.isLocked() (IFR partner rewards planned, not active)
 
 3. After approval (~48h review):
    - isBuilder(wallet) = true on-chain
    - Telegram Dev&Builder access
-   - PartnerVault beneficiary registered
+   - Registration is done by IFR Governance (Treasury Safe proposal, 48h timelock); partner rewards only after an approved pilot
 
 ## IFR Lock Integration (Phase 3)
 ```

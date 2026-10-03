@@ -38,10 +38,13 @@ Submission existieren → keine Lockpreise möglich
 Revenue-Kreislauf: 70% Vendetta / 30% IFR-Kauf
 → Kauf erhöht IFR-Wert → Rewards wertvoller
 
-## IFR Builder Revenue
-Wenn User IFR für Vendetta lockt:
-Vendetta verdient 10-20% aus PartnerVault (40M IFR)
-Beispiel: 10.000 User × 1.000 IFR × 15% = 1.5M IFR
+## IFR Partner-Belohnungen (Stand 2026-10-03)
+Keine Einnahmen aus dem IFR PartnerVault einplanen:
+- IFR-Partnerbelohnungen sind deaktiviert; Vendetta ist kein registrierter IFR Builder.
+- Ein Prozentsatz der gelockten IFR wird nicht ausgezahlt; diese Formel ist verworfen.
+- Geplant ist das IFR-Partnermodell: Bewertung in EUR, Auszahlung in IFR nur bei verifizierter Einlösung,
+  feste Budgets pro Partner. Der PartnerVault wird nicht nachgefüllt.
+- Aktueller Stand: https://ifrunit.tech/wiki/transparency.html
 
 ## Gas-Lösung
 - Standard: Coinbase Smart Wallet (gasless auf Base L2)
