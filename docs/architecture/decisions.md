@@ -22,8 +22,8 @@
   - Coinbase Smart Wallet (kein MetaMask nötig)
 - ETH Mainnet: nur IFR Lock Check (isLocked() Builder API)
 - KEIN eigener Token — IFR (ifrunit.tech) = Reward-Token
-- IFR PartnerVault (40M IFR) = Reward-Quelle
-- Vendetta registriert als offizieller IFR Builder
+- IFR-Partnerbelohnungen = geplante Reward-Quelle (Stand 2026-10-03: IFR-Partnerbelohnungen deaktiviert; kein Auszahlungsweg aus dem PartnerVault für Backends. Verfügbar erst nach genehmigtem Pilot; Integration folgt der Caller-Schnittstelle des IFR-Partnermodells B.)
+- Vendetta plant die Registrierung als IFR Builder (Stand 2026-10-03: nicht registriert; Registrierung per IFR Governance, Treasury-Safe-Vorschlag mit 48h Timelock)
 
 ### Contract-Architektur (FINAL)
 - Alle 4 Contracts: Transparent Proxy Pattern (EIP-1967)
@@ -39,8 +39,8 @@
                        Locality Lock, gewichtete Votes
 3. VendRewards.sol  — Credit-Berechnung, Ledger,
                        Silent Consensus, IFR Premium
-4. VendClaim.sol    — Credits → IFR Bridge Base L2
-                       → ETH Mainnet → PartnerVault
+4. VendClaim.sol    — Credits → IFR (geplant; IFR-Auszahlung
+                       erst nach genehmigtem IFR-Pilot)
 
 ### Backend / Server
 - KEIN eigener Datenbankserver

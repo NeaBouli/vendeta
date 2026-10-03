@@ -900,7 +900,7 @@ Nächster Schritt: Beta-Test Griechenland, dann Mainnet Deployment.
 ## Deployed (Base Sepolia, Basescan verified)
 - VendRegistry: `0x77e99917Eca8539c62F509ED1193ac36580A6e7B`
 - VendTrust: `0x769928aBDfc949D0718d8766a1C2d7dBb63954Eb`
-- VendRewards: `0x670D293e3D65f96171c10DdC8d88B96b0570F812`
+- VendRewards: `0x670D293e3D65f96171c10DdC8d88B96b0570F812` (Base Sepolia; unrelated to the IFR Mainnet BuybackVault at the same address)
 - VendClaim: `0x4807B77B2E25cD055DA42B09BA4d0aF9e580C60a`
 - Subgraph: `https://api.studio.thegraph.com/query/1744627/vendetta-price-network/v0.1.0`
 

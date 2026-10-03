@@ -25,7 +25,7 @@ Preisen. Teilnahme wird mit IFR-Token-Credits belohnt.
 - Off-chain Credit-Ledger für Mikro-Rewards (kein Gas pro Submission)
 - Wöchentlicher On-chain Claim via VendClaim.sol (Base L2)
 - Premium-Features: IFR Lock Check via isLocked() Builder API
-- Vendetta ist offizieller IFR Builder (PartnerVault Allocation)
+- Vendetta plant die Teilnahme am IFR-Partnerprogramm (Stand 2026-10-03: nicht registriert; IFR-Partnerbelohnungen deaktiviert, keine PartnerVault-Zuteilung)
 
 ## Blockchain-Strategie
 - Hash-Anchoring: Base L2 (EVM, günstig, Coinbase-backed)

@@ -17,8 +17,11 @@ import "./interfaces/IVendRewards.sol";
 ///   -> Credits deducted from VendRewards
 ///   -> ClaimInitiated event emitted
 ///   -> Off-chain backend reads event
-///   -> Backend transfers IFR from PartnerVault
-///      on ETH Mainnet to user wallet
+///   -> IFR payout: NOT AVAILABLE. There is no transfer path from the
+///      IFR PartnerVault to backends or users (status 2026-10-03:
+///      IFR partner rewards disabled). A payout is possible only after
+///      an approved IFR pilot and will follow the IFR partner model B
+///      caller interface.
 ///
 /// Phase 3 (Bridge):
 ///   LayerZero or native Base bridge

@@ -17,7 +17,7 @@
 |---|---|---|---|
 | R09 | The Graph Indexing Delay (TOCTOU) | Optimistic UI + lokaler Cache | ✅ Mitigiert |
 | R10 | Geohash-Grenzeffekt | Multi-Cell 9-Nachbar Query | ✅ Gelöst |
-| R11 | IFR PartnerVault Erschöpfung | Dynamische Rate + Revenue-Loop | ⚠️ Phase 3 |
+| R11 | IFR-Partnerbelohnungen nicht verfügbar | Kein Nachfüllen des PartnerVault, Belohnungen deaktiviert; Budget endlich und von IFR Governance gesteuert; erst nach genehmigtem Pilot | ⚠️ Phase 3 |
 | R12 | Self-Vote Sybil | Contract-Regel user_hash check | ✅ Gelöst |
 | R13 | Indoor GPS ungenau | 150m Limit + Trust-Penalty | ✅ Mitigiert |
 | R14 | First-Mover Race-to-Submit | Delayed Reward nach Bestätigung | ✅ Gelöst |

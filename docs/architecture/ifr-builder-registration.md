@@ -14,11 +14,11 @@ https://github.com/NeaBouli/inferno/issues/new?template=builder-registry.yml
 **Website / Repository:** https://github.com/NeaBouli/vendeta
 
 **Description:**
-Vendetta is a decentralized price transparency network. Users scan real product and service prices in their daily life — anchored on Base L2 blockchain, searchable by GPS radius, rewarded with IFR tokens.
+Vendetta is a decentralized price transparency network. Users scan real product and service prices in their daily life — anchored on Base L2 blockchain, searchable by GPS radius, with IFR rewards planned (not active).
 
 Integration:
 - IFRLock.isLocked() for tier detection (FREE/BRONZE/SILVER/GOLD/PLATINUM)
-- PartnerVault for user rewards
+- IFR partner rewards: planned only. As of 2026-10-03 IFR partner rewards are disabled and no builder is registered; future rewards follow the IFR partner model (valued in EUR, paid in IFR only for verified redemptions, fixed budgets, no refill).
 - IFR as sole reward token
 
 Expected user base: Phase 1: 100-1000 (Greece/EU beta), Phase 2: 10,000+ (EU launch)
@@ -27,7 +27,7 @@ Expected user base: Phase 1: 100-1000 (Greece/EU beta), Phase 2: 10,000+ (EU lau
 
 **Integration Type:**
 - [x] IFRLock.isLocked() feature gating
-- [x] PartnerVault reward distribution
+- [ ] IFR partner rewards (not available until a pilot is approved)
 
 **Minimum Lock Tiers:**
 - BRONZE: 1,000 IFR -> 1.0x reward multiplier
